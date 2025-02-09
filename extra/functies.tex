@@ -1,0 +1,353 @@
+\chapter{Functies}\label{app:functies}
+In sectie \ref{sec:functies} hebben we al kort kennis gemaakt met het concept \textit{functie}. In dit hoofdstuk zullen we dit nog wat verder uitdiepen.
+
+\section{Inversen}
+%Wanneer we voor twee verzamelingen $A$ en $B$ bij elk element van $A$ precies \'e\'en element van $B$ vastleggen, dan hebben we een \textit{afbeelding} van $A$ naar $B$ gedefinieerd. In plaats van afbeelding zegt men ook wel \textit{functie}. In het Engels heet een afbeelding een \textit{map} of \textit{function}.
+%
+%Door middel van een afbeelding van $A$ naar $B$ wijst elk element van $A$ dus een element van $B$ aan. Een element van $B$ kan vaker aangewezen worden. Een element van $A$ kan niet meer dan \'e\'en element van $B$ aanwijzen. Wij zullen ons meestal bedienen van deze terminologie van aanwijzen. Dit komt ook overeen met de veelgebruikte manier om een afbeelding van $A$ naar $B$ te visualiseren door middel van een tekening waarin vanuit elk punt van een getekende verzameling $A$ een pijl vertrekt die aankomt in een van de punten van de getekende verzameling $B$.
+%\begin{center}
+%\begin{tikzpicture}
+%\draw[rounded corners=25pt] (0,0) rectangle (2,3);
+%\draw[rounded corners=25pt] (4,0) rectangle (6,3);
+%\draw[fill] (1.25, .5) circle (.05cm) node (a1) {};
+%\draw[fill] (1.3, 1) circle (.05cm) node (a2) {};
+%\draw[fill] (0.5, 1.2) circle (.05cm) node (a3) {};
+%\draw[fill] (0.6, 1.8) circle (.05cm) node (a4) {};
+%\draw[fill] (0.8, 2.3) circle (.05cm) node (a5) {};
+%\draw[fill] (4.7, .5) circle (.05cm) node (b1) {};
+%\draw[fill] (5.6, .7) circle (.05cm) node (b2) {};
+%\draw[fill] (4.6, 1.5) circle (.05cm) node (b3) {};
+%\draw[fill] (5.5, 1.4) circle (.05cm) node (b4) {};
+%\draw[fill] (5.7, 2.0) circle (.05cm) node (b5) {};
+%\draw[fill] (5.1, 2.5) circle (.05cm) node (b6) {};
+%
+%\draw[->] (a1) -- (b1);
+%\draw[->] (a2) -- (b5);
+%\draw[->] (a3) -- (b6);
+%\draw[->] (a4) -- (b2);
+%\draw[->] (a5) -- (b1);
+%\end{tikzpicture}
+%\end{center}
+%
+%Zo'n plaatje heet ook wel een \textit{pijlendiagram}.
+%
+%Een afbeelding bestaat dus uit een drietal: een verzameling $A$, een verzameling $B$, en een beschrijving die aangeeft hoe de aanwijzing van elementen van $B$ door de elementen van $A$ er uitziet.
+%
+%Korten we die beschrijving af door een letter, bijvoorbeeld $f$, dan is de afbeelding dus het drietal $(A, B, f)$.
+%$$A\text{ heet het \textit{domein} van }f\text{ (Engels: \textit{domain}),}\\$$
+%$$B\text{ heet het \textit{bereik} van }f\text{ (Engels: \textit{range}).}$$
+%
+%Een suggestieve en zeer vaak gebruikte notatie is
+%$$f: A\rightarrow B.$$
+%Alhoewel de pijl hier verward zou kunnen worden met de logische pijl, staat de context er vrijwel altijd borg voor dat dit niet gebeurt. De combinatie $A\rightarrow B$ van domein en bereik heet wel het \textit{type} van de afbeelding $f$.
+%
+%Is $x$ een element van $A$, dan duidt $f(x)$ het \textit{beeld} van $x$ aan (Engels: \textit{image}), het element van $B$ dat door $x$ wordt aangewezen. Het element $x$ heeft dan wel het \textit{argument} van de afbeelding.
+%
+%Twee afbeeldingen $f:A\rightarrow B$ en $g:C\rightarrow D$ zijn aan elkaar \textit{gelijk} (en dus dezelfde afbeelding), precies dan als aan drie voorwaarden voldaan is:
+%\begin{enumerate}
+%    \item $A = C$;
+%    \item $B = D$;
+%    \item voor alle $x\in A$ geldt dat $f(x) = g(x)$.
+%\end{enumerate}
+%\begin{example}
+%Enkele voorbeelden van afbeeldingen zijn:
+%\begin{itemize}
+%    \item $A=\mathbb{R}, B=\mathbb{R},$ voor alle $x\in\mathbb{R}$ is $f(x)=\text{sin}(x)$;
+%    \item $A=\{1, 2, 3\}, B=\{a, b, c, d\}, f(1)= b, f(2) = d, f(3) = b$;
+%    \item $A=\mathbb{N}, B=\{2,3,5,6\},$ voor alle $n\in\mathbb{N}$ is $f(n)=5$.
+%\end{itemize}
+%In het vervolg zullen we het tweede voorbeeld nog een aantal keren aanhalen. Enkele gevallen waarin we niet met een afbeelding van doen hebben, zijn:
+%\begin{itemize}
+%    \item $A=\mathbb{R}, B=\mathbb{R}, f(x)=\text{ln}(x)$,\\ want $\text{ln}(x)$ is niet voor elke $x\in\mathbb{R}$ gedefinieerd.
+%    \item $A=\mathbb{N}, B=\mathbb{Q}, f(x)=\sqrt{x}$,\\ want $\sqrt{2}\not\in\mathbb{Q}$.
+%\end{itemize}\label{vb:func}
+%\end{example}
+%
+%Bij een afbeelding $f:A\rightarrow B$ en een deelverzameling $X$ van $A$ kunnen we kijken naar de deelverzameling van $B$ bestaande uit de beelden van alle elementen van $X$. Deze deelverzameling van $B$ heeft het \textit{beeld} van $X$, en wordt aangeduid met $f(X)$.
+%$$f(X) = \{y\in B\;|\;\text{er is een } x\in X(y=f(x))\}$$
+%Merk op dat zowel de notatie als de terminologie hiervan overeenkomt met het beeld van een element. Uit de context moet dus worden opgemaakt om welk van de twee begrippen het gaat: als $x$ een element is van $A$ dan is $f(x)$ het bijbehorende element van $B$; als $x$ een deelverzameling is van $A$ dan is $f(x)$ de deelverzameling van $B$ bestaande uit bij die deelverzameling horende elementen van $B$.
+
+In het voorbeeld van \ref{vb:func} hebben we onder andere
+$$f(\{1\})=\{b\}, f(\{1,2\})=\{b,d\}, f(\{1,3\})=\{b\},f(A)=\{b,d\}$$
+
+De verzameling $f(A)$ wordt wel het \textit{beeld} van $f$ genoemd. Ook kunnen we bij een deelverzameling $Y$ van $B$ vragen naar de deelverzameling van $A$ bestaande uit alle $x$ waarvoor $f(x)\in Y$. Deze deelverzameling heet het \textit{volledig origineel} (Engels: \textit{inverse image}) van $Y$, en wordt aangeduid met $f^{-1}(Y)$.
+$$f^{-1}(Y)=\{x\in A\;|\; f(x)\in Y\}.$$
+
+We kijken weer naar ons eerdere voorbeeld \ref{vb:func}, hier geldt:\\[1.5pt]
+\begin{tabular}{llll}
+$f^{-1}(\{a\})=\varnothing$,&$f^{-1}(\{c\})=\varnothing$,&$f^{-1}(\{a,b\})=\{1,3\}$,&$f^{-1}(\{a,d\})=\{2\}$,\\
+$f^{-1}(\{b\})=\{1,3\}$,&$f^{-1}(\{d\})=\{2\}$,&$f^{-1}(\{a,c\})=\varnothing$,&$f^{-1}(\{b,d\})=A$
+\end{tabular}\\[1.5pt]
+
+Wanneer de deelverzameling $Y$ van $B$ bestaat uit slechts \'e\'en element, schrijft men gewoonlijk $f^{-1}(y)$ in plaats van $f^{-1}(\{y\})$. Dus:
+\begin{itemize}
+    \item als $x$ een element is van $A$ dan is $f(x)$ een element van $B$;
+    \item als $X$ een deelverzameling is van $A$ dan is $f(X)$ een deelverzameling van $B$;
+    \item als $y$ een element is van $B$ dan is $f^{-1}(y)$ een deelverzameling van $A$;
+    \item als $Y$ een deelverzameling is van $B$ dan is $f^{-1}(Y)$ een deelverzameling van $A$.
+\end{itemize}
+
+Een speciale situatie ontstaat als we voor een deelverzameling $X$ van $A$ kijken naar het volledige origineel van het beeld van $X$, of als we voor een deelverzameling $Y$ van $B$ kijken naar het beeld van het volledig origineel van $Y$.
+\begin{theorem}\label{st:afb}
+Zij $f:A\rightarrow B$ een afbeelding. Dan gelden:
+\begin{enumerate}
+    \item $f^{-1}(B)=A$
+    \item Als $X\subseteq A$, dan $X\subseteq f^{-1}(f(X))$
+    \item Als $Y\subseteq B$, dan $f(f^{-1}(Y))\subseteq Y$
+\end{enumerate}
+\end{theorem}
+\begin{proof}\mbox{}\\
+
+\begin{minipage}{.9\textwidth}
+Bewijs van (1):\\[1.5pt]
+Kies $x\in f^{-1}(B)$ willekeurig. Dan geldt $x\in A$. Dus $f^{-1}(B)\subseteq A$.\\[1.5pt]
+Kies omgekeerd $x\in A$ willekeurig. Dan $f(x)\in B$, dus $x\in f^{-1}(B)$. Dus $A\subseteq f^{-1}(B)$.\\[1.5pt]
+Met beide resultaten samen hebben we $f^{-1}(B)=A$.\hfill$\fbox{1}$\\[2.5pt]
+Bewijs van (2):\\[1.5pt]
+Kies $x\in X$ willekeurig. Dan $f(x)\in f(X)$. dus $x\in\{x\in A\;|\;f(x)\in f(X)\} = f^{-1}(f(X))$. Dus $X\subseteq f^{-1}(f(X))$.\hfill$\fbox{2}$\\[2.5pt]
+Bewijs van (3):\\[1.5pt]
+Kies $z\in f(f^{-1}(Y))$ willekeurig. Dan is er een $x\in f^{-1}(Y)$ met $z=f(x)$. Vanwege $x\in f^{-1}(Y)$ geldt $f(x)\in Y$. Vanwege $z=f(x)$ geldt $z\in Y$. Vanwege $z=f(x)$ geldt $z\in Y$. Hiermee is bewezen $f(f^{-1}(Y))\subseteq Y$.\\ \mbox{}\hfill$\fbox{3}$
+\end{minipage}\\
+\end{proof}
+
+Een zeer vaak gemaakte fout is om te menen dat:
+$$f(f^{-1}(Y)) = Y\text{ en dat } f^{-1}(f(X)) = X.$$
+Dat dit niet waar is illustreren we met behulp van ons eerdere voorbeeld \ref{vb:func}: daarin geldt
+$$f(f^{-1}(\{a,d\})) = f(\{2\}) = \{d\}\not = \{a,d\}$$
+en
+$$f^{-1}(f\{1\})) = \{1, 3\}\not=\{1\}.$$
+
+\section{Injectieve, surjectieve en bijectieve afbeeldingen}
+Vaak bekijkt men afbeeldingen $f:A\rightarrow B$ die aan speciale wensen voldoen. We laten een drietal van zulke extra eisen de revue passeren.
+
+Een afbeelding $f:A\rightarrow B$ heet \textit{injectief} als geen twee verschillende elementen van $A$ eenzelfde element van $B$ aanwijzen, dus als voor elk element $z\in B$ bestaat $f^{-1}(z)$ uit hoogstens \'e\'en element.
+
+Een injectieve afbeelding heet ook wel een \textit{injectie}.
+
+Als je wilt bewijzen dat $f:A\rightarrow B$ injectief is, kies je willekeurig twee elementen $x,y \in A$ waarvoor je aanneemt dat $f(x)=f(y)$. Als je dan kunt bewijzen dat $x=y$, heb je volgens deductie bewezen dat $f$ injectief is.
+
+Als je daarentegen twee verschillende elementen $x,y\in A$ kunt vinden waarvoor geldt dat $f(x)=f(y)$, dan heb je daarmee juist bewezen dat $f:A\rightarrow B$ niet injectief is (door middel van een \textit{tegenvoorbeeld}).
+
+Een afbeelding $f:A\rightarrow B$ heet \textit{surjectief} als elk element van $B$ optreedt als beeld, dus als voor elk element $z\in B$ de functie $f^{-1}(z)$ uit minstens \'e\'en element. Nog korter gezegd: $f(A)=B$.
+
+Een surjectieve afbeelding heet ook wel een \textit{surjectie}.
+
+Als je wilt bewijzen dat $f:A\rightarrow B$ surjectief is, kies je een willekeurig element $z\in B$. Als je daarvoor een element $x\in A$ kunt vinden waarvoor geldt $f(x)=z$ heb je bewezen dat $f$ surjectief is.
+
+Als je een element $x\in B$ kunt vinden dat voor geen enkel element $x\in A$ te schrijven is als $z=f(x)$, dan heb je daarmee juist bewezen dat $f$ niet surjectief is.
+
+Een afbeelding $f:A\rightarrow B$ heet \textit{bijectief} als hij injectief en surjectief is. Dus als elk element van $B$ optreedt als beeld van precies \'e\'en element van $A$. Preciezer gezegd: voor elk element $z\in B$ bestaat $f^{-1}(z)$ uit precies \'e\'en element.
+
+Een bijectieve afbeelding heet ook wel een \textit{bijectie}.
+
+Als voorbeeld beschouwen we de afbeelding $s:\mathbb{N}\rightarrow\mathbb{N}$ gedefinieerd door $s(x)=x+1$ voor alle $x\in\mathbb{N}$. Deze afbeelding heet de \textit{successor}.
+
+Deze afbeelding is injectief, want uit $s(x)=s(y)$ concluderen we dat $x+1=y+1$ en daaruit volgt dat $x=y$.
+
+Deze afbeelding is niet surjectief, want voor $0\in\mathbb{N}$ bestaat er geen $x\in\mathbb{N}$ waarvoor geldt $s(x)=0$.
+
+Omdat de afbeelding $s$ niet surjectief is, is $s$ ook niet bijectief.
+
+Het voorbeeld van \ref{vb:func} is niet injectief, want daar geldt $f(1)=b=f(3)$. Tevens is ze ook niet surjectief, want de elementen $a$ en $c$ treden niet op als beeld van $f$.
+
+Intu\"itief betekent injectiviteit dat er bij het toepassen van de afbeelding geen informatie verloren gaat. In de informatica is dit bijvoorbeeld essentieel bij \textit{datacompressie}: je wilt een file in minder geheugen opslaan dan hij zelf beslaat, maar wel zodanig dat de oorspronkelijke file exact te reconstrueren valt uit de gecomprimeerde versie. In feite heb je hier met een afbeelding te maken: datacompressie is het toepassen van een afbeelding op een file. Zowel het domein als het bereik van deze afbeelding is de verzameling van alle mogelijke files. Deze afbeelding is bruikbaar als datacompressie als voor grote files van een veelvoorkomend type geldt dat hun beeld onder deze afbeelding (aanzienlijk) kleiner is. Maar heel essentieel is ook dat er een \textit{decompressie}-afbeelding bestaat die de oorspronkelijke file exact reconstrueert. Als de afbeelding $f$ die de datacompressie beschrijft niet injectief is zal dit nooit lukken. Dan bestaan er namelijk verschillende files $x$ en $y$ met $f(x)=f(y)$. Aan de hand van de gecomprimeerde versie $f(x)=f(y)$ is het dan onmogelijk vast te stellen of de oorspronkelijke file nou $x$ is of $y$, of misschien nog wel wat anders.
+
+Precies hetzelfde speelt bij \textit{encryptie}: je wilt een boodschap zodanig versleutelen dat hij voor buitenstaanders niet toegankelijk is. De rechtmatige ontvanger beschikt over een \textit{sleutel} waarmee de oorspronkelijke boodschap weer uit de versleutelde versie te reconstrueren is. Om precies dezelfde reden als hierboven kan dat alleen als de versleutelingsafbeelding injectief is. 
+
+In stelling \ref{st:afb} hebben we twee inclusies gezien die in het algemeen geen gelijkheden waren ($f(f^{-1}(Y))=Y$ en $f^{-1}(f(X))=X$). We laten nu zien dat ze dat wel zijn als de betreffende afbeeldingen respectievelijk injectief en surjectief zijn.
+\begin{theorem}\label{th:injectief}
+Als $f:A\rightarrow B$ een injectieve afbeelding is, en $X$ een deelverzameling van $A$, dan is $f^{-1}(f(X))=X$.
+\end{theorem}
+\begin{proof}\mbox{}\\
+\indent\begin{minipage}{0.9\textwidth}
+In Stelling \ref{st:afb} hebben we al bewezen dat $X\subseteq f^{-1}(f(X))$; we hoeven nu alleen nog te bewijzen dat $f^{-1}(f(X))\subseteq X$.\\[1.5pt]
+Kies daartoe $x\in f^{-1}(f(X))$ willekeurig.\\[1.5pt]
+Volgens de definitie van $f^{-1}$ geldt dan $f(x)\in f(X)$.\\[1.5pt]
+Volgens de definitie van $f(X)$ is er dan een $y\in X$ met $f(x)=f(y)$.\\[1.5pt]
+Omdat $f$ injectief is geldt dan $x=y$.\\[1.5pt]
+Omdat $y\in X$ is hiermee bewezen dat $x\in X$.\\[1.5pt]
+Hiermee is bewezen dan $f^{-1}(f(X))\subseteq X$.
+\end{minipage}\\
+\end{proof}
+\begin{theorem}\label{th:surjectief}
+Als $f:A\rightarrow B$ een surjectieve afbeelding is, en $Y$ een deelverzameling van $B$ is, dan is $f(f^{-1}(Y))=Y$.
+\end{theorem}
+\begin{proof}\mbox{}\\
+\indent\begin{minipage}{0.9\textwidth}
+In Stelling \ref{st:afb} hebben we al bewezen dat $f(f^{-1}(Y))\subseteq Y$; we hoeven nu alleen nog te bewijzen dat $Y\subseteq f(f^{-1}(Y))$.\\[1.5pt]
+Kies daartoe $y\in Y$ willekeurig.\\[1.5pt]
+Omdat ook $y\in B$ en $f$ surjectief is, is er een $x\in A$ met $f(x)=y$.\\[1.5pt]
+Volgens de definitie van $f^{-1}$ geldt dan $x\in f^{-1}(Y)$.\\[1.5pt]
+Daaruit volgt dat $f(x)\in f(f^{-1}(Y))$.\\[1.5pt]
+Omdat $f(x) = y$ geldt nu $y\in f(f^{-1}(Y))$.\\[1.5pt]
+Hiermee is bewezen dat $Y\subseteq f(f^{-1}(Y))$.
+\end{minipage}\\
+\end{proof}
+
+De oplettende lezer bemerkt hier dat voor een bijectieve afbeelding zowel stelling \ref{th:injectief} als stelling \ref{th:surjectief} gelden; immers, een bijectieve afbeelding is tegelijk injectief en surjectief.
+
+\section{Enkele speciale afbeeldingen}
+Bij elke verzameling $A$ bestaat er een afbeelding van $A$ naar $A$ waarbij elk element van $A$ zichzelf aanwijst. Men noemt deze afbeelding de \textit{identieke afbeelding} of kortweg \textit{identiteit} op $A$ en noteert haar door $\text{id}_A: A\rightarrow A$. Voor elk element $x$ van $A$ geldt dus $\text{id}_A(x)=x$. Als er geen verwarring kan bestaan over wat de verzameling $A$ is, wordt ook wel alleen maar `id' geschreven.
+
+Is $A$ een deelverzameling van de verzameling $B$, dan heeft men de afbeelding van $A$ naar $B$ waarbij elk element van $A$ zichzelf aanwijst. Deze afbeelding heet de \textit{inclusie-afbeelding} van $A$ in $B$, en wordt aangegeven met de notatie $\text{i}_{AB}:A\rightarrow B$. 
+
+In het bijzonder geldt $\text{i}_{AA}=\text{id}_A$, maar als $A=B$ gebruiken we bij voorkeur de notatie $\text{id}_A$.
+
+Werkend in een universum $U$ beschrijft men een verzameling $A$ wel door zijn \textit{karakteristieke functie} $\chi_A:U\rightarrow\{0,1\}$, die gedefinieerd is door:
+$$\text{voor elke }x\in A\text{ is }\chi_A(x)=1\text{ en voor elke }x\not\in A\text{ is }\chi_A(x)=0.$$
+
+Omgekeerd kan men iedere afbeelding $f:U\rightarrow\{0,1\}$ zien als karakteristieke functie, namelijk $f=\chi_{f^{-1}(1)}$. Dus bij $f$ hoort de verzameling $A=\{x\;|\;f(x)=1\}$.
+
+\section{Samenstellen van afbeeldingen}
+Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ afbeeldingen zijn. Let er goed op dat het bereik van $f$ tevens het domein van $g$ is. Dan kan men voor elke $x\in A$ een element in $C$ aanwijzen door $g(f(x))$. Zo wijzen we voor elke $x\in A$ \'e\'en element in $C$ aan, dus is er sprake van een afbeelding van $A$ naar $C$.
+
+Deze afbeelding heet de \textit{samenstelling} van $f$ gevolgd door $g$, en wordt genoteerd met $g\circ f:A\rightarrow C$.
+
+Merk op dat $g\circ f$ alleen gedefinieerd is als (bereik van $f$) = (domein van $g$).
+
+Om aan te geven hoe $g\circ f$ ontstaan is, gebruikt men wel het diagram
+$$A\overset{f}{\rightarrow}B\overset{g}{\rightarrow}C$$
+
+De volgorde in de notatie is precies omgekeerd aan de volgorde in de omschrijving ``$f$ gevolgd door $g$''. Dat is bewust zo gekozen, omdat we altijd $(g\circ f)(x)$ schrijven voor het beeld van $x$, en dan is het gemakkelijk als we voor de definitie van $(g\circ f)(x)$ kunnen opschrijven $(g\circ f)(x)=g(f(x))$.
+
+Als $f:B\rightarrow C$  een afbeelding is, en $A$ een deelverzameling van $B$ dan heet de samenstelling $f\circ \text{i}_{AB}:A\rightarrow C$ de afbeelding $f$ \textit{beperkt tot} $A$. Men heeft dan het domein van $f$ beperkt tot $A$. Dit komt zo vaak voor dat er een speciale notatie voor is: $f_{|A}$.
+
+Evenzo kan men, als $f:A\rightarrow B$ een afbeelding is en $B$ een deelverzameling van $C$ is, de samenstelling $\text{i}_{BC}\circ f:A\rightarrow C$ bekijken. Men heeft dan het bereik van $f$ uitgebreid tot $C$. Deze constructie is minder vaak noodzakelijk, zodat er geen speciale notatie voor is bedacht.
+
+Ook merken we hier nog op dat voor de samenstellingen van een afbeelding $f:A\rightarrow B$ met de identiteiten $\text{id}_A:A\rightarrow A$ en $\text{id}_B:B\rightarrow B$ geldt
+$$f\circ\text{id}_A=f\qquad\text{en}\qquad\text{id}_B\circ f=f$$
+We zeggen dat de identiteit een \textit{neutraal element} is met betrekking tot de samenstelling, net zoals
+\begin{itemize}
+    \item 0 een neutraal element is met betrekking tot optelling;
+    \item 1 een neutraal element is met betrekking tot vermenigvuldiging;
+    \item $\top$ een neutraal element is met betrekking tot conjunctie (zie stelling \ref{th:equiv}:17);
+    \item $\bot$ een neutraal element is met betrekking tot disjunctie (zie stelling \ref{th:equiv}:16);
+\end{itemize}
+
+\begin{theorem}\mbox{}
+\begin{itemize}
+    \item De samenstelling van twee injectieve afbeeldingen is weer een injectieve afbeelding.
+    \item De samenstelling van twee surjectieve afbeeldingen is weer een surjectieve afbeelding.
+    \item De samenstelling van twee bijectieve afbeeldingen is weer een bijectieve afbeelding.
+\end{itemize}\label{st:compositie}
+\end{theorem}
+\begin{proof}\mbox{}\\
+\indent\begin{minipage}{0.9\textwidth}
+\begin{itemize}
+    \item Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ injectieve afbeeldingen zijn.\\[1.5pt] 
+    Kies willekeurige $x, x'\in A$.\\[1.5pt]
+    Stel dat $(g\circ f)(x)=(g\circ f)(x')$.\\[1.5pt]
+    Dan geldt $g(f(x)) = g(f(x'))$.\\[1.5pt]
+    Omdat $g$ injectief is geldt dan $f(x)=f(x')$.\\[1.5pt]
+    Omdat $f$ injectief is geldt dan $x=x'$.\\[1.5pt]
+    We hebben nu bewezen dat voor alle $x,x'\in A$ geldt dat als $(g\circ f)(x)=(g\circ f)(x')$ dan $x=x'$.\\[1.5pt]
+    Hiermee is bewezen dat $g\circ f$ injectief is.
+    \item Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ surjectieve afbeeldingen zijn.\\[1.5pt]
+    Kies $z\in C$ willekeurig.\\[1.5pt]
+    Omdat $g$ surjectief is, is er een $y\in B$ met $z=g(y)$.\\[1.5pt]
+    Omdat $f$ surjectief is, is er een $x\in A$ met $y = f(x)$.\\[1.5pt]
+    Nu geldt $z=g(y)=g(f(x))=(g\circ f)(x)$.\\[1.5pt]
+    We hebben nu bewezen dat voor alle $z\in C$ is er een $x\in A$ zodat $(g\circ f)(x)$.
+    Hiermee is bewezen dat $g\circ f$ surjectief is.
+    \item Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ bijectieve afbeeldingen zijn.\\[1.5pt]
+    Omdat $f$ en $g$ injectief zijn is volgens bovenstaande ook $g\circ f$ injectief.\\[1.5pt]
+    Omdat $f$ en $g$ surjectief zijn is volgens bovenstaande ook $g\circ f$ surjectief.\\[1.5pt]
+    Hiermee is bewezen dat $g\circ f$ bijectief is.
+\end{itemize}
+\end{minipage}
+\end{proof}
+
+\begin{theorem}\label{st:assoc:comp}
+Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ en $h:C\rightarrow D$ afbeeldingen zijn. Dan zijn $(h\circ g)\circ f: A\rightarrow D$ en $h\circ(g\circ f):A\rightarrow D$ dezelfde afbeeldingen.
+\end{theorem}
+\begin{proof}\mbox{}\\
+\indent\begin{minipage}{0.9\textwidth}
+Beide afbeeldingen hebben inderdaad $A$ als domein en $D$ als bereik.\\[1.5pt]
+Kies $x\in A$ willekeurig. Dan geldt:\\[1.5pt]
+$((h\circ g)\circ f)(x)=(h\circ g)(f(x))=h(g(f(x)))=h((g\circ f)(x))=(h\circ(g\circ f))(x)$.
+\end{minipage}\\
+\end{proof}
+
+Stelling \ref{st:assoc:comp} zegt dat samenstelling \textit{associatief} is, daar waar de samenstelling goed gedefinieerd is.
+
+Samenstelling is echter niet \textit{commutatief}. Als voorbeeld beschouwen we $f, g:\mathbb{N}\rightarrow\mathbb{N}$, gedefinieerd door
+    $$f(x)=x+1\qquad\text{en}\qquad g(x)=2x$$
+voor alle $x\in\mathbb{N}$. Dan zijn $f\circ g$ en $g\circ f$ beiden gedefinieerd, maar niet gelijk, want
+$$(f\circ g)(1)=f(g(1))=f(2)=3\not=4=g(2)=g(f(1))=(g\circ f)(1).$$
+
+Om een afbeelding $f:A\rightarrow B$ samen te stellen met een afbeelding $g:C\rightarrow D$ tot een nieuw afbeelding $g\circ f:A\rightarrow D$, hebben we $B=C$ ge\"eist. Het gaat er om dat $g(f(x))$ voor iedere $x\in A$ gedefinieerd is. Dat is het geval als $B\subseteq C$.
+
+Men zou dus eigenlijk al de samenstelling $g\circ f: A\rightarrow D$ kunnen maken als $B\subseteq C$.
+
+Toch laten we dat niet toe. Wat in zo'n geval het gewenste resultaat oplevert is de samenstelling $g\circ\text{i}_{BC}\circ f$ met diagram
+$$A\overset{f}{\rightarrow}B\overset{\text{i}_{BC}}{\rightarrow}C\overset{g}{\rightarrow}D$$
+In feite is dit dus de samenstelling $g_{|B}\circ f$.
+
+\begin{aside}[Functioneel programmeren]\mbox{}\\
+Het samenstellen van afbeeldingen is een van de pijlers van \textit{functioneel programmeren}. Dat is een manier van programmeren met behulp van een \textit{functionele programmeertaal} waarin je ernaar streeft om alle operaties die je doet als \textit{functie} te beschrijven. Daarbij is een functie een afbeelding die gedefinieerd is op een manier waarmee je het resultaat ook kunt berekenen. Het domein en het bereik vormen dan het \textit{type} van de functie. Een element van het domein waar je een functie op los kunt laten heet dan een \textit{parameter}. De verzameling $B^A$ van afbeeldingen van een verzameling $A$ naar een verzameling $B$ kan zelf weer het domein of het bereik van een andere afbeelding zijn. Op soortgelijke wijze kun je in een functionele programmeertaal functies beschrijven waarvan een parameter zelf weer een functie is, of waarvan het resultaat een functie is.
+\end{aside}
+
+We komen nog even terug op \textit{datacompressie}: je wilt een file in veel gevallen in minder geheugen opslaan dan hij zelf beslaat, maar wel zodanig dat de oorspronkelijke file exact te reconstrueren valt uit de gecomprimeerde versie. Deze reconstructie noemen we \textit{decompressie}. Als we de afbeelding die de datacompressie beschrijft $f$ noemen en de afbeelding die de decompressie beschrijft $g$, dan is de hierboven geformuleerde eis compact op te schrijven als
+$$g\circ f=\text{id}.$$
+We hadden al eerder opgemerkt dat zo'n datacompressie-afbeelding $f$ injectief moet zijn. Dit kunnen we nu inderdaad uit deze eis afleiden. Neem twee willekeurige files $x$ en $y$ en stel dat $f(x)=f(y)$. Met gebruikmaking van de eis leiden we nu af
+$$x=\text{id}(x)=(g\circ f)(x)=g(f(x))=g(f(y))=(g\circ f)(y)=\text{id}(y)=y.$$
+Hiermee is bewezen dat $f$ injectief is.
+
+Omgekeerd is de decompressie altijd surjectief. Neem namelijk een willekeurige file $x$. Dan geldt
+$$x=\text{id}(x)=(g\circ f)(x)=g(f(x)),$$
+oftewel er is een file $y$ met $x=g(y)$. Hiermee is bewezen dat $g$ surjectief is.
+
+Precies hetzelfde geldt voor \textit{encryptie} en \textit{decryptie}: de encryptie-afbeelding $f$ die een willekeurige boodschap versleuteld tot iets wat buitenstaanders niet kunnen ontcijferen is altijd injectief; de decryptie-afbeelding $g$ die alleen bij de rechtmatige ontvanger bekend is en de versleutelde boodschap ontcijfert tot de oorspronkelijke boodschap, is altijd surjectief.
+
+\subsection{Opgaven}
+\begin{exercise}[Optioneel]
+Laat $f,g:\mathbb{N}\rightarrow\mathbb{N}$ gedefinieerd zijn door
+$$f(2x)=x\qquad\text{en}\qquad f(2x+1)=x\qquad\text{en}\qquad g(x)=2x$$
+voor alle $x\in\mathbb{N}$.
+\begin{enumerate}[label=\alph*.]
+    \item Is $f$ injectief?
+    \item Is $f$ surjectief?
+    \item Is $g$ injectief?
+    \item Is $g$ surjectief?
+\end{enumerate}
+Geef voor alle vier antwoorden een bewijs.
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+Laat $f:A\rightarrow B$ een afbeelding zijn, en $X$ en $Y$ deelverzamelingen van $A$.
+\begin{enumerate}[label=\alph*.]
+    \item Bewijs: $f(X\cup Y)=f(X)\cup f(Y)$.
+    \item Bewijs: $f(X\cap Y)\subseteq f(X)\cap f(Y)$.
+    \item Geef een voorbeeld waaruit blijkt dat $f(X\cap Y)=f(X)\cap f(Y)$ niet altijd juist is, en geef een voorwaarde voor $F$ waaronder dit wel geldt.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+\begin{enumerate}[label=\alph*.]
+    \item Is een inclusie-afbeelding ($\text{i}_A$) altijd injectief?
+    \item Is een inclusie-afbeelding ($\text{i}_A$) altijd surjectief?
+    \item Is een identieke afbeelding ($\text{id}_A$) altijd injectief?
+    \item Is een identieke afbeelding ($\text{id}_A$) altijd surjectief?
+\end{enumerate}
+Geef voor alle vier antwoorden een bewijs.
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+Gegeven zijn $A=\{1,2,3,4\}$ en $B=\{a,b,c\}$. De afbeelding $f:A\rightarrow B$ is gegeven door $f(1)=a, f(2)=b, f(3)=c, f(4)=b$.
+
+Geef een opsomming van alle afbeeldingen $g: B\rightarrow A$ waarvoor geldt dat $f\circ g = \text{id}_B$, en bereken voor elk van die afbeeldingen de samenstelling $g\circ f$.
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+Gegeven zijn $A=\{1,2,3,4\}$ en $B=\{a,b,c\}$. De afbeelding $f:B\rightarrow A$ is gegeven door $f(a)=1, f(b)=2, f(c)=3$.
+
+Geef een opsomming van alle afbeeldingen $g:A\rightarrow B$ waarvoor geldt dat $g\circ f=\text{id}_B$, en bereken voor elk van die afbeeldingen de samenstelling $f\circ g$.
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+Gegeven zijn de afbeeldingen $f:A\rightarrow B$ en $g:B\rightarrow C$. Bewijs:
+\begin{enumerate}[label=\alph*.]
+    \item Als $g\circ f$ surjectief is, dan is $g$ surjectief.
+    \item Als $g\circ f$ injectief is, dan is $f$ injectief.
+\end{enumerate}
+\end{exercise}

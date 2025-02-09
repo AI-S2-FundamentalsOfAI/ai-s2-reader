@@ -1,0 +1,94 @@
+\section{Inductie}
+
+\begin{answer} % 7.1
+Welke van de volgende rijtjes zijn Blurpsen:
+$$\triangle\triangle\triangle\triangle, \triangle\triangle\triangle\triangle\triangle, \triangle\triangle\triangle\triangle\triangle\triangle, \triangle\triangle\triangle\triangle\triangle\triangle\triangle$$
+$$\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond, \Diamond\Diamond\Diamond\triangle\triangle\Diamond\Diamond\triangle\triangle\Diamond\Diamond\Diamond\triangle\triangle\Diamond\Diamond$$
+
+\noindent Antwoord:
+$$\triangle\triangle\triangle\triangle$$
+Geen Blurps; volgens de regels kunnen 1 $\triangle$, 3 $\triangle$, en 5 $\triangle$ als Blurpsen, maar 4 $\triangle$ niet.
+$$\triangle\triangle\triangle\triangle\triangle$$ 
+Blurps: uit $\triangle$ (i) volgt $\triangle\triangle\triangle$ (regel iia of iii), en dus $\triangle\triangle\triangle\triangle\triangle$ (regel iia).
+$$\triangle\triangle\triangle\triangle\triangle\triangle$$ 
+Geen Blurps.
+$$\triangle\triangle\triangle\triangle\triangle\triangle\triangle$$
+Blurps: uit antwoord hierboven $\triangle\triangle\triangle\triangle\triangle$ en regel iia is deze Blurps af te leiden.
+$$\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond$$ 
+Als dit een Blurps zou zijn, dan moet hij (uiteindelijk) gemaakt worden met regel iib; oftewel $xx=\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond$, hier is geen twee zelfde 'Blurpsen' van te maken; het is dus geen Blurps\footnote{Merk op dat hier gebruik wordt gemaakt van de eigenschap dat $\Diamond$ alleen kan worden toegevoegd door toepassing van regel iia.}.\\
+Tevens was er te zien dat een mogelijke basiselement $\Diamond\triangle\Diamond$ niet te construeren is volgens de regels van de Blurpsen, en daaruit af te leiden dat het dus geen Blurps is.
+$$\Diamond\Diamond\Diamond\triangle\triangle\Diamond\Diamond\triangle\triangle\Diamond\Diamond\Diamond\triangle\triangle\Diamond\Diamond$$
+Vergelijkbaar met het argument hierboven; om deze 'Blurps' te maken, moeten we uiteindelijk regel iia toepassen. \\
+Daarom zou $xx= \Diamond\Diamond\triangle\triangle\Diamond\Diamond\triangle\triangle\Diamond\Diamond\Diamond\triangle\triangle\Diamond$, maar ook hier is geen patroon te vinden zodanig dat dit zich herhaalt. Het is daarom geen Blurps.
+\end{answer}
+
+\begin{answer} % 7.2
+Geef een inductieve definitie van de verzameling der natuurlijke getallen $n$ met $n\geq 5$.\\[2.5pt]
+
+Antwoord:\\
+De verzameling NGGV (natuurlijke getallen groter of gelijk aan 5) is de kleinste verzameling zodat:
+\begin{enumerate}[label=\roman*.]
+\item 5 is een element van NGGV.
+\item Als $x$ een element is van NGGV, dan is $x+1$ ook een element van NVVG.
+\end{enumerate}
+\end{answer}
+
+\begin{answer} % 7.3
+Maak een inductieve definitie van de verzameling van strings op alfabet $\{\mathtt{a},\mathtt{b}\}$ waarin de substring $\mathtt{bb}$ niet voorkomt.\\[2.5pt]
+
+Er zijn verschillende antwoorden mogelijk, een voorbeeld:\\
+De verzameling $AB$ over alfabet $\mathtt{\{a, b\}}$ is de kleinste verzameling zodat:
+\begin{enumerate}[label=\roman*.]
+\item $\mathtt{a}$, $\mathtt{b}$ zijn element van $AB$;
+\item als $x$ een element is van $AB$, dan is $\mathtt{a}x$ ook een element van $AB$;
+\item als $x$ en $y$ een element van $AB$ zijn, dan is $x\mathtt{a}y$ ook een element van $AB$.
+\end{enumerate}
+\end{answer}
+
+\begin{answer} % 7.4
+Maak een inductieve definitie van de verzameling van strings op alfabet $\{\mathtt{a},\mathtt{b}\}$ die er achterstevoren hetzelfde uitzien (z.g. palindromen, bijvoorbeeld `$\mathtt{abba}$').\\[2.5pt]
+
+Antwoord:\\
+De verzameling $P$ (palindromen) is de kleinste verzameling zodat:
+\begin{enumerate}[label=\roman*.]
+    \item $\mathtt{a}$ en $\mathtt{b}$ zijn een element van $P$;
+    \item als $x$ en $y$ een element zijn van $P$ dan ook $xyyx$.
+\end{enumerate}
+\end{answer}
+
+\todo[inline,color=hublue!20]{Uitwerkingen volgen in een volgende versie van de reader.}
+\begin{answer} % 7.5
+Laat zien dat alle Blurpsen een oneven aantal driehoekjes hebben of tenminste \'e\'en ruit bevatten.
+\end{answer}
+
+\begin{answer}\mbox{}  % 7.6
+\begin{enumerate}[label=\arabic*.]
+    \item Laat zien dat elke $\varphi$ in $\mathcal{L}$ evenveel linker- als rechterhaakjes heeft.
+    \item Laat zien dat het aantal voorkomens van atomen in $\varphi$ in $\mathcal{L}$ groter of gelijk is aan het aantal linkerhaakjes in $\varphi$ plus 1.
+\end{enumerate}
+\end{answer}
+
+\begin{answer}[Optioneel] % 7.7
+Een spel begint met $n>1$ pionnen. Vooraf wordt een getal $m$ vastgesteld met $1\leq m<n$. Spelers $A$ en $B$ gooien om beurten hoogstens $m$ pionnen om (telkens minimaal 1 pion). Winnaar is degene die de laatste pion(nen) omgooit. Bewijs dat de beginner kan winnen, dan en slechts dan als $n$ geen veelvoud van $m$ is.
+\end{answer}
+
+\begin{answer}[Optioneel] % 7.8
+Een spel wordt gespeeld met twee stapels fiches, $n_1$ fiches op de ene stapel en $n_2$ fiches op de andere stapel. Spelers $A$ en $B$ mogen om beurten fiches van \'e\'en van de stapels pakken, minstens 1 en maximaal alle fiches van een stapel. Winnaar is die de laatste fiches pakt.
+
+Bewijs: de beginner kan winnen dan en slechts dan als $n_1\not =n_2$.\\
+Aanwijzing: inductie naar $n_1+n_2$.
+\end{answer}
+
+\begin{answer}[Optioneel] % 7.9
+Beschouw voor een natuurlijk getal $n\geq 1$ de uitspraak:
+
+\noindent $P(n):=$ in elke groep van $n$ meisjes hebben alle meisjes even lang haar.
+
+Als we om ons heen kijken, zien we dat $P(n)$ niet waar is. Waar zit dus de fout in het volgende bewijs van $P(n)$ voor alle $n\geq 1$:
+
+\noindent\begin{tabular}{lp{.84\textwidth}}
+stap 1. & $P(1)$, want dan bestaat de groep maar uit 1 meisje.\\
+stap 2. & Stel $P(x)$ en neem een groep van $x+1$ meisjes. Stuur een van de meisjes, zeg Sandra, even uit de groep. De overige meisjes vormen een groep van $x$ meisjes, en hebben dus even lang haar (IH). Haal nu Sandra terug in de groep, en stuur een ander meisje uit de groep. Weer hebben we nu een groep van $x$ meisjes, waaronder Sandra. Sandra heeft dus even lang haar als de andere meisjes. Dus in de complete groep van $x+1$ meisjes hebben alle meisjes even lang haar: $P(x+1)$
+\end{tabular}
+\end{answer}
+

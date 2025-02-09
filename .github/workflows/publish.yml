@@ -1,0 +1,24 @@
+name: Build LaTeX document
+permissions:
+  contents: write
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - uses: xu-cheng/texlive-action@v2
+        with:
+          scheme: full
+          run: |
+            pdflatex -interaction=nonstopmode main.tex || true
+            bibtex main
+            pdflatex -interaction=nonstopmode main.tex || true
+            pdflatex -interaction=nonstopmode main.tex || true
+            mv main.pdf reader-s2.pdf
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            reader-s2.pdf

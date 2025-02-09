@@ -1,0 +1,641 @@
+\chapter{Extra opgaven}\label{ch:extra:opgaven}
+Dit hoofdstuk bevat extra opgaven om de stof uit de reader nogmaals te kunnen oefenen.
+
+\renewcommand{\theexerciseT}{Ex.\arabic{section}.\arabic{exerciseT}}
+
+\section{Propositielogica}
+\setcounter{exerciseT}{0}
+\begin{exercise}
+Bewijs dat $(p\rightarrow q)\rightarrow ((p\land r)\rightarrow (q\land r))$ een tautologie is met behulp van een waarheidstabel.
+\end{exercise}
+
+\begin{exercise}
+Bewijs dat $(p\rightarrow q)\rightarrow((p\land r)\rightarrow (q\land r))$ een tautologie is met behulp van de boommethode.
+\end{exercise}
+
+\begin{exercise}
+Bepaal een uitdrukking die opgebouwd is uit de atomen $p,q,r,s$ en haakjes, en verder alleen maar de symbolen $\neg$ en $\lor$, en die equivalent is aan
+    $$(p\land q)\rightarrow(r\land s)$$
+\end{exercise}
+
+\begin{exercise}
+Bewijs dat $(\neg q\land(p\rightarrow q))\rightarrow\neg p$ een tautologie is met behulp van de boommethode.
+\end{exercise}
+
+\begin{exercise}
+Bewijs dat $((p\rightarrow q)\land(q\rightarrow r))\rightarrow (p\rightarrow r)$ een tautologie is met behulp van de boommethode.
+\end{exercise}
+
+\begin{exercise}
+Bewijs dat $((p\rightarrow q)\wedge(r\rightarrow s) \wedge r)\rightarrow (q\wedge s)$ een tautologie is met behulp van de boommethode.
+\end{exercise}
+
+\section{Verzamelingen}
+\setcounter{exerciseT}{0}
+\begin{exercise}
+Laat $A$ en $B$ willekeurige verzamelingen zijn. Bewijs dat $A=A-(B-A)$.
+\end{exercise}
+
+\begin{exercise}
+Laat $A$ en $B$ willekeurige verzamelingen zijn. Bewijs dat $\mathcal{P}(A-B)\subseteq\mathcal{P}(A)$.
+\end{exercise}
+
+\begin{exercise}[Pittig!]\mbox{}\\
+Laat $A, B$ en $C$ willekeurige verzamelingen zijn. Bewijs dat $(A-B)\cup C=(A\cup C)-((A\cap B) - C)$.
+\end{exercise}
+
+\begin{exercise}
+Laat $A, B$ en $C$ willekeurige verzamelingen zijn. Bewijs dat
+$$A-(B\cap C)=(A-C)\cup(A-B).$$
+(Alleen een Venn-diagram is niet voldoende.)
+\end{exercise}
+
+\begin{exercise}
+Laat $f:X\rightarrow Y$ een afbeelding zijn. Laat $B$ een deelverzameling van $Y$ zijn en $y\in B$.
+\begin{enumerate}[label=\alph*.]
+    \item Geef een voorbeeld van dergelijke $f, X, Y, y, B$ waarvoor $f^{-1}(B)=\varnothing$.
+    \item Bewijs dat $f^{-1}(B)$ niet de lege verzameling is als $f$ surjectief is.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Laat $A$ en $B$ willekeurige verzamelingen zijn. Bewijs dat
+$$B-(B\cap A)=B-A$$
+(Alleen een Venn-diagram is niet voldoende.)
+\end{exercise}
+
+\section{Predikaatlogica}
+\setcounter{exerciseT}{0}
+\begin{exercise}
+Gebruik de notatie $K(x,y)$ voor: $x$ is een kind van $y$. Schrijf in predikaat-logische notatie: $x$ heeft precies \'e\'en kind.
+\end{exercise}
+
+\begin{exercise}
+Gebruik de notatie
+$$K(x,y)\text{ voor: $x$ is een kind van $y$},\\
+M(x)\text{ voor: $x$ is mannelijk.}$$
+Schrijf in predikaatlogica: de vader van $z$ heeft een kleindochter.
+\end{exercise}
+
+\begin{exercise}\mbox{}\\
+Bewijs dat $\neg(\forall x\;(P(x)\land Q(x)))$ equivalent is aan $\exists x\;\neg Q(x)\lor\exists y\;\neg P(y)$.
+\end{exercise}
+
+\begin{exercise}
+Gebruik de notatie $K(x,y)$ voor: $x$ is een kind van $y$. Schrijf in predikaatlogica: een van de kinderen van $x$ heeft een grootouder.
+\end{exercise}
+
+\begin{exercise}
+Gebruik de notatie $K(x,y)$ voor `$x$ is een kind van $y$', en $M(x)$ voor `$x$ is mannelijk'. Schrijf in predikaatlogica: `$x$ heeft een zus'.
+\end{exercise}
+
+\begin{exercise}
+Gebruik de notatie
+\begin{enumerate}
+    \item $K(x,y)$ voor `$x$ is een kind van $y$',
+    \item $E(x,y)$ voor `$x$ en $y$ zijn ex-klasgenoten', en
+    \item $M(x)$ voor `$x$ is mannelijk'.
+\end{enumerate}
+Schrijf in predikaatlogica:
+$$\text{`de vader van $a$ heeft vroeger samen met de moeder van $b$ in de klas gezeten'}$$
+\end{exercise}
+
+\begin{exercise}
+Vertaal de onderstaande zinnen naar predikaatlogica. Vergeet de vertaalsleutel niet. Gebruik zo min mogelijk predikaatsymbolen.
+Het domein is Nederlandse kerktorens.
+\begin{enumerate}
+\item De Domtoren is hoger dan de Martinitoren.
+\item Elke toren die hoger is dan de Lange Jan is lager dan de Domtoren.
+\item De Domtoren en de Martinitoren zijn allebei hoger dan de Lange Jan, maar er zijn torens die hoger zijn dan elk van beiden.
+\item De Domtoren en de Martinitoren zijn even hoog.
+\item De Domtoren is de hoogste kerktoren van Nederland.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Vertaal in predikaatlogica, gebruik de volgende vertaalsleutel:\\
+$V(x)$: $x$ is een visser\\
+$H(x,y)$: $x$ heeft een hekel aan $y$.
+\begin{enumerate}
+    \item Als Albert een hekel heeft aan Bertrand en Bertrand aan Christina, en als Albert een visser is maar Christina niet, dan is er een visser die een hekel heeft aan iemand die geen visser is.
+    \item Een persoon die een hekel heeft aan iemand die geen hekel heeft aan hem, heeft een hekel aan iemand anders dan zichzelf.
+    \item Als je een hekel hebt aan alle mensen die geen hekel aan zichzelf hebben, dan heb je een hekel aan jezelf.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Vertaal de volgende zinnen naar predikaatlogica. Domein: de verzameling honden. Sleutel: $V(x)$: $x$ vecht om een been, $H(x)$: $x$ gaat met het been heen (u mag ervan uitgaan dat het steeds een en hetzelfde been betreft).
+\begin{enumerate}
+    \item Als een hond vecht om een been, dan is er ook een andere hond die om een been vecht.
+    \item Er is hoogstens \'e\'en hond die met het been heen gaat.
+    \item Als twee honden vechten om een been gaat de derde er mee heen.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Vertaal de onderstaande zinnen zo nauwkeurig mogelijk naar predikaatlogica. Vergeet de vertaalsleutel niet. Gebruik zo min mogelijk predikaatsymbolen. Het discussiedomein is `kennissen van Joop'.
+\begin{enumerate}[label=\textit{\alph*.}]
+    \item Joop houdt van Mo.
+    \item Iemand houdt van Joop, maar Mo houdt niet van hem.
+    \item Iedereen die van Koos houdt, houdt ook van Joop.
+    \item Koos houdt zowel van Joop als van Mo, maar er is niemand die van tenminste \'e\'en van beide houdt en die wel van Koos houdt.
+    \item Er is hoogstens \'e\'en persoon die van Koos houdt.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Vertaal in predikaatlogica.\\
+$S(x,y)$: $x$ is (strikt) sneller dan $y$.\\
+$I(x,y)$: $x$ is identiek even snel als $y$.\\
+$s$: Slijmpie, $h$: Herma, $f:$ Frodia.\\
+Discussiedomein is nu levende Nederlandse slakken.
+\begin{enumerate}[label=\textit{\alph*.}]
+    \item Slijmpie is (strikt) sneller dan Herma, als Slijmpie (strikt) langzamer is dan Frodia.
+    \item Frodia is even snel als Slijmpie.
+    \item Elke Nederlandse slak is langzamer of even langzaam als Slijmpie.
+    \item Als er al een slak is die langzamer is dan Herma, dan is er ook een slak die langzamer is dan Frodia of Slijmpie.
+    \item Slijmpie en Frodia zijn de twee snelste slakken van Nederland.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Vertaal naar predikaatlogica. Domein is Kuifje, Kapitein Haddock, Jansen, Janssen, Bianca Castafiore.
+\begin{enumerate}[label=\textit{\alph*.}]
+    \item Janssen verdenkt Kuifje en Jansen verdenkt Kapitein Haddock.
+    \item Iedereen die Kuifje verdenkt, verdenkt ook Haddock.
+    \item Iemand die iemand verdenkt, verdenkt Bianca Castafiore of Kuifje.
+    \item Iedereen die iemand verdenkt, verdenkt iedereen.
+    \item Een zangeres verdenkt iedereen die iemand verdenkt die Kuifje verdenkt.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Bepaal voor elk van de volgende formules welke kwantorvoorkomens er in de formule binding geven aan welke variabelen (teken een pijl om de binding aan te geven).:
+\begin{enumerate}
+    \item $A:=\forall x\exists y[P(x,y,z)\rightarrow(Q(x,y)\wedge\neg\exists x\;Q(x,y))]$\\
+    \item $B:=\forall x\exists y P(x,y)\rightarrow \forall x\exists y[P(x,y)\wedge \forall z(P(x,z)\rightarrow Q(z,y))]$\\
+    \item $C:= \exists x\exists y\exists z[P(x,y,z)\vee(Q(x,y)\wedge\forall x(Q(x,y)\rightarrow\exists z P(x,z,z)))]$
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Gegeven is de volgende informatie over een model:\\
+Predikaten $P,Q$ en $P$ is een-plaatsig, $Q$ is twee-plaatsig.\\
+1 constante $c$.
+$$A:=\forall x[Q(x,x)\rightarrow\neg P(x)]$$
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Teken een model waarin $A$ waar is.
+\item Teken een model waarin $A$ niet waar is.
+\end{enumerate}
+$$B:=P(c)\wedge\forall x[P(x)\rightarrow\forall y(Q(x,y)\rightarrow\neg P(y)]$$
+\begin{enumerate}[label=\textit{\alph*.}]
+\setcounter{enumi}{2}
+\item Hoeveel elementen zijn minimaal nodig om een model voor $B$ te maken?
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+$$A:=\exists x[P(x)\wedge\forall y\;Q(x,y)]$$
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Teken een model waarin $A$ waar is.
+\item Teken een model waarin $A$ niet waar is.
+\item Laat zien met modellen dat $\forall x(P(x)\wedge Q(x))$ logisch equivalent is aan $\forall x\; P(x)\wedge\forall x\;Q(x)$.
+\end{enumerate}
+\end{exercise}
+
+\section{Inductie}
+\setcounter{exerciseT}{0}
+\begin{exercise}\mbox{}\\
+Bewijs dat voor ieder natuurlijk getal $n$ geldt $\sum\limits^{n}_{k=0} 4k^3=n^4+2n^3+n^2$.
+\end{exercise}
+
+\begin{exercise}\mbox{}\\
+Bewijs dat voor ieder natuurlijk getal $n\geq 1$ geldt $\sum\limits^{n}_{k=1}(4k-3)=2n^2-2$.
+\end{exercise}
+
+\begin{exercise}\mbox{}\\
+Bewijs dat voor ieder natuurlijk getal $n\geq 1$ geldt $\sum\limits^n_{k=1}(2k-1)=n^2$.
+\end{exercise}
+
+%\begin{alphasection}\setcounter{alphasect}{0}\setcounter{exerciseT}{0}
+%\renewcommand{\theexerciseT}{Ex.\Alph{alphasect}.\arabic{exerciseT}}
+%\section{Bewijzen}
+%\begin{exercise}
+%Bewijs (uit het ongerijmde) dat: `als $x^2$ even is, dan is $x$ even.'
+%\end{exercise}
+%
+%\begin{exercise}
+%Bewijs (met gevalsonderscheid) dat voor alle getallen $n\in\mathbb{Z}$ geldt  dat $(n^3-n)\text{ mod } 3=0$.
+%\end{exercise}
+%\end{alphasection}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Uitwerkingen extra opdrachten}
+Dit hoofdstuk bevat uitwerkingen van de opgaven uit hoofdstuk \ref{ch:extra:opgaven}.
+
+\renewcommand{\theanswerT}{Ex.\arabic{section}.\arabic{answerT}}
+
+\section{Propositielogica}
+\setcounter{answerT}{0}
+\begin{answer}
+Bewijs dat $(p\rightarrow q)\rightarrow ((p\land r)\rightarrow (q\land r))$ een tautologie is met behulp van een waarheidstabel.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}
+\begin{center}
+\begin{tikzpicture}
+\matrix (M) [matrix of nodes, column sep=.5em] {
+  $p$&$q$&$r$&$(p\rightarrow q)$&$\rightarrow$&$((p\land r)$&$\rightarrow$&$(q\land r))$\\
+  0&0&0&1&1&0&1&0\\
+  0&0&1&1&1&0&1&0\\
+  0&1&0&1&1&0&1&0\\
+  0&1&1&1&1&0&1&1\\
+  1&0&0&0&1&0&1&0\\
+  1&0&1&0&1&1&0&0\\
+  1&1&0&1&1&0&1&0\\
+  1&1&1&1&1&1&1&1\\
+};
+\draw[thin] (M-1-1.south west) -- (M-1-3 |- M-1-1.south east);
+\draw[thin] (M-1-4.south west) -- (M-1-8.south east);
+\draw[red,thick] (M-1-5.north west) rectangle (M-9-5.south east);
+\end{tikzpicture}
+\end{center}
+Aangezien in de kolom van het hoofdconnectief uitsluitend enen staan, is hiermee bewezen dat de gegeven propositie een tautologie is.
+\end{answer}
+
+\begin{answer}
+Bewijs dat $(p\rightarrow q)\rightarrow((p\land r)\rightarrow (q\land r))$ een tautologie is met behulp van de boommethode.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\begin{answer}
+Bepaal een uitdrukking die opgebouwd is uit de atomen $p,q,r,s$ en haakjes, en verder alleen maar de symbolen $\neg$ en $\lor$, en die equivalent is aan
+    $$(p\land q)\rightarrow(r\land s)$$
+    
+\noindent\textbf{Uitwerking:}
+$$\begin{array}{rll}
+     (p\land q)\rightarrow (r\land s)\equiv&\neg(p\land q)\lor(r\land s)&(\text{definitie }\rightarrow)\\
+     \equiv&(\neg p\lor\neg q)\lor(r\land s)&(\text{DeMorgan})\\
+     \equiv&(\neg p\lor\neg q)\lor\neg\neg(r\land s)&\\
+     \equiv&(\neg p\lor\neg q)\lor\neg(\neg r\lor\neg s)&(\text{DeMorgan})\\
+\end{array}$$
+Een mogelijke antwoord is dus $(\neg p\lor\neg q)\lor(\neg(\neg r\lor \neg s))$.
+\end{answer}
+
+\begin{answer}
+Bewijs dat $(\neg q\land(p\rightarrow q))\rightarrow\neg p$ een tautologie is met behulp van de boommethode.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\begin{answer}
+Bewijs dat $((p\rightarrow q)\land(q\rightarrow r))\rightarrow (p\rightarrow r)$ een tautologie is met behulp van de boommethode.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\begin{answer}
+Bewijs dat $((p\rightarrow q)\wedge(r\rightarrow s) \wedge r)\rightarrow (q\wedge s)$ een tautologie is met behulp van de boommethode.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\section{Verzamelingen}
+\setcounter{answerT}{0}
+\begin{answer}
+Laat $A$ en $B$ willekeurige verzamelingen zijn. Bewijs dat $A=A-(B-A)$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}
+$$\begin{array}{rll}
+x\in A-(B-A) \Leftrightarrow& x\in A\land\neg (x\in B-A)&(\text{definitie van }-)\\
+\Leftrightarrow&x\in A\land\neg(x\in B\land \neg(x\in A))&(\text{definitie van }-)\\
+\Leftrightarrow&x\in A\land(\neg(x\in B)\lor\neg\neg(x\in A))&(\text{wet van DeMorgan})\\
+\Leftrightarrow&x\in A\land(\neg(x\in B)\lor x\in A)&(\text{dubbele ontkenning})\\
+\Leftrightarrow & x\in A&(p\land(q\lor p)\leftrightarrow p\\
+&&\text{is een tautologie})
+\end{array}$$
+Uit $x\in A-(B-A)\Leftrightarrow x\in A$ volgt dat $A=A-(B-A)$.
+\end{answer}
+
+\begin{answer}
+Laat $A$ en $B$ willekeurige verzamelingen zijn. Bewijs dat $\mathcal{P}(A-B)\subseteq\mathcal{P}(A)$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\\
+\indent\begin{minipage}{0.9\textwidth}
+  Kies $X\in\mathcal{P}(A-B)$ willekeurig.\\[1.5pt]
+  Dan $X\subseteq A-B$.\\[1.5pt]
+  Vanwege $A-B\subseteq A$ en transitiviteit van inclusie geldt dan ook $X\subseteq A$.\\[1.5pt]
+  Dan geldt $X\in\mathcal{P}(A)$.\\[1.5pt]
+  Hiermee is bewezen dat $\mathcal{P}(A-B)\subseteq\mathcal{P}(A)$.
+\end{minipage}
+\end{answer}
+
+\begin{answer}[Pittig!]\mbox{}\\
+Laat $A, B$ en $C$ willekeurige verzamelingen zijn. Bewijs dat $(A-B)\cup C=(A\cup C)-((A\cap B) - C)$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\\
+Schrijf $p\equiv x\in A, q\equiv x\in B$ en $r\equiv x\in C$. Er geldt:
+\begin{tabbing}
+\indent $x\in(A\cup C)-((A\cap B)-C)$\\
+\indent$\qquad\qquad$\=$\Leftrightarrow x\in A\cup C\land\neg(x\in (A\cap B) - C)\qquad\quad$\=(definitie van $-$)\\
+\>$\Leftrightarrow(x\in A\lor x\in C)\land\neg(x\in(A\cap B)-C)$\>(definitie van $\cup$)\\
+\>$\Leftrightarrow(p\lor r)\land\neg(x\in (A\cap B)-C)$\>(definitie van $p,r$)\\
+\>$\Leftrightarrow(p\lor r)\land\neg(x\in(A\cap B)\land\neg(x\in C))$\>(definitie van $-$)\\
+\>$\Leftrightarrow(p\lor r)\land\neg((x\in A\land x\in B)\land \neg r)$\>(definitie van $r$)\\
+\>$\Leftrightarrow(p\lor r)\land\neg((p\land q)\land \neg r)$\>(definitie van $p,q$)\\
+\>$\Leftrightarrow(p\lor r)\land(\neg(p\land q)\lor \neg\neg r)$\>(DeMorgan)\\
+\>$\Leftrightarrow(p\lor r)\land((\neg p\lor\neg q)\lor \neg\neg r)$\>(DeMorgan)\\
+\>$\Leftrightarrow(p\lor r)\land((\neg p\lor\neg q)\lor r)$\>($\neg\neg r\equiv r$)\\
+\>$\Leftrightarrow(p\land (\neg p\lor\neg q))\lor r$\>(distributiviteit)\\
+\>$\Leftrightarrow((p\land\neg p)\lor(p\land\neg q))\lor r$\>(distributiviteit\\
+\>$\Leftrightarrow(\bot\lor(p\land\neg q))\lor r$\\
+\>$\Leftrightarrow(p\land\neg q)\lor r$\\
+\>$\Leftrightarrow(x\in A\land\neg (x\in B))\lor x\in C$\>(definitie van $p,q,r$)\\
+\>$\Leftrightarrow(x\in A-B)\lor x\in C$\>(definitie van $-$)\\
+\>$\Leftrightarrow(x\in(A-B)\cup C$\>(definitie van $\cup$)
+\end{tabbing}
+Hieruit volgt het gevraagde.
+
+\textit{Bij het zoeken naar zo'n lange keten van equivalenties is het vaak handig om bij de ingewikkelste kant te beginnen en van daaruit naar de eenvoudigste kant toe proberen te werken.}
+\end{answer}
+
+\begin{answer}
+Laat $A, B$ en $C$ willekeurige verzamelingen zijn. Bewijs dat
+$$A-(B\cap C)=(A-C)\cup(A-B).$$
+(Alleen een Venn-diagram is niet voldoende.)\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\begin{answer}
+Laat $f:X\rightarrow Y$ een afbeelding zijn. Laat $B$ een deelverzameling van $Y$ zijn en $y\in B$.
+\begin{enumerate}[label=\alph*.]
+    \item Geef een voorbeeld van dergelijke $f, X, Y, y, B$ waarvoor $f^{-1}(B)=\varnothing$.
+    \item Bewijs dat $f^{-1}(B)$ niet de lege verzameling is als $f$ surjectief is.
+\end{enumerate}
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\begin{answer}
+Laat $A$ en $B$ willekeurige verzamelingen zijn. Bewijs dat
+$$B-(B\cap A)=B-A$$
+(Alleen een Venn-diagram is niet voldoende.)\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\\
+\indent\begin{minipage}{0.9\textwidth}
+Schrijf $p$ voor $x\in A$, en $q$ voor $x\in B$.\\[1.5pt]
+Voor een willekeurig element $x$ geldt:
+$$\begin{array}{rll}
+     x\in B-(B\cap A)\Leftrightarrow & x\in B\wedge\neg(x\in B\cap A)&(\text{definitie van }-)\\
+     \Leftrightarrow & x\in B\wedge\neg(x\in B\wedge x\in A)&(\text{definitie van }\cap)\\
+     \Leftrightarrow & q\wedge\neg(q\wedge p) & (\text{definitie van $p$ en $q$})\\
+     \Leftrightarrow & q\wedge(\neg q\vee \neg p) & (\text{DeMorgan})\\
+     \Leftrightarrow & (q\wedge\neg q)\vee(q\wedge\neg p) & (\text{distributiviteit})\\
+     \Leftrightarrow & \bot\vee(q\wedge\neg p) &\\
+     \Leftrightarrow & q\wedge\neg p & \\
+     \Leftrightarrow & x\in B\wedge\neg(x\in A) & (\text{definitie van $p$ en $q$})\\
+     \Leftrightarrow & x\in B-A & (\text{definitie van }-).
+\end{array}$$
+\end{minipage}\\
+Vanwege $x\in B-(B\cap A)\Leftrightarrow x\in B-A$ kunnen we nu concluderen dat $B-(B\cap A)=B-A$.
+\end{answer}
+
+\section{Predikaatlogica}
+\setcounter{answerT}{0}
+\begin{answer}
+Gebruik de notatie $K(x,y)$ voor: $x$ is een kind van $y$. Schrijf in predikaat-logische notatie: $x$ heeft precies \'e\'en kind.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}
+$$\exists y\;(K(y,x)\land \forall z\;(K(z,x)\rightarrow y=z)).$$
+\end{answer}
+
+\begin{answer}
+Gebruik de notatie
+$$K(x,y)\text{ voor: $x$ is een kind van $y$},\\
+M(x)\text{ voor: $x$ is mannelijk.}$$
+Schrijf in predikaatlogica: de vader van $z$ heeft een kleindochter.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}
+$$\exists x,y,w\;(K(z,x)\land M(x)\land K(y,x)\land K(w,y)\land\neg M(w))$$
+Hierin is $x$ de vader van $z$, is $y$ een kind van $x$ (mogelijk $z$), en is $w$ een dochter van $y$.
+
+Een veel gemaakte fout is om te eisen dat $w$ een dochter van $z$ is. Dit hoeft niet het geval te zijn: als $z$ geen dochter heeft, maar een broer of zus van $z$ wel, dan heeft de vader $x$ van $z$ toch een kleindochter.
+
+Aangezien de persoon $z$ in de opgave gegeven is, hoeft deze niet door een kwantor te worden gebonden.
+\end{answer}
+
+\begin{answer}\mbox{}\\
+Bewijs dat $\neg(\forall x\;(P(x)\land Q(x)))$ equivalent is aan $\exists x\;\neg Q(x)\lor\exists y\;\neg P(y)$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\\
+Toepassing van standaardregels geeft:
+$$\begin{array}{rll}
+     \neg(\forall x\;(P(x)\land Q(x)))\equiv & \exists x\;\neg(P(x)\land Q(x))\\
+     \equiv & \exists x\;(\neg P(x)\lor\neg Q(x))\\
+     \equiv & \exists x\;(\neg Q(x)\lor\neg P(x))\\
+     \equiv & \exists x\;\neg Q(x)\lor \exists x\;\neg P(x)\\
+     \equiv & \exists x\;\neg Q(x)\lor \exists y\;\neg P(x).
+\end{array}$$
+\end{answer}
+
+\begin{answer}
+Gebruik de notatie $K(x,y)$ voor: $x$ is een kind van $y$. Schrijf in predikaatlogica: een van de kinderen van $x$ heeft een grootouder.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}
+$$\exists y, z, w\;(K(y,x)\land K(y,z)\land K(z,w)).$$
+\end{answer}
+
+\begin{answer}
+Gebruik de notatie $K(x,y)$ voor `$x$ is een kind van $y$', en $M(x)$ voor `$x$ is mannelijk'. Schrijf in predikaatlogica: `$x$ heeft een zus'.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}
+$$\exists y,z\;(K(x,y)\wedge K(z,y)\wedge\not M(z))$$
+\end{answer}
+
+\begin{answer}
+Gebruik de notatie
+\begin{enumerate}
+    \item $K(x,y)$ voor `$x$ is een kind van $y$',
+    \item $E(x,y)$ voor `$x$ en $y$ zijn ex-klasgenoten', en
+    \item $M(x)$ voor `$x$ is mannelijk'.
+\end{enumerate}
+Schrijf in predikaatlogica:
+$$\text{`de vader van $a$ heeft vroeger samen met de moeder van $b$ in de klas gezeten'}$$
+
+\noindent\textbf{Uitwerking:}
+$$\exists x, y\;(K(a,x)\wedge M(x)\wedge K(b,y)\wedge\not M(y)\wedge E(x,y)).$$
+\end{answer}
+
+\begin{answer}
+Vertaal de onderstaande zinnen naar predikaatlogica. Vergeet de vertaalsleutel niet. Gebruik zo min mogelijk predikaatsymbolen.\\
+Het domein is Nederlandse kerktorens.\\
+Vertaalsleutel: $H(x,y)$: $x$ is (strikt) hoger dan $y$; $d$: de Domtoren; $m$: de Martinitoren; $lj$: Lange Jan.
+\begin{enumerate}
+\item De Domtoren is hoger dan de Martinitoren.\\
+antwoord: $H(d,m)$
+\item Elke toren die hoger is dan de Lange Jan is lager dan de Domtoren.\\
+antwoord: $\forall x\bigl[H(x,lj)\rightarrow H(d,x)\bigr]$
+\item De Domtoren en de Martinitoren zijn allebei hoger dan de Lange Jan, maar er zijn torens die hoger zijn dan elk van beiden.\\
+antwoord: $\Bigl[H(m,lj)\wedge H(d,lj)\Bigr]\wedge\exists x\Bigl[H(x,d)\wedge H(x,m)\Bigr]$
+\item De Domtoren en de Martinitoren zijn even hoog.\\
+antwoord: $\neg H(d,m)\wedge\neg H(m,d)$
+\item De Domtoren is de hoogste kerktoren van Nederland.\\
+antwoord: $\forall x\bigl[\neg H(x,d)\bigr]$
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Vertaal in predikaatlogica, gebruik de volgende vertaalsleutel:\\
+$V(x)$: $x$ is een visser\\
+$H(x,y)$: $x$ heeft een hekel aan $y$.
+\begin{enumerate}
+    \item Als Albert een hekel heeft aan Bertrand en Bertrand aan Christina, en als Albert een visser is maar Christina niet, dan is er een visser die een hekel heeft aan iemand die geen visser is.
+    \item Een persoon die een hekel heeft aan iemand die geen hekel heeft aan hem, heeft een hekel aan iemand anders dan zichzelf.
+    \item Als je een hekel hebt aan alle mensen die geen hekel aan zichzelf hebben, dan heb je een hekel aan jezelf.
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Vertaal de volgende zinnen naar predikaatlogica. Domein: de verzameling honden. Sleutel: $V(x)$: $x$ vecht om een been, $H(x)$: $x$ gaat met het been heen (u mag ervan uitgaan dat het steeds een en hetzelfde been betreft).
+\begin{enumerate}
+    \item Als een hond vecht om een been, dan is er ook een andere hond die om een been vecht.
+    \item Er is hoogstens \'e\'en hond die met het been heen gaat.
+    \item Als twee honden vechten om een been gaat de derde er mee heen.
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Vertaal de onderstaande zinnen zo nauwkeurig mogelijk naar predikaatlogica. Vergeet de vertaalsleutel niet. Gebruik zo min mogelijk predikaatsymbolen. Het discussiedomein is `kennissen van Joop'.
+\begin{enumerate}[label=\textit{\alph*.}]
+    \item Joop houdt van Mo.
+    \item Iemand houdt van Joop, maar Mo houdt niet van hem.
+    \item Iedereen die van Koos houdt, houdt ook van Joop.
+    \item Koos houdt zowel van Joop als van Mo, maar er is niemand die van tenminste \'e\'en van beide houdt en die wel van Koos houdt.
+    \item Er is hoogstens \'e\'en persoon die van Koos houdt.
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Vertaal in predikaatlogica.\\
+$S(x,y)$: $x$ is (strikt) sneller dan $y$.\\
+$I(x,y)$: $x$ is identiek even snel als $y$.\\
+$s$: Slijmpie, $h$: Herma, $f:$ Frodia.\\
+Discussiedomein is nu levende Nederlandse slakken.
+\begin{enumerate}[label=\textit{\alph*.}]
+    \item Slijmpie is (strikt) sneller dan Herma, als Slijmpie (strikt) langzamer is dan Frodia.
+    \item Frodia is even snel als Slijmpie.
+    \item Elke Nederlandse slak is langzamer of even langzaam als Slijmpie.
+    \item Als er al een slak is die langzamer is dan Herma, dan is er ook een slak die langzamer is dan Frodia of Slijmpie.
+    \item Slijmpie en Frodia zijn de twee snelste slakken van Nederland.
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Vertaal naar predikaatlogica. Domein is Kuifje, Kapitein Haddock, Jansen, Janssen, Bianca Castafiore.
+\begin{enumerate}[label=\textit{\alph*.}]
+    \item Janssen verdenkt Kuifje en Jansen verdenkt Kapitein Haddock.
+    \item Iedereen die Kuifje verdenkt, verdenkt ook Haddock.
+    \item Iemand die iemand verdenkt, verdenkt Bianca Castafiore of Kuifje.
+    \item Iedereen die iemand verdenkt, verdenkt iedereen.
+    \item Een zangeres verdenkt iedereen die iemand verdenkt die Kuifje verdenkt.
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Bepaal voor elk van de volgende formules welke kwantorvoorkomens er in de formule binding geven aan welke variabelen (teken een pijl om de binding aan te geven).:
+\begin{enumerate}
+    \item $A:=\forall x\exists y[P(x,y,z)\rightarrow(Q(x,y)\wedge\neg\exists x\;Q(x,y))]$\\
+    \item $B:=\forall x\exists y P(x,y)\rightarrow \forall x\exists y[P(x,y)\wedge \forall z(P(x,z)\rightarrow Q(z,y))]$\\
+    \item $C:= \exists x\exists y\exists z[P(x,y,z)\vee(Q(x,y)\wedge\forall x(Q(x,y)\rightarrow\exists z P(x,z,z)))]$
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+Gegeven is de volgende informatie over een model:\\
+Predikaten $P,Q$ en $P$ is een-plaatsig, $Q$ is twee-plaatsig.\\
+1 constante $c$.
+$$A:=\forall x[Q(x,x)\rightarrow\neg P(x)]$$
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Teken een model waarin $A$ waar is.
+\item Teken een model waarin $A$ niet waar is.
+\end{enumerate}
+$$B:=P(c)\wedge\forall x[P(x)\rightarrow\forall y(Q(x,y)\rightarrow\neg P(y)]$$
+\begin{enumerate}[label=\textit{\alph*.}]
+\setcounter{enumi}{2}
+\item Hoeveel elementen zijn minimaal nodig om een model voor $B$ te maken?
+\end{enumerate}
+\end{answer}
+
+\begin{answer}
+$$A:=\exists x[P(x)\wedge\forall y\;Q(x,y)]$$
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Teken een model waarin $A$ waar is.
+\item Teken een model waarin $A$ niet waar is.
+\item Laat zien met modellen dat $\forall x(P(x)\wedge Q(x))$ logisch equivalent is aan $\forall x\; P(x)\wedge\forall x\;Q(x)$.
+\end{enumerate}
+\end{answer}
+
+\section{Inductie}
+\setcounter{answerT}{0}
+\begin{answer}\mbox{}\\
+Bewijs dat voor ieder natuurlijk getal $n$ geldt $\sum\limits^{n}_{k=0} 4k^3=n^4+2n^3+n^2$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:} We doen dit met volledige inductie naar $n$. Schrijf
+$$P(n)\equiv\sum\limits^{n}_{k=0} 4k^3=n^4+2n^3+n^2.$$
+Vanwege $4\cdot 0^3=0=0^4+2\cdot 0^3+0^2$ geldt $P(0)$. Stel nu dat $P(n)$geldt; met behulp daarvan gaan we $P(n+1)$ bewijzen:
+$$\begin{array}{rll}
+      \sum^{n+1}_{k=0}4k^3= & (\sum^n_{k=0}4k^3)+4(n+1)^3&(\text{definitie }\sum)\\
+      = & (n^4+2n^3+n^2)+4(n+1)^3&(\text{inductiehypothese }P(n))\\
+      = & n^4+6n^3+13n^2+12n+4 & (\text{rekenen})\\
+      = & (n+1)^4+2(n+1)^3+(n+1)^2 & (\text{rekenen}
+\end{array}$$
+Hiermee is $P(n+1)$ bewezen. Volgens het principe van volledige inductie is hiermee bewezen dat $P(n)$ voor ieder natuurlijk getal $n$ geldt.
+\end{answer}
+
+\begin{answer}\mbox{}\\
+Bewijs dat voor ieder natuurlijk getal $n\geq 1$ geldt $\sum\limits^{n}_{k=1}(4k-3)=2n^2-2$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+\begin{answer}\mbox{}\\
+Bewijs dat voor ieder natuurlijk getal $n\geq 1$ geldt $\sum\limits^n_{k=1}(2k-1)=n^2$.\\[2.5pt]
+
+\noindent\textbf{Uitwerking:}\todo[inline,color=hured!20]{Uitwerking volgt in een volgende versie van de reader.}
+\end{answer}
+
+
+%\begin{alphasection}\setcounter{alphasect}{0}\setcounter{answerT}{0}
+%\renewcommand{\theanswerT}{Ex.\Alph{alphasect}.\arabic{answerT}}
+%\section{Bewijzen}
+%\begin{answer}
+%Bewijs (uit het ongerijmde) dat: `als $x^2$ even is, dan is $x$ even.'\\[5pt]
+%
+%\noindent\textbf{Uitwerking}
+%Stel: $x^2$ is even, te bewijzen: $x$ is even.\\[2.5pt]
+%Stel: $x$ is \textit{niet} even (dus oneven).\\[2.5pt]
+%Dus $x=2k+1$, voor een of andere $k$.
+%\begin{eqnarray*}
+%x^2 & = & (2k+1)^2\\
+%& = & 4k^2+4k+1
+%\end{eqnarray*}
+%Het eerste deel ($4k^2+4k$ is even; immers, deelbaar door 2), dus het geheel is oneven.\\[2.5pt]
+%Dit is een tegenspraak met de eerste aanname (dat $x^2$ even is).\\[2.5pt]
+%De tweede aanname is dus onjuist; $x$ is even.
+%\end{answer}
+%
+%\begin{answer}
+%Bewijs (met gevalsonderscheid) dat voor alle getallen $n\in\mathbb{Z}$ geldt  dat $(n^3-n)\text{ mod } 3=0$.\\[5pt]
+%We schrijven $n^3-n$ als $n(n^2-1)$.\\[2.5pt]
+%We onderscheiden de volgende drie gevallen ($k\in\mathbb{Z}$):
+%\begin{description}
+%\item[$n=3k$]: Nu is $n(n^2-1)={\color{red}3}k((3k^2)-1)$, deelbaar door 3.
+%\item[$n=3k+1$]: Nu is $n(n^2+1)=(3k+1)((3k+1)^2-1)=(3k+1)(9k^2+6k+1-1)=27k^3+18k^2+9k^2+6k={\color{red}3}(9k^3+9k^2+2k)$, deelbaar door 3.
+%\item[$n=3k+2$]: Nu is $n(n^2-1)=(3k+2)((3k+2)^2-1)=(3k+2)(9k^2+12k+4-1)=27k^3+54k^2+33k+6={\color{red}3}(9k^3+18k^2+11k+2)$, deelbaar door 3.
+%\end{description}
+%In alle gevallen geldt $(n^3-n)\text{ mod } 3=0$.
+%\end{answer}
+%\end{alphasection}

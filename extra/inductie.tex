@@ -1,0 +1,263 @@
+\chapter{Volledige Inductie}\label{ch:inductie}
+
+In hoofdstuk \ref{sec:pred:semantiek} hebben we al lichtjes getipt aan de relatie tussen verzamelingenleer (hoofdstuk \ref{ch:verzamelingen}) en predikaatlogica (hoofdstuk \ref{ch:predicaten}). In dit hoofdstuk zullen we die relatie verder uitbouwen door het bespreken van een veel gebruikte bewijsstrategie, genaamd \textit{inductie}. Vooral voor oneindige domeinen, is bewijzen met inductie essentieel.
+
+Inductieve definities, inductie en het daaraan gerelateerde concept van recursie vormen een krachtig hulpmiddel in informatica, logica, taalwetenschap en wiskunde. Het is mogelijk dit onderwerp -- zoals in de wiskunde gebruikelijk is -- binnen de Verzamelingenleer te ontwikkelen, maar omdat het echter direct inzichtelijk is (en volgens sommigen even fundamenteel als de Verzamelingenleer) introduceren wij het via een intu\"itive benadering. Het begin van alle dingen op dit gebied is de inductieve definitie. Inductieve definities zijn een middel om verzamelingen te cre\"eren. We beginnen met enkele voorbeelden.
+
+\section{Inductieve definities}
+In deze sectie voeren we inductieve definities in met behulp van voorbeelden. Inductieve definities geven ons een manier om met \textit{eindige} middelen \textit{oneindige} totaliteiten (verzamelingen) in te voeren.
+
+\subsection*{Blurpsen}
+We beginnen met de definitie van de verzameling der Blurpsen\footnote{Dit voorbeeld is ontleend aan Parvulae Logicales van \citet{parvulae}.}.
+\begin{definition}
+De verzameling van de Blurpsen is de kleinste verzameling zodat:
+\begin{enumerate}[label=\roman*.]
+    \item $\triangle$ is een Blurps.
+    \item Als $x$ een Blurps is, dan zijn ook $x\triangle\triangle$ en $\Diamond xx\Diamond$ Blurpsen.
+    \item Als $x$ en $y$ Blurpsen zijn, dan is ook $x\triangle y$ een Blurps.
+\end{enumerate}
+\end{definition}
+Een inductieve definitie is een soort instructie om de elementen van de gedefinieerde verzameling te bouwen. Er is \'e\'en start element, te weten $\triangle$, op grond van clausule (i). In de context van onze definitie is $\triangle$ de atomaire Blurps. Uit $\triangle$ kunnen we op grond van (ii) de volgende elementen maken: $\triangle\triangle\triangle$ en $\Diamond\triangle\triangle\Diamond$. Op grond van (iii) kunnen we uit $\triangle$, $\triangle\triangle\triangle$ maken. Merk op dat we $\triangle\triangle\triangle$ dus op twee manieren kunnen produceren.
+
+Uit de nieuwe gevormde Blurpsen kunnen we met (ii) en (iii) weer nieuwe Blurpsen maken:
+$$\triangle\triangle\triangle\triangle\triangle, \Diamond\triangle\triangle\Diamond\triangle\triangle, \Diamond\triangle\triangle\triangle\triangle\triangle\triangle\Diamond,\Diamond\Diamond\triangle\triangle\Diamond\Diamond\triangle\triangle\Diamond\Diamond,$$
+$$\triangle\triangle\triangle\triangle\triangle\triangle\triangle,\triangle\triangle\triangle\triangle\Diamond\triangle\triangle\Diamond, \Diamond\triangle\triangle\Diamond\triangle\triangle\triangle\triangle, \Diamond\triangle\triangle\Diamond\triangle\Diamond\triangle\triangle\Diamond.$$
+Enzovoorts. De eerste zin van de definitie dat de gedefinieerde verzameling de kleinste is die aan de clausules voldoet, vertelt ons dat alleen maar dingen in de verzameling mogen worden gestopt op grond van het hierboven geschetste constructieproces. Zo kunnen bijvoorbeeld $\Diamond$ en $\Diamond\Diamond\Diamond\Diamond$ geen Blurpsen zijn. Deze eerste zin heet ook wel een \textit{minimaliteitsclausule}.
+
+Bijvoorbeeld $\alpha:=\Diamond\Diamond\Diamond\Diamond$ is geen blurps om de volgende reden. Het is duidelijk dat $\alpha$ niet \'e\'en van der vormen $\triangle, x\triangle\triangle$, of $x\triangle y$ is. Dus als $\alpha$ een blurps was dan moet hij van de vorm $\Diamond xx\Diamond$ zijn, waar $x$ een blurps is. Maar $x$ kan niet van de vorm $\triangle, u\triangle\triangle$, of $u\triangle v$ zijn, omdat $\alpha$ geen $\triangle$ bevat. Ergo, $x$ is van de vorm $\Diamond yy\Diamond$. Dus $\alpha = \Diamond\Diamond yy\Diamond\Diamond yy\Diamond\Diamond$. Maar dan heeft $\alpha$ te veel $\Diamond$'s. Een tegenspraak met de aanname dat $\alpha$ een blurps is.
+
+De tekens `$x$' en `$y$' die we in de definitie van de Blurpsen gebruikt hebben zijn niet zelf Blurpsen! Het zijn variabelen die wij gebruikten om over Blurpsen te spreken.
+
+\begin{exercise}
+Welke van de volgende rijtjes zijn Blurpsen:
+$$\triangle\triangle\triangle\triangle, \triangle\triangle\triangle\triangle\triangle, \triangle\triangle\triangle\triangle\triangle\triangle, \triangle\triangle\triangle\triangle\triangle\triangle\triangle$$
+$$\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond\triangle\Diamond\Diamond, \Diamond\Diamond\Diamond\triangle\triangle\Diamond\Diamond\triangle\triangle\Diamond\Diamond\Diamond\triangle\triangle\Diamond\Diamond$$
+\end{exercise}
+
+\subsection*{Natuurlijke getallen}
+We defini\"eren de natuurlijke getallen $\mathbb{N}$.
+\begin{definition}
+De verzameling der natuurlijke getallen is de kleinste verzameling zodat:
+\begin{enumerate}[label=\roman*.]
+    \item 0 is een natuurlijk getal.
+    \item Als $x$ een natuurlijk getal is, dan is ook $x+1$ een natuurlijk getal.
+\end{enumerate}
+\end{definition}
+Merk op dat we hier aannemen dat we al weten wat `$+1$' betekent. Ga na dat volgens onze definitie 0, 1, 2, 3, \ldots natuurlijke getallen zijn, maar niet: $-1, \frac{1}{2}, \pi$ en $i$. In onze nieuw verworven optiek is 0 het `atoom' van de natuurlijke getallen.
+
+\subsection*{De taal $\mathcal{L}$ van de propositielogica}
+We defini\"eren de taal van de propositielogica.
+\begin{definition}
+$\mathcal{L}$ is de kleinste verzameling zodat:
+\begin{enumerate}[label=\roman*.]
+    \item $p_o,p_1,p_2,p_3,\ldots$ zijn in $\mathcal{L}$.
+    \item $\bot$ en $\top$ zijn in $\mathcal{L}$.
+    \item Als $\varphi$ in $\mathcal{L}$ is, dan ook $\neg\varphi$.
+    \item Als $\varphi$ en $\psi$ in $\mathcal{L}$ zijn, dan ook: $(\varphi\vee\psi), (\varphi\wedge\psi),(\varphi\rightarrow\psi),(\varphi\leftrightarrow\psi)$.
+\end{enumerate}
+\end{definition}
+We gebruiken `$p$', `$q$', `$r$' als informele varianten van $p_0, p_1, p_2$. Bijvoorbeeld: $p$, $q$, $(p\wedge q)$, $r$, $\neg r$, $\neg\neg r$, $((p\wedge q)\rightarrow\neg\neg r)$ zijn in $\mathcal{L}$, maar $(($, $p\wedge q$, $)p\wedge q($ en $]$ zijn niet in $\mathcal{L}$.
+
+De tekens `$\varphi$' en `$\psi$' die we in de definitie van $\mathcal{L}$ gebruikt hebben zijn niet zelf in $\mathcal{L}$. Ze zijn variabelen die we gebruiken in onze taal geheel analoog aan het gebruik van `$x$' en `$y$' bij de definitie van de Blurpsen. Merk op dat `$p_0$', `$p_1$', etc. ook wel \textit{propositievariabelen} genoemd worden. Zij zijn echter geen variabelen die wij als variabele gebruiken, maar objecten waarover we spreken, dit in tegenstelling tot `$\varphi$' en `$\psi$'. We noemen om het contrast te benadrukken `$\varphi$' en `$\psi$' soms \textit{metavariabelen}.
+
+\subsection{Opgaven}
+\begin{exercise}
+Geef een inductieve definitie van de verzameling der natuurlijke getallen $n$ met $n\geq 5$.
+\end{exercise}
+
+\begin{exercise}
+Maak een inductieve definitie van de verzameling van strings op alfabet $\{\mathtt{a},\mathtt{b}\}$ waarin de substring $\mathtt{bb}$ niet voorkomt.
+\end{exercise}
+
+\begin{exercise}
+Maak een inductieve definitie van de verzameling van strings op alfabet $\{\mathtt{a},\mathtt{b}\}$ die er achterstevoren hetzelfde uitzien (z.g. palindromen, bijvoorbeeld `$\mathtt{abba}$').
+\end{exercise}
+
+
+\section{Inductie}
+Bij elke inductief gedefinieerde verzameling hebben we de mogelijkheid eigenschappen van alle elementen van die verzameling te bewijzen met behulp van Volledige Inductie\footnote{Het ``Volledige'' in ``Volledige Inductie'' staat in contrast tot \textit{Onvolledige} of \textit{Enumeratieve} Inductie, de (ongeldige) redeneervorm waarin we uit het feit dat op de eerste drie daken een kat zit, concluderen dat op alle daken een kat zit. Omdat wij in dit dictaat alleen met Volledige Inductie van doen hebben, laten we het ``Volledige'' meestal weg.}. We geven voorbeelden van inductie over Blurpsen, van natuurlijke getallen en over $\mathcal{L}$.
+
+\subsection*{Inductie over Blurpsen}
+We bewijzen bijvoorbeeld: in elke Blurps komt een even aantal ruitjes voor.
+
+Laten we eerst eens proberen dit op z'n janboerenfluitjes in te zien. Elke Blurps is gemaakt volgens de instructies. De eerste Blurps die je kunt maken is $\triangle$. $\triangle$ heeft 0 en dus een even aantal ruiten. Nu kunnen we bijvoorbeeld $\triangle\triangle\triangle$ maken, omdat we geen ruiten hebben toegevoegd, hebben we nog steeds 0 en dus een even aantal ruiten. We kunnen ook $\Diamond\triangle\triangle\Diamond$ maken, dit geeft ons 2 ruiten. Nu kunnen we weer $\Diamond\Diamond\triangle\triangle\Diamond\Diamond\triangle\triangle\Diamond\Diamond$ of $\Diamond\triangle\triangle\triangle\triangle\triangle\triangle\Diamond$ maken uit van $\Diamond\triangle\triangle\Diamond$ en $\triangle\triangle\triangle$. We hebben bij beiden 2 ruiten toegevoegd; bij de eerste we hadden er al twee ($\times$ twee), nu hebben we er dus zes. Verder experimenteren leert dat we niet in staat zijn een Blurps met oneven aantal ruiten te produceren, omdat je uit Blurpsen met een even aantal ruiten nooit Blurpsen met een oneven aantal ruiten kunt maken!
+
+In detail gaat het zo: bij toepassing van de eerste helft van clausule (ii) voegen we geen ruiten toe, dus als het aantal al even was blijft het even.
+
+Bij toepassing van de tweede helft van clausule (ii) maken we $\Diamond xx\Diamond$ uit $x$.
+Als het aantal ruiten in $x$ even is, zeg $2n$, dan is het aantal ruiten in $\Diamond xx\Diamond$ gelijk aan $2n+2n+2$, met andere woorden $2(2n+1)$, een even aantal dus. 
+
+Bij toepassing van clausule (iii) maken we $x\triangle y$ uit $x$ en $y$.
+Als het aantal ruiten in $x$ even is, zeg $2n$, en als het aantal ruiten in $y$ even is, zeg $2m$, dan is het aantal ruiten in $x\triangle y$ gelijk aan $2n+2m$, dat is $2(n+m)$, een even aantal. 
+
+Ons atoom $\triangle$ heeft een even aantal ruiten, de eigenschap `een even aantal ruiten hebben' plant zich voort over de toegelaten constructiestappen, dus alle Blurpsen hebben een even aantal ruiten.
+
+Als we de minimaliteitsclausule in de definitie van Blurpsen hadden laten vallen, hadden we deze conclusie natuurlijk niet kunnen trekken: dan had $\Diamond\Diamond\Diamond$ best ook een Blurps kunnen zijn.
+
+Bovenstaande redenering is in feite al een redenering met Volledige Inductie, we willen deze echter nog in `standaardvorm' zetten:
+
+\noindent Laat het predikaat $P(x)$ uitdrukken dat `$x$ heeft een even aantal ruiten'. $P$ noemen we de Inductie Eigenschap.
+
+We kunnen het te bewijzen nu als volgt herformuleren: te bewijzen is: voor alle Blurpsen $x$ geldt $P(x)$. De inductie verloopt nu in twee stadia: we controleren of $P$ opgaat voor de atomen en daarna laten we zien dat $P$ zich voortplant bij het maken van nieuwe Blurpsen volgens clausules (ii) en (iii). Dit laatste betekent dat we laten zien dat als $P$ opgaat voor de Blurpsen die we al gemaakt hebben, dat $P$ dan ook opgaat voor de uit de oude Blurpsen aangemaakte nieuwe Blurpsen.
+
+De aanname dat $P$ opgaat voor al gemaakte Blurpsen noemen we de Inductie Hypothese (IH).
+
+\noindent\begin{tabular}{lp{.84\textwidth}}
+stap 1. & We hebben: $P(\triangle)$ (immers, $\triangle$ heeft een even aantal ruitjes, namelijk 0).\\
+stap 2. & Stel $x$ is een Blurps met een even aantal ruiten (i.e., zodat $P(x)$; dit is de IH). Zeg het aantal ruiten in $x$ is $2n$. Dan heeft $x\triangle\triangle$ ook $2n$ ruiten, en dan heeft $\Diamond xx\Diamond$ $2\cdot 2n+2$ oftewel $2(2n+1)$ ruiten. Er volgt dat $P(x\triangle\triangle)$ en $P(\Diamond xx\Diamond)$.\\
+stap 3. & Stel $x$ en $y$ zijn Blurpsen met een even aantal ruiten (IH). Zeg $x$ heeft $2n$ en $y$ heeft $2m$ ruiten. Dan heeft $x\triangle y$ $2n+2m$ oftewel $2(n+m)$ ruiten. Dus: $P(x\triangle y)$.
+\end{tabular}\\
+Met volledige inductie volgt nu: voor alle Blurpsen $x$ hebben we dat $P(x)$ geldt.
+
+\begin{exercise}
+Laat zien dat alle Blurpsen een oneven aantal driehoekjes hebben of tenminste \'e\'en ruit bevatten.
+\end{exercise}
+
+\subsection*{Inductie over natuurlijke getallen}
+We laten zien dat voor alle natuurlijke getallen $x$ geldt:
+$$0+1+\ldots +x=\frac{1}{2}\cdot x\cdot (x+1).$$
+Zij $P(x) :=0+1+\ldots +x=\frac{1}{2}\cdot x\cdot (x+1)$.
+
+\noindent\begin{tabular}{lp{.84\textwidth}}
+stap 1. & Het is eenvoudig in te zien dat $P(0)$.\\
+stap 2. & Stel $P(x)$ (IH). We hebben:
+\begin{eqnarray*}
+0+1+\ldots+x+(x+1) &=& \frac{1}{2}\cdot x\cdot(x+1)+(x+1)\\
+&=&(\frac{1}{2}\cdot x+1)\cdot(x+1)\\
+&=& \frac{1}{2}\cdot(x+2)\cdot(x+1)\\
+&=& \frac{1}{2}\cdot(x+1)\cdot(x+2)
+\end{eqnarray*}
+Met andere woorden: $P(x+1)$.
+\end{tabular}\\
+We concluderen nu met Volledige Inductie: voor alle natuurlijke getallen $x$ geldt dat $P(x)$.
+
+%\begin{exercise}[Optioneel]\mbox{}
+%\begin{enumerate}[label=\arabic*.]
+%    \item Laat zien dat $2^n>n^2$ voor alle $n\geq 5$.
+%    \item Laat zien dat $1+2^2+\ldots+n^2=\frac{1}{6}n(n+1)(2n+1)$.
+%\end{enumerate}
+%\end{exercise}
+
+\subsection*{Inductie over $\mathcal{L}$}
+We laten zien dat formules $\varphi$ van $\mathcal{L}$ twee keer zoveel haakjes hebben als binaire logische voegtekens.
+
+We defini\"eren de eigenschap $P(\varphi)$ als: $\varphi$ heeft twee keer zoveel haakjes als binaire logische voegtekens.
+
+\noindent\begin{tabular}{lp{.84\textwidth}}
+stap 1. & Als $\varphi$ een atoom is, is in $\varphi$ het aantal haakjes 0 en het aantal binaire logische voegtekens idem dito.\\
+stap 2. & Stel $\varphi$ is van de vorm $\neg\psi$ en stel (IH): $P(\psi)$. We hebben: aantal haakjes in $\varphi =$ aantal haakjes in $\psi =$ twee keer het aantal binaire logische voegtekens in $\psi=$ twee keer aantal binaire voegtekens in $\varphi$.\\
+stap 3. & Stel $\varphi$ is van de vorm $(\psi\wedge\chi)$ en stel (IH) $P(\psi)$ en $P(\chi)$. Zeg het aantal haakjes in $\varphi$, $\psi$, $\chi$ is respectievelijk $h_\varphi$, $h_\psi$ en $h_\chi$ en het aantal binaire logische voegtekens in $\varphi$, $\psi$, $\chi$ is respectievelijk $b_\varphi$, $b_\psi$ en $b_\chi$.\\
+& We hebben
+$$h_\varphi=h_\psi+h_\chi+2 = 2\cdot b_\psi+2\cdot b_\chi+2=2\cdot(b_\psi+b_\chi+1)=2\cdot b_\varphi.$$
+De gevallen van $(\psi\vee\chi)$, $\psi\rightarrow\chi)$ en $(\psi\leftrightarrow\chi)$ zijn analoog.
+\end{tabular}\\
+Concludeer met volledige inductie dat voor alle $\varphi$ in $\mathcal{L}: P(\varphi)$.
+
+\begin{exercise}\mbox{}
+\begin{enumerate}[label=\arabic*.]
+    \item Laat zien dat elke $\varphi$ in $\mathcal{L}$ evenveel linker- als rechterhaakjes heeft.
+    \item Laat zien dat het aantal voorkomens van atomen in $\varphi$ in $\mathcal{L}$ groter of gelijk is aan het aantal linkerhaakjes in $\varphi$ plus 1.
+\end{enumerate}
+\end{exercise}
+
+%\subsection*{Invarianten}
+%%Jorn: wat is het doel van deze sectie. Het zegt nu  niks. De definitie van de invariant is dat het niet verandert, volgens wordt de definitie bewezen vanuit die definitie.
+%%Wat je eigenlijk wil is bewijzen dat IETS een invariant IS.
+%In hoofdstuk \ref{ch:inleiding} hebben we een aantal voorbeelden gezien van bewijzen met behulp van een \textit{invariant}. Zo'n invariant is een bepaalde eigenschap. Daarbij was de aanname dat
+%\begin{itemize}
+%    \item de invariant aan het begin geldt, en dat
+%    \item als de invariant geldt en er wordt vervolgens een stap gedaan, dan geldt na afloop van die stap de invariant weer.
+%\end{itemize}
+%De conclusie die we dan trokken was dat de invariant na het uitvoeren van een willekeurig eindig aantal stappen altijd geldt. Destijds hebben we dat als principe geformuleerd en aannemelijk gemaakt; nu kunnen we de geldigheid van dit invariantenprincipe bewijzen met volledige inductie. We gaan met inductie naar $n$ bewijzen dat na $n$ de invariant geldig is. Voor $n=0$ geldt dit volgens de eerste aanname, daarmee is de basisstap bewezen. Vervolgens vragen we ons af of de invariant geldt na $n+1$ stappen. Het uitvoeren van $n+1$ stappen kunnen we zien als het uitvoeren van $n$ stappen en daarna nog \'e\'en stap. Volgens de inductiehypothese mogen we aannemen dat na $n$ stappen inderdaad de invariant geldt. Volgens de tweede aanname geldt dan dat na het uitvoeren van nog \'e\'en stap, dus na in totaal $n+1$ stappen, de invariant weer geldt. Volgens het principe van volledige inductie is hiermee bewezen dat voor elke $n$ geldt dat de invariant na uitvoeren van $n$ stappen geldt, precies wat we wilden bewijzen.
+
+\subsection*{Torens van Hanoi}
+De verschijningsvormen van inductie kunnen heel verschillend zijn. Het kan voorkomen dat inductie een handige methode is om iets te bewijzen wat slechts over \'e\'en specifiek getal $n$ gaat. Het kan makkelijker zijn om de algemene bewering voor elke willekeurige $n$ te bewijzen met inductie dan alleen maar de bewering over dat ene specifieke getal rechtstreeks te bewijzen. We gaan hier nu een voorbeeld van geven: de \textit{torens van Hanoi}.
+\begin{center}
+    \begin{tikzpicture}
+    \draw (0,0) -- (9,0);
+    \draw (1.4,1.75) rectangle (1.6, 3);
+    \draw (0,0) rectangle (3,.25);
+    \draw (.2,.25) rectangle (2.8,.5);
+    \draw (.4, .5) rectangle (2.6, .75);
+    \draw (.6,.75) rectangle (2.4, 1);
+    \draw (.8, 1) rectangle (2.2, 1.25);
+    \draw (1, 1.25) rectangle (2,1.5);
+    \draw (1.2,1.5) rectangle (1.8,1.75);
+    
+    \draw (4.4,0) rectangle (4.6, 3);
+    \draw (7.4,0) rectangle (7.6, 3);
+    \end{tikzpicture}
+\end{center}
+Er zijn hier drie palen, en er zijn zeven schijven in oplopende grootte met een gat in het midden, die precies over de palen geschoven kunnen worden. In het begin liggen alle zeven schijven om de meest linkse paal, van onder naar boven gerangschikt van groot naar klein, zoals in het plaatje is aangegeven. De bedoeling is nu om deze hele stapel van schijven over te hevelen naar de middelste paal, zoals in het volgende plaatje is aangegeven:
+\begin{center}
+    \begin{tikzpicture}
+    \draw (-3,0) -- (6,0);
+    \draw (-1.4, 0) rectangle (-1.6, 3);
+    \draw (1.4,1.75) rectangle (1.6, 3);
+    \draw (0,0) rectangle (3,.25);
+    \draw (.2,.25) rectangle (2.8,.5);
+    \draw (.4, .5) rectangle (2.6, .75);
+    \draw (.6,.75) rectangle (2.4, 1);
+    \draw (.8, 1) rectangle (2.2, 1.25);
+    \draw (1, 1.25) rectangle (2,1.5);
+    \draw (1.2,1.5) rectangle (1.8,1.75);
+    
+    \draw (4.4,0) rectangle (4.6, 3);
+    % \draw (7.4,0) rectangle (7.6, 3);
+    \end{tikzpicture}
+\end{center}
+Hierbij moeten de volgende spelregels in acht worden genomen:
+\begin{itemize}
+    \item per stap kan er slechts \'e\'en schijf verplaatst worden, en wel de bovenste schijf van de stapel rond de ene paal naar een andere paal;
+    \item een schijf mag nooit op een kleinere schijf worden gelegd.
+\end{itemize}
+De opdracht is nu om te laten zien dat:
+\begin{itemize}
+    \item je in 127 stappen de hele stapel rond de linkerpaal kunt overhevelen naar de middelste paal, en
+    \item dat het niet in minder dan 127 stappen kan.
+\end{itemize}
+Hoewel deze opdracht betrekking heeft op de gegeven situatie met zeven schijven, ligt het voor de hand om eerst eenvoudigere instanties te bekijken met minder schijven. Hierbij volgen we een heel algemeen principe voor het aanpakken van een moeilijk probleem: probeer eerst eenvoudigere instanties van het probleem goed te begrijpen.
+
+Laten we dus eens beginnen met \'e\'en schijf. Die kunnen we in \'e\'en stap van de linkerpaal naar de middelste paal overhevelen. Dat is wel erg makkelijk: na \'e\'en stap zijn we klaar. Ietsje lastiger wordt het met twee schijven. Als eerste stap moeten we dan de bovenste schijf van de linkerpaal naar de middelste of rechterpaal verplaatsen. Laten we de rechterpaal kiezen. Vervolgens kunnen we de onderste schijf van de linkerpaal naar de middelste paal  verplaatsen, en tenslotte kunnen we de kleinste schijf die we net rond de rechterpaal geparkeerd hebben naar het midden brengen, en zijn we klaar. Hier hebben we drie stappen voor nodig gehad. Als we nu gaan spelen met drie of vier schijven beginnen we het volgende patroon te ontdekken: als ik een stapel van $n$ van links naar het midden wil verplaatsen, moet ik eerst de bovenste $n-1$ naar de rechterpaal overhevelen, dan de onderste schijf naar het midden verplaatsen, en tenslotte de hele stapel van $n-1$ op de rechterpaal naar het midden overhevelen. Als ik het aantal stappen dat ik voor het verplaatsen van $n$ schijven nodig heb $f(n)$ noem, zie ik uit deze observatie dat $f(1)=1, f(2)=3, f(3)=7, f(4)=15, f(5)=31, f(6)=63,\ldots$ doet het patroon opdoemen dat $f(n)=2^n-1$. Op grond hiervan proberen we het volgende met inductie naar $n$ te bewijzen:
+\begin{quote}
+    Als we volgens bovenstaande spelregels een stapel van $n$ schrijven rond de linkerpaal willen overhevelen naar de middelste paal, kan dat in $2^n-1$ stappen, en kan het niet in minder dan $2^n-1$ stappen.
+\end{quote}
+\begin{proof}\mbox{}\\
+\textbf{Basisstap:}\\
+Voor $n=1$ kun je die ene schijf in $2^n-1=1$ stap naar het midden verplaatsen, en kan het niet in minder stappen. De bewering is dus waar voor $n=1$.\\[5pt]
+\textbf{Inductiestap:}\\
+We moeten twee dingen bewijzen: dat het kan in $2^n-1$ stappen, en dat het niet kan in minder dan $2^n-1$ stappen.\\
+Dat het kan is als volgt in te zien.\\
+Verplaats eerst de bovenste $n-1$ schijven van de linkerpaal naar de rechterpaal in $2^{n-1}-1$ stappen. Volgens de inductiehypothese\footnote{Merk op dat hoewel we hier $P(n-1)$ als inductiehypthese gebruiken om af te leiden dat $P(n)$, in plaats van $P(n)$ om $P(n+1)$ aan te tonen. Dit is uiteraard volledig analoog aan de hiervoorgaande bewijzen.} is een dergelijke verplaatsing mogelijk naar de middelste paal, maar door de rechterpaal en middelste paal elkaars rol in te laten nemen is dit ook mogelijk van de linkerpaal naar de rechterpaal. Vervolgens wordt de onderste schijf van links naar het midden verplaatst. Tenslotte worden de $n-1$ schijven van de rechterpaal naar de middelste paal verplaatst in $2^n-1$ stappen. Dit kan volgens de inductiehypothese door daarin de linkerpaal en de rechterpaal van rol te laten wisselen. Op deze wijze is de volledige stapel van $n$ schrijven van links naar het midden verplaatst: het hiervoor benodigde aantal stappen was $(2^{n-1}-1)+1+(2^{n-1}-1) = 2\cdot 2^{n-1}-1=2^n-1$.\\
+We moeten nog laten zien dat het niet in minder stappen kan. Het is duidelijk dat de grootste schijf tenminste \'e\'en keer verplaatst zal moeten worden. Deze kan alleen maar verplaatst worden volgens de spelregels als alle andere schijven rond de paal geplaatst zijn waar de grootste schijf niet vandaan komt en ook niet naar toe gaat. Volgens de inductiehypothese zijn voor het verplaatsen van de andere $n-1$ schijven naar een andere paal tenminste $2^{n-1}-1$ stappen nodig. Tenslotte zal na de laatste keer dat de grootste schijf verplaatst wordt, de hele stapel van $n-1$ kleinere weer naar het midden moeten worden overgeheveld. Ook hier zijn volgens de inductiehypothese tenminste $2^{n-1}-1$ stappen nodig. In totaal is het minste aantal hiervoor benodigde stappen dus $(2^{n-1}-1)+1+(2^{n-1}-1)=2^n-1$.
+\end{proof}
+
+Het oorspronkelijke probleem voor zeven schijven is nu opgelost door deze bewering die we net hebben bewezen voor elke $n\geq 1$, toe te passen voor $n=7$.
+
+Het is zelfs met deze redenering in te zien dat het verplaatsen van de hele stapel van $n$ schijven van de linkerpaal naar de middelste paal slechts op precies \'e\'en manier kan in $2^n-1$ stappen, en wel volgens de manier die in het bewijs is aangegeven en eenvoudig in een algoritme kan worden omgezet.
+
+\subsection{Opgaven}
+\begin{exercise}[Optioneel]
+Een spel begint met $n>1$ pionnen. Vooraf wordt een getal $m$ vastgesteld met $1\leq m<n$. Spelers $A$ en $B$ gooien om beurten hoogstens $m$ pionnen om (telkens minimaal 1 pion). Winnaar is degene die de laatste pion(nen) omgooit. Bewijs dat de beginner kan winnen, dan en slechts dan als $n$ geen veelvoud van $m$ is.
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+Een spel wordt gespeeld met twee stapels fiches, $n_1$ fiches op de ene stapel en $n_2$ fiches op de andere stapel. Spelers $A$ en $B$ mogen om beurten fiches van \'e\'en van de stapels pakken, minstens 1 en maximaal alle fiches van een stapel. Winnaar is die de laatste fiches pakt.
+
+Bewijs: de beginner kan winnen dan en slechts dan als $n_1\not =n_2$.\\
+Aanwijzing: inductie naar $n_1+n_2$.
+\end{exercise}
+
+\begin{exercise}[Optioneel]
+Beschouw voor een natuurlijk getal $n\geq 1$ de uitspraak:
+
+\noindent $P(n):=$ in elke groep van $n$ meisjes hebben alle meisjes even lang haar.
+
+Als we om ons heen kijken, zien we dat $P(n)$ niet waar is. Waar zit dus de fout in het volgende bewijs van $P(n)$ voor alle $n\geq 1$:
+
+\noindent\begin{tabular}{lp{.84\textwidth}}
+stap 1. & $P(1)$, want dan bestaat de groep maar uit 1 meisje.\\
+stap 2. & Stel $P(x)$ en neem een groep van $x+1$ meisjes. Stuur een van de meisjes, zeg Sandra, even uit de groep. De overige meisjes vormen een groep van $x$ meisjes, en hebben dus even lang haar (IH). Haal nu Sandra terug in de groep, en stuur een ander meisje uit de groep. Weer hebben we nu een groep van $x$ meisjes, waaronder Sandra. Sandra heeft dus even lang haar als de andere meisjes. Dus in de complete groep van $x+1$ meisjes hebben alle meisjes even lang haar: $P(x+1)$
+\end{tabular}
+\end{exercise}
+

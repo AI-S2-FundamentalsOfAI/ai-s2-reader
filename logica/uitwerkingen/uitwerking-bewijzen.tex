@@ -1,0 +1,101 @@
+\section{Bewijsmethoden}
+\begin{answer}[Optioneel]
+Geef van elk van de volgende beweringen een bewijs of een tegenvoorbeeld:
+\begin{itemize}
+\item in elke groep van 50 mensen zijn er zes of meer die allemaal in dezelfde maand jarig zijn;
+\item in elke groep van 50 mensen zijn er vijf of meer die allemaal in dezelfde maand jarig zijn;
+\item in elke groep van 50 mensen zijn er vier of meer die allemaal in dezelfde maand jarig zijn.
+\end{itemize}\mbox{}\\[2.5pt]
+\begin{itemize}
+    \item Neem het tegenovergestelde aan:
+\begin{quote}
+    In elke groep van 50 mensen zijn minder dan 6 mensen allemaal in dezelfde maand jarig.
+\end{quote}
+Dat wil zeggen dat er in elke maand van het jaar minder dan 6 mensen tegelijk jarig zijn (dus, bijvoorbeeld, 5 of 4 of \ldots).\\[2.5pt]
+Er zijn twaalf maanden in een jaar, en als er in elke maand maximaal 5 mensen tegelijk jarig zijn, dan kan je daarmee dus een groep vormen van maximaal 60 mensen ($5\times 12$).\\[2.5pt]
+\textit{De bewering is dus onjuist!}\\[2.5pt]
+Een tegenvoorbeeld is, bijvoorbeeld, de volgende groep van 50 mensen (opsomming van hun verjaardagsmaand):\\
+$5\times$januari, $5\times$februari, $5\times$maart, $5\times$april, $5\times$mei, $5\times$juni, $5\times$juli, $5\times$augustus, $5\times$september, $5\times$oktober.\\(meerdere tegenvoorbeelden mogelijk)
+\item Analoog aan vorige uitwerking, maar met maximaal 4 jarigen per maand:\\[2.5pt]
+12 maanden in een jaar, met maximaal 4 jarigen betekend maximaal $4\times 12=48$ mensen in de groep.\\[2.5pt]
+Dat is in tegenspraak met het gegeven dat de groep uit 50 mensen bestaat.\\[2.5pt]
+Ergo, er is tenminste \'e\'en maand met 5 of meer mensen die tegelijk jarig zijn.
+\item Aangezien de bewering al aangetoond is voor 5 of meer jarigen in dezelfde maand, geldt, analoog, de bewering ook voor 4 of meer mensen.
+\end{itemize}
+\end{answer}
+
+\begin{answer}[Optioneel]
+Rationale getallen zijn getallen die te schrijven zijn als $\frac{a}{b}$ voor willekeurige gehele $a$ en $b$ (d.w.z. $a,b \in \mathbb{Z}$).
+
+Bewijs (uit het ongerijmde) dat de volgende bewering geldig is:
+\begin{quote}
+    Er is geen kleinste rationaal getal groter dan 0.
+\end{quote}\mbox{}\\[2.5pt]
+Stel dat er \underline{wel} een kleinste rationaal getal is groter dan 0.\\[2.5pt]
+Noem dat getal $r=\frac{a}{b}$\\[2.5pt]
+Beschouw nu het getal $x=r/2=a/(2b)$\\[2.5pt]
+$x$ is een rationaal getal, kleiner dan $r$, en groter dan 0.\\[2.5pt]
+Dit is in tegenspraak met de aanname, ergo, de stelling is correct.
+\end{answer}
+
+\begin{answer}[Optioneel]
+Priemgetallen zijn natuurlijke getallen > 1 die slechts deelbaar zijn door 1 en zichzelf (bijv. 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, \ldots).
+
+Bewijs (uit het ongerijmde) dat de volgende bewering geldig is (ook wel bekend als de Stelling van Euclides):
+\begin{quote}
+    Er bestaat geen grootste priemgetal.
+\end{quote}\mbox{}\\[2.5pt]
+Stel dat er \underline{wel} een grootste priemgetal is. Dat wil zeggen dat er een lijst is met $n$ priemgetallen zijn, voor een bepaalde $n\in\mathbb{N}$.\\[2.5pt]
+Beschouw het volgende getal $x=p_1\times p_2\times\ldots\times p_n+1$
+\begin{description}
+\item[$x$ is een priem]: aangezien $x>p_n$ staat deze dus niet op de lijst van priemgetallen.
+\item[$x$ is samengesteld]: dan heeft $x$ een priemdeler die groter is dan $p_n$, die staat dus niet op de lijst van priemgetallen.
+\end{description}
+Beide gevallen leveren een tegenspraak met de aanname, dus de stelling is correct.
+\end{answer}
+
+\begin{answer}[Optioneel]
+Wat komt er uit als je alle even getallen van 2 tot en met 100 bij elkaar optelt? En wat komt er uit als je alle oneven getallen van 17 tot en met 47 bij elkaar optelt? Geeft een formule die voor elke $n$ aangeeft wat de som is van alle getallen van 2 tot en met $2n$.\\[2.5pt]
+\begin{itemize}
+  \item Er zijn 50 even getallen tussen 2 en 100. Hier kan je 25 paren van maken die elk optellen tot 102: $2+100 = 4+98 = 6+96 = \ldots$. Dus $25\times 102 = 2550$.
+  \item Er zijn 16 oneven getallen tussen 17 en 47 ((47-17/2)+1). Hiervan zijn 8 paren te maken die optellen tot 64 ($17+47=19+45=\ldots$). Dus $8\times 64=512$.
+  \item 
+  \item Tussen 2 en $2n$, voor willekeurige $n$, zitten altijd een oneven aantal getallen ($2n$ is altijd even, $2n-1$ is dus oneven). Hierdoor is deze som eenvoudig te schrijven als:\\
+  $\sum\limits_{x=2}^{n}x=(n-1)\times(2n+2)+(n+1)$\\ $n-1$ paren die samen tot $2n+2$ optellen, plus het middelste getal ($n+1$)
+\end{itemize}
+\end{answer}
+
+\begin{answer}[Optioneel]
+Bewijs dat het kwadraat van een oneven getal altijd te schrijven is als $8n+1$ voor een geheel getal $n$.\\[5pt]
+
+Te bewijzen: `het kwadraat van een oneven getal $a$ is altijd te schrijven als $8n+1$ voor een geheel getal $n$'.\\[3pt]
+Oftewel: $a^2=8n-1$ ookwel $a^2-1=8n$ (het kwadraat van een oneven getal min 1 is altijd deelbaar door 8).\\[2.5pt]
+Omdat $a$ oneven is, kunnen we $a$ dus ook schrijven als $2m+1$, voor een geheel getal $m$.
+\begin{eqnarray*}
+a^2-1 & = & (2m+1)^2-1\\
+& = & 4m^2+4m+1-1\\
+& = & 4(m^2+n)\\
+& = & 4m(m+1)
+\end{eqnarray*}
+Nu kunnen we een gevalsonderscheid maken:
+\begin{description}
+\item[$m$ is even], dan $m=2p$, en dus $a^2-1=4\times 2p(2p+1)=8p(2p+1)=8(2p^2+p)$. Met $n=2p^2+p$ voldoet dit aan het te bewijzen.
+\item[$m$ is oneven], dan is $m+1$ even. $m+1=2p$ en dus $a^2-1=4\times m\times 2p=8\times m\times p$. Met $n=m\times p$ voldoet dit aan het te bewijzen.
+\end{description}
+In alle mogelijke gevallen voldoet $a^2-1=8n$ voor een geheel getal $n$, dus de stelling is bewezen.
+\end{answer}
+
+\begin{answer}[Optioneel]
+Bewijs (met een gevalsonderscheid) de volgende stelling:
+\begin{quote}
+    Voor alle getallen $n\in\mathbb{Z}$ geldt $n^2 \text{ mod } 4 = 0\text{ of }1$.
+\end{quote}\mbox{}\\[2.5pt]
+We onderscheiden de volgende 2 gevallen:
+\begin{description}
+\item[$n$ is even]: dan schrijven we $n$ als $2m$ voor $m\in\mathbb{Z}$.\\
+Nu geldt $n^2=(2m)^2=4m^2$ en $4m^2/4=m^2$ met rest 0.
+\item[$n$ is oneven]: dan schrijven we $n$ als $2m+1$ voor $m\in\mathbb{Z}$.\\
+Nu geldt $n^2=(2m+1)^2=4m^2+4m+1=4(m^2+m)+1$ en $(4(m^2+m)+1)/4$ geeft rest 1.
+\end{description}
+In beide gevallen hebben we een rest van 0 of 1.
+\end{answer}

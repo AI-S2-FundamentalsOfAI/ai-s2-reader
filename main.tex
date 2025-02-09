@@ -1,0 +1,80 @@
+\documentclass[a4paper,openany]{tufte-book-hu}
+
+\title{Fundamentals of AI}
+\author{Brian van der Bijl}
+
+%\shorthandoff{-}
+
+% \newcolumntype{R}[2]{%
+%     >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+%     l%
+%     <{\egroup}%
+% }
+% \newcommand*\rot{\multicolumn{1}{R{45}{1em}}}% no optional argument here, please!
+
+\begin{document}
+\maketitle
+
+\chapter*{Disclaimer} 
+\noindent This document was created for \enquote{Fundamentals of AI}, the second semester Artificial Intelligence of the HU University of Applied Sciences Utrecht. This document is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike-4.0 International Licence.\\
+
+Based on the readers for Analytical Reasoning (in turn based on the course \emph{Redeneren en Logica}\cite{redenerenLogica}, using material from \emph{Inleiding Logica en Discrete Structuren}\cite{beschrijvenBewijzen} and \emph{Logica in Actie}\cite{benthem2009logica}), Embedded Operating Systems and High-Performance Programming\sidenote{Parts of this reader have been translated into Dutch using DeepSeek-V3 and edited by the author afterwards.}.\\[3mm] % License information
+
+\noindent Compiled by Brian van der Bijl (hogeschooldocent).\\[5mm] %Verified by
+
+
+\noindent \textit{First release, February 2025} % Printing/edition date
+
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\part{Logica en Wiskunde}
+\input{logica/inleiding.tex}
+\input{logica/proposities}
+\input{logica/verzamelingen}
+\input{logica/predicaten}
+
+\part{Hardware}
+\input{hardware/cpu}
+
+\part{Coding Skills}
+\input{codeskills/linux}
+\input{codeskills/git}
+
+% Appendices
+%\appendix
+%\renewcommand{\thechapter}{\Roman{chapter}}
+
+%\addappheadtotoc % Add a section header 'Appendices' to toc
+%\input{bewijsmethoden}
+
+\part{Verdiepingsstof}
+
+\chapter{Over dit deel}
+Dit laatste deel van de reader bevat informatie over aanvullende onderwerpen die niet tijdens dit semester aan bod komen, maar voortbouwen op de behandelde stof. Deze onderwerpen kunnen gebruikt worden voor extra verdieping en excellentie door de ge\"interesseerde student.
+
+\input{extra/bewijzen}
+\input{extra/bewijsmethoden}
+\input{extra/inductie}
+\input{extra/functies}
+\input{extra/relational-model}
+%\input{hardware/float}
+
+\part{Uitwerkingen}
+\input{logica/uitwerkingen/uitwerking-prop.tex}
+\input{logica/uitwerkingen/uitwerking-set.tex}
+\input{logica/uitwerkingen/uitwerking-sem.tex}
+\input{logica/uitwerkingen/uitwerking-pred.tex}
+\input{logica/uitwerkingen/uitwerking-boom.tex}
+\input{logica/uitwerkingen/uitwerking-bewijzen.tex}
+\input{logica/uitwerkingen/uitwerking-ind.tex}
+
+%\nocite{*}
+
+\bibliography{bibliography}
+\bibliographystyle{plainnat}
+
+\end{document}

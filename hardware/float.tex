@@ -1,0 +1,166 @@
+\chapter{Floating Point Numbers}\label{app:floats }
+In tegenstelling tot het opslaan van gehele getallen, vereist het opslaan van een waarde met een breukdeel dat we niet alleen het patroon van nullen en enen opslaan dat de binaire representatie weergeeft, maar ook de positie van het radix-punt (decimale punt). Een veelgebruikte manier om dit te doen is gebaseerd op wetenschappelijke notatie en wordt \textbf{floating-point} notatie genoemd.
+
+\section*{Floating-Point Notatie}
+Laten we floating-point notatie uitleggen aan de hand van een voorbeeld waarbij we slechts één byte aan opslagruimte gebruiken. Hoewel machines normaal gesproken veel langere patronen gebruiken, is het 8-bit formaat representatief voor echte systemen en dient het om de belangrijke concepten te demonstreren zonder de rommel van lange bitpatronen.
+
+We wijzen eerst het hoogste bit van de byte aan als het tekenbit. Een 0 in het tekenbit betekent dat de opgeslagen waarde niet-negatief is, en een 1 betekent dat de waarde negatief is. Vervolgens verdelen we de overige 7 bits van de byte in twee groepen, of velden: het \textbf{exponentveld} en het \textbf{mantissaveld}. Laten we de 3 bits na het tekenbit aanwijzen als het exponentveld en de overige 4 bits als het mantissaveld. Figuur \ref{fig:float:notation } illustreert hoe de byte is verdeeld.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\foreach \x in {0, 0.75, ..., 5.25}
+{
+\draw[fill=hublue!40,hublue!40] (\x, 1) rectangle ++(0.5, 1);
+\draw[thick] (\x, 0.9) -- ++(0.5,0);
+}
+\node at (0.5,-1.5) {Tekenbit};
+\node at (1.75, -1) {Exponent};
+\node at (4.25, -0.5) {Mantissa};
+\draw (0.25,0.8) -- (0.25,-1.25);
+\draw (.75, 0.8) -- (.75, 0.5) -- (1.75, 0.5) -- (1.75, -0.75) -- (1.75, 0.5) -- (2.75, 0.5) -- (2.75, 0.8);
+\draw (3, 0.8) -- (3, 0.5) -- (4.25, 0.5) -- (4.25, -0.25) -- (4.25, 0.5) -- (5.75, 0.5) -- (5.75, 0.8);
+\draw (6, 0.8) -- (6.3, 0.8) -- (6.3, 1.4) -- (6.5, 1.4) -- (6.3, 1.4) -- (6.3, 2) -- (6, 2);
+\node[anchor=west] at (6.7, 1.4) {Bitposities};
+\end{tikzpicture}
+\caption{Onderdelen van floating-point notatie}
+\label{fig:float:notation }
+\end{figure}
+
+We kunnen de betekenis van de velden uitleggen door het volgende voorbeeld te beschouwen. Stel dat een byte bestaat uit het bitpatroon 01011011. Als we dit patroon analyseren met het voorgaande formaat, zien we dat het tekenbit 0 is, de exponent 101, en de mantissa 1011. Om te decoderen, extraheren we eerst de mantissa en plaatsen we een radix-punt aan de linkerkant, waardoor we krijgen:
+\begin{quote}
+.1011.1011
+\end{quote}
+%
+Vervolgens extraheren we de inhoud van het exponentveld (101) en interpreteren we dit als een geheel getal dat is opgeslagen met behulp van de 3-bit excess-methode\footnote{Zie bijvoorbeeld \url{https://en.wikipedia.org/wiki/Excess-3} voor details over de excess-3 methode.}. Het patroon in het exponentveld in ons voorbeeld vertegenwoordigt dus een positieve 2. Dit vertelt ons dat we het radix-punt in onze oplossing 2 posities naar rechts moeten verschuiven (een negatieve exponent zou betekenen dat we het radix-punt naar links moeten verschuiven). Als gevolg hiervan krijgen we:
+\begin{quote}
+10.1110.11
+\end{quote}
+%
+wat de binaire representatie is van 234243​. Vervolgens merken we op dat het tekenbit in ons voorbeeld 0 is: de waarde is dus niet-negatief. We concluderen dat de byte 01011011 234243​ vertegenwoordigt. Als het patroon 11011011 was geweest (hetzelfde als voorheen, behalve het tekenbit), dan zou de waarde −234−243​ zijn geweest.
+
+Als een ander voorbeeld beschouwen we de byte 00101100. We extraheren de mantissa om te krijgen:
+\begin{quote}
+.1100.1100
+\end{quote}
+%
+en verschuiven het radix-punt 1 bit naar links, omdat het exponentveld (010) de waarde -1 vertegenwoordigt. We hebben dus:
+\begin{quote}
+.01100.01100
+\end{quote}
+%
+wat 3883​ vertegenwoordigt. Omdat het tekenbit in het oorspronkelijke patroon 0 is, is de opgeslagen waarde niet-negatief. We concluderen dat het patroon 00101100 3883​ vertegenwoordigt.
+
+Om een waarde op te slaan met behulp van floating-point notatie, keren we het voorgaande proces om. Om bijvoorbeeld 118181​ te coderen, drukken we het eerst uit in binaire notatie en krijgen we 1.001. Vervolgens kopiëren we het bitpatroon van links naar rechts in het mantissaveld, beginnend met de meest linkse 1 in de binaire representatie. Op dit punt ziet de byte er als volgt uit:
+\begin{quote}
+   ‾     ‾     ‾     ‾  1‾  0‾  0‾  1‾   ​ ​ ​ ​1​0​0​1​
+\end{quote}
+
+We moeten nu het exponentveld invullen. Hiertoe stellen we ons de inhoud van het mantissaveld voor met een radix-punt aan de linkerkant en bepalen we het aantal bits en de richting waarin het radix-punt moet worden verschoven om het oorspronkelijke binaire getal te verkrijgen. In ons voorbeeld zien we dat het radix-punt in .1001 1 bit naar rechts moet worden verschoven om 1.001 te krijgen. De exponent moet dus een positieve één zijn, dus we plaatsen 100 (wat positieve één is in excess-notatie) in het exponentveld. Ten slotte vullen we het tekenbit met 0 omdat de waarde die wordt opgeslagen niet-negatief is. De voltooide byte ziet er als volgt uit:
+\begin{quote}
+0‾  1‾  0‾  0‾  1‾  0‾  0‾  1‾  0​1​0​0​1​0​0​1​
+\end{quote}
+
+Er is een subtiel punt dat je misschien hebt gemist bij het invullen van het mantissaveld. De regel is om het bitpatroon dat in de binaire representatie verschijnt van links naar rechts te kopiëren, beginnend met de meest linkse 1. Om dit te verduidelijken, beschouwen we het proces van het opslaan van de waarde 3883​, wat .011 is in binaire notatie. In dit geval zal de mantissa zijn:
+\begin{quote}
+   ‾     ‾     ‾     ‾  1‾  1‾  0‾  0‾   ​ ​ ​ ​1​1​0​0​
+\end{quote}
+%
+het zal niet zijn
+\begin{quote}
+   ‾     ‾     ‾     ‾  0‾  1‾  1‾  0‾   ​ ​ ​ ​0​1​1​0​
+\end{quote}
+%
+Dit komt omdat we het mantissaveld invullen \textit{begin met de meest linkse 1} die in de binaire representatie verschijnt. Representaties die aan deze regel voldoen, worden gezegd in \textbf{genormaliseerde vorm} te zijn.
+
+Het gebruik van genormaliseerde vorm elimineert de mogelijkheid van meerdere representaties voor dezelfde waarde. Zo zouden zowel 01011100 als 01000110 decoderen naar de waarde 3883​, maar alleen het eerste patroon is in genormaliseerde vorm. Het voldoen aan genormaliseerde vorm betekent ook dat de representatie voor alle niet-nul waarden een mantissa heeft die begint met 1. De waarde nul is echter een speciaal geval; de floating-point representatie ervan is een bitpatroon van alle nullen.
+
+\section*{Afkappingsfouten}
+Laten we het vervelende probleem bekijken dat zich voordoet als we proberen de waarde 258285​ op te slaan met ons één-byte floating-point systeem. We schrijven eerst 258285​ in binair, wat ons 10.101 geeft. Maar wanneer we dit kopiëren naar het mantissaveld, lopen we tegen ruimtegebrek aan, en de meest rechtse 1 (die de laatste 1881​ vertegenwoordigt) gaat verloren (zie Figuur \ref{fig:truncate }).
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\foreach \x in {0, 0.75, ..., 5.25}
+{
+\draw[fill=hublue!40,hublue!40] (\x, 1) rectangle ++(0.5, 1);
+\draw[thick] (\x, 0.9) -- ++(0.5,0);
+}
+\node at (0.5,-1.5) {Tekenbit};
+\node at (1.75, -1) {Exponent};
+\node at (4.25, -0.5) {Mantissa};
+\draw (0.25,0.8) -- (0.25,-1.25);
+\draw (.75, 0.8) -- (.75, 0.5) -- (1.75, 0.5) -- (1.75, -0.75) -- (1.75, 0.5) -- (2.75, 0.5) -- (2.75, 0.8);
+\draw (3, 0.8) -- (3, 0.5) -- (4.25, 0.5) -- (4.25, -0.25) -- (4.25, 0.5) -- (5.75, 0.5) -- (5.75, 0.8);
+\node[anchor=south] at (3.25, 1.25) {\texttt{1}};
+\node[anchor=south] at (4, 1.25) {\texttt{0}};
+\node[anchor=south] at (4.75, 1.25) {\texttt{1}};
+\node[anchor=south] at (5.5, 1.25) {\texttt{0}};
+\draw (3, 2.2) -- (3, 2.5) -- (5.75, 2.5) -- (5.75, 2.2);
+\draw (3, 3) -- (3, 2.8) -- (5.75, 2.8) -- (5.75, 3);
+\draw (4.375, 2.5) -- (4.375, 2.8);
+\draw[fill=hublue!40,hublue!40] (3, 3.2) rectangle ++(3.5, 1);
+\node[anchor=south] at (3.25, 3.5) {\texttt{1}};
+\node[anchor=south] at (4, 3.5) {\texttt{0}};
+\node[anchor=south] at (4.75, 3.5) {\texttt{1}};
+\node[anchor=south] at (5.5, 3.5) {\texttt{0}};
+\node[anchor=south] at (6.25, 3.5) {\texttt{1}};
+\draw[white,thick] (6.25, 3.75) circle (.25cm);
+\draw[hublue,thick] (6.25, 3.5) -- (6.25, -.35) -- (7, -.35);
+\node[anchor=west] at (7, -.35) {Verloren bit};
+\draw[fill=hublue!40,hublue!40] (3, 4.7) rectangle ++(3.5, 1);
+\draw[->, ultra thick] (4.75, 4.6) to (4.75, 4.3);
+\draw[->, ultra thick] (4.75, 6.1) to (4.75, 5.8);
+\draw[fill=hublue!40,hublue!40] (3, 6.2) rectangle ++(3.5, 1);
+\node[anchor=south] at (3.25, 5) {\texttt{1}};
+\node[anchor=south] at (4, 5) {\texttt{0}};
+\node[anchor=south] at (4.375, 5) {\texttt{.}};
+\node[anchor=south] at (4.75, 5) {\texttt{1}};
+\node[anchor=south] at (5.5, 5) {\texttt{0}};
+\node[anchor=south] at (6.25, 5) {\texttt{1}};
+\node[anchor=south] at (4.75, 6.45) {258285​};
+\node[anchor=south west] at (6.5, 6.45) {Oorspronkelijke representatie};
+\node[anchor=south west] at (6.5, 5) {Binaire representatie};
+\node[anchor=south west] at (6.5, 3.5) {Ruw bitpatroon};
+\end{tikzpicture}
+\caption{Onderdelen van floating-point notatie}
+\label{fig:truncate }
+\end{figure}
+%
+Als we dit probleem voor nu negeren en doorgaan met het invullen van het exponentveld en het tekenbit, eindigen we met het bitpatroon 01101010, wat 212221​ vertegenwoordigt in plaats van 258285​. Wat er is gebeurd, wordt een \textbf{afkappingsfout} of \textbf{afrondingsfout} genoemd, wat betekent dat een deel van de waarde die wordt opgeslagen verloren gaat omdat het mantissaveld niet groot genoeg is.
+
+Het belang van dergelijke fouten kan worden verminderd door een langer mantissaveld te gebruiken. In feite gebruiken de meeste computers die tegenwoordig worden geproduceerd minimaal 32 bits voor het opslaan van waarden in floating-point notatie in plaats van de 8 bits die we hier hebben gebruikt. Dit maakt ook een langer exponentveld mogelijk. Zelfs met deze langere formaten zijn er echter nog steeds momenten waarop meer nauwkeurigheid vereist is.
+
+Een andere bron van afkappingsfouten is een fenomeen waar je al aan gewend bent in decimale notatie: het probleem van niet-eindigende uitbreidingen, zoals die voorkomen bij het uitdrukken van 1331​ in decimale vorm. Sommige waarden kunnen niet nauwkeurig worden uitgedrukt, ongeacht hoeveel cijfers we gebruiken. Het verschil tussen onze traditionele decimale notatie en binaire notatie is dat meer waarden niet-eindigende representaties hebben in binaire notatie dan in decimale notatie. Bijvoorbeeld, de waarde één-tiende is niet-eindigend wanneer uitgedrukt in binair. Stel je de problemen voor die dit kan veroorzaken voor de onoplettende persoon die floating-point notatie gebruikt om euros en centen op te slaan en te manipuleren. In het bijzonder, als de euro wordt gebruikt als de eenheid van maat, kan de waarde van een dubbeltje niet nauwkeurig worden opgeslagen. Een oplossing in dit geval is om de gegevens in eenheden van centen te manipuleren, zodat alle waarden gehele getallen zijn die nauwkeurig kunnen worden opgeslagen met behulp van een methode zoals two's complement.
+
+Afkappingsfouten en hun gerelateerde problemen zijn een alledaagse zorg voor mensen die werken op het gebied van numerieke analyse. Deze tak van wiskunde houdt zich bezig met de problemen die zich voordoen bij het uitvoeren van daadwerkelijke berekeningen die vaak enorm zijn en aanzienlijke nauwkeurigheid vereisen.
+
+Het volgende is een voorbeeld dat het hart van elke numerieke analist zou verwarmen. Stel dat we worden gevraagd om de volgende drie waarden op te tellen met behulp van onze één-byte floating-point notatie zoals eerder gedefinieerd:
+\begin{quote}
+212+18+18221​+81​+81​
+\end{quote}
+%
+Als we de waarden in de opgegeven volgorde optellen, tellen we eerst 212221​ op bij 1881​ en krijgen we 258285​, wat in binair 10.101 is. Helaas, omdat deze waarde niet nauwkeurig kan worden opgeslagen (zoals eerder gezien), eindigt het resultaat van onze eerste stap als 212221​ (wat hetzelfde is als een van de waarden die we optelden). De volgende stap is om dit resultaat op te tellen bij de laatste 1881​. Hier treedt opnieuw een afkappingsfout op, en ons eindresultaat blijkt het onjuiste antwoord 212221​ te zijn.
+
+Laten we nu de waarden in de omgekeerde volgorde optellen. We tellen eerst 1881​ op bij 1881​ om 1441​ te krijgen. In binair is dit .01; dus het resultaat van onze eerste stap wordt opgeslagen in een byte als 00011000, wat nauwkeurig is. We tellen nu deze 1441​ op bij de volgende waarde in de lijst, 212221​, en krijgen 234243​, wat we nauwkeurig kunnen opslaan in een byte als 01001011. Het resultaat is deze keer het juiste antwoord.
+
+Samenvattend, bij het optellen van numerieke waarden die zijn weergegeven in floating-point notatie, kan de volgorde waarin ze worden opgeteld belangrijk zijn. Het probleem is dat als een zeer groot getal wordt opgeteld bij een zeer klein getal, het kleine getal kan worden afgekapt. De algemene regel voor het optellen van meerdere waarden is daarom om eerst de kleinere waarden op te tellen, in de hoop dat ze zich opstapelen tot een waarde die significant is bij het optellen bij de grotere waarden. Dit was het fenomeen dat zich voordeed in het voorgaande voorbeeld.
+
+Ontwerpers van commerciële softwarepakketten van tegenwoordig doen goed werk door de onervaren gebruiker af te schermen van problemen zoals deze. In een typisch spreadsheet-systeem zullen correcte antwoorden worden verkregen, tenzij de waarden die worden opgeteld in grootte verschillen met een factor van 101616 of meer. Dus als je het nodig vond om één op te tellen bij de waarde
+\begin{quote}
+10,000,000,000,000,00010,000,000,000,000,000
+\end{quote}
+zou je het antwoord kunnen krijgen
+\begin{quote}
+10,000,000,000,000,00010,000,000,000,000,000
+\end{quote}
+in plaats van
+\begin{quote}
+10,000,000,000,000,00110,000,000,000,000,001
+\end{quote}
+%
+Dergelijke problemen zijn significant in toepassingen (zoals navigatiesystemen) waarin kleine fouten kunnen worden samengesteld in aanvullende berekeningen en uiteindelijk significante gevolgen kunnen hebben, maar voor de typische pc-gebruiker is de mate van nauwkeurigheid die door de meeste commerciële software wordt geboden voldoende.
+
+\begin{aside}[Enkele precisie floating-point]\mbox{}\
+De floating-point notatie die in dit hoofdstuk is geïntroduceerd, is veel te simplistisch om in een echte computer te worden gebruikt. Immers, met slechts 8 bits kunnen slechts 256 getallen uit de verzameling van alle reële getallen worden uitgedrukt. Onze discussie heeft 8 bits gebruikt om de voorbeelden eenvoudig te houden, maar toch de belangrijke onderliggende concepten te behandelen.
+
+Veel van de computers van tegenwoordig ondersteunen een 32-bit vorm van deze notatie, genaamd \textbf{Enkele precisie floating-point}. Dit formaat gebruikt 1 bit voor het teken, 8 bits voor de exponent (in excess-notatie), en 23 bits voor de mantissa. Enkele precisie floating-point is dus in staat om zeer grote getallen (in de orde van 103838) tot zeer kleine getallen (in de orde van 10−37−37) uit te drukken met een nauwkeurigheid van 7 decimale cijfers. Dat wil zeggen, de eerste 7 cijfers van een gegeven decimaal getal kunnen met zeer goede nauwkeurigheid worden opgeslagen (er kan nog steeds een kleine hoeveelheid fout aanwezig zijn). Eventuele cijfers na de eerste 7 zullen zeker verloren gaan door afkappingsfouten (hoewel de grootte van het getal behouden blijft). Een andere vorm, genaamd \textbf{Dubbele precisie floating-point}, gebruikt 64 bits en biedt een nauwkeurigheid van 15 decimale cijfers.
+\end{aside}

@@ -1,0 +1,173 @@
+\chapter{Verzamelingen \& Predikaten in het Wild}
+In 1969 publiceerde Edgar Codd, toen werkzaam voor IBM, dat wat terecht beschouwd wordt als de orginele beschrijving van het Relationele Model met de titel `Derivability, Redundancy, Consistency of Relations Stored in Large Data Banks'. Merk de zorgvuldige woordkeuze uit zijn titel op: afleidbaarheid, overtolligheid en consistentie zijn nog steeds net zo significant voor datamodellering als toen. Een jaar daarop, in 1970 dus, publiceerde Codd een bewerkte versie onder de titel `A Relational Model of Data for Large Shared Data Banks', welke grotere bekendheid verwierf en gezien wordt als de oorsprong van het Relationele Model. Het Relationele Model voor data is nog steeds het meest gebruikte data model op aarde (met als meest gebruikte query-taal: SQL).
+
+De idee\"en van het gebruik van verzamelingen en predikaten voor databases is echter veel ouder (zoals ook al te zien in voorgaande hoofdstukken). Aristoteles (circa 390 B.C.) en Boole (1850 A.D.) probeerden al de wereld te beschrijven door middel van verzamelingen en eigenschappen (\textit{properties} of \textit{predikaten}): bijvoorbeeld, als $\mathcal{D}$ de verzameling van alle mensen is, dan kunnen we $P_1$ definiëren als ``de verzameling van mensen met \'e\'en blauw en \'e\'en groen oog'' ($P_1\subseteq\mathcal{D}$) en $P_2$ als ``de verzameling van mensen met twee blauwe ogen'' ($P_2\subseteq\mathcal{D}$ en $P_1\cap P_2=\varnothing$). In 1839 voegde Peirce daar nog het concept \textit{relaties} aan toe, waarmee tuples in het domein met elkaar verbonden kunnen worden. Feitelijk is dit een veralgemenisering van het begrip 'eigenschap', bijvoorbeeld:
+\begin{enumerate}
+\item een relatie $R$ kan een deelverzameling zijn van $D^1$; dat wil zeggen dat de relaties unary-tuples beschouwd (dus $(1),(2),\ldots$). Dit is vergelijkbaar met een eigenschap -- e.g. ``alle mensen die geboren zijn op 29 februari''
+\item een relatie $R$ kan een deelverzameling zijn van $D^2$; oftewel een binaire relatie -- bijv. ``(paartjes van) mensen die met elkaar getrouwd zijn''.
+\item een relatie $R$ kan een deelverzameling zijn van $D^k$; ook wel een $k$-ary relatie -- bijv. ``alle 26 mensen die samen in een klas zitten'.
+\end{enumerate}
+
+Codd had het revolutionaire inzicht dat data gemodelleerd kon worden als tabellen van relaties, wat leidde tot het relationele database model.
+
+\section{Het Relationele Database Model}
+Om de relatie tussen verzamelingen, predikaten en databases te kunnen snappen, zullen we eerst moeten uitleggen wat er bedoelt wordt met het relationele database model. Beschouw de volgende tabel (database):\\[2.5pt]
+\begin{tabular}{|l|l|l|}
+\hline
+Werknemer & Afdeling & Manager\\
+\hline
+Arno & Informatica & Anita\\
+Huib & Filosofie & Menno\\
+Rik & Informatica & Anita\\
+\hline
+\end{tabular}\\[2.5pt]
+Het domein hier is alle mogelijke namen van werkgevers, afdelingen en managers. Het is misschien niet elegant om allerlei soorten objecten bijelkaar in \'e\'en verzameling te stoppen, maar hier komen we later nog op terug.
+
+Merk op wat er gebeurt als we de rijen uit onze database anders rangschikken:\\[2.5pt]
+\begin{tabular}{|l|l|l|}
+\hline
+Werknemer & Afdeling & Manager\\
+\hline
+Arno & Informatica & Anita\\
+Rik & Informatica & Anita\\
+Huib & Filosofie & Menno\\
+\hline
+\end{tabular}\\[2.5pt]
+Intuïtief gezien beschrijft deze tabel nog steeds dezelfde feiten uit de wereld als de vorige tabel: \textbf{de volgorde van de rijen is irrelevant}. We beschouwen een database dus als een \textit{verzameling} van rijen -- en aangezien volgorde niet inherent is aan een verzameling, krijgen we volgorde onafhankelijkheid gratis.
+
+Hoewel de volgorde van rijen niet van belang is, is de volgorde in een rij \textit{wel} van belang: $\langle$Arno, Informatica, Anita$\rangle$ is niet hetzelfde als $\langle$Anita, Informatica, Arno$\rangle$! De elementen van een rij drukken een relatie uit (tussen de namen van een werknemer, afdeling en manager), waarmee een object/element uit de werkelijke wereld wordt uitgedrukt. Bijvoorbeeld de tertaire relatie \textsc{werknemer}(\textit{Naam}, \textit{Afdeling}, \textit{Manager}), zoals uitgedrukt in ons voorbeeld. Deze relatie is een element deelverzameling van ons domein\footnote{Preciezer, als ons domein van namen $\mathcal{N}$ is, dan is $W$, de \textsc{werknemer}-relatie, een deelverzameling van $\mathcal{N}^3$, oftewel, $W$ is een deelverzameling van de verzameling van 3-tuples waar het eerste, tweede en laatste element een element zijn uit $\mathcal{N}$, verkregen door het Cartesisch product te berekenen van $\mathcal{N}\times\mathcal{N}\times\mathcal{N}$.}, en $\langle$Arno, Informatica, Anita$\rangle$ is een 3-tuple die uitdrukt dat Arno bij Informatica werkt voor Anita.
+
+Zoals we al eerder hebben gezien (zie hoofdstuk \ref{ch:predicaten}), kunnen we hiermee formules uitdrukken door gebruik te maken van predikatenlogica:
+\begin{itemize}
+\item \textsc{werknemer}(Arno, Informatica, Anita)\\(``Anita managet Arno die bij Informatica werkt'');
+\item \textsc{werknemer}($x$, Filosofie, $x$)\\(``$x$ werkt bij Filosofie, en is eigen manager'');
+\item \textsc{werknemer}($x$, Filosofie, $y$)\\(``$x$ werkt bij Filosofie, en wordt gemanaged door $y$'').\\Merk op dat $x$ en $y$ niet uitdrukt dat het om verschillende personen gaat.
+\end{itemize}
+
+Maar ook samengestelde formules kunnen worden gebruikt:
+\begin{itemize}
+\item $\neg$\textsc{werknemer}(Huib, Informatica, Anita)\\(``Het is niet het geval dat: Huib bij Informatica werkt en wordt gemanaged door Anita'').
+\item $($\textsc{werknemer}(x, Informatica, Anita) $\wedge$ \textsc{werknemer}(z, Informatica, Anita)$)$\\(``$x$ en $z$ werken samen bij Informatica en worden beiden gemanaged door Anita'').
+\item $\exists y$ \textsc{werknemer}($y$, Informatica, Anita)\\(``Er is iemand die bij informatica werkt en gemanaged wordt door Anita'').
+\item $\forall x\;\exists y$\textsc{werknemer}($x$, Informatica, $y$)\\(``Iedereen die bij Informatica werkt wordt gemanaged door iemand'').
+\item $\exists y\;\forall x$\textsc{werknemer}($x$, Informatica, $y$)\\(``Er is iemand die iedereen die bij Informatica werkt managet'').
+\end{itemize}
+
+\begin{aside}[Unique naming assumption]\mbox{}
+De unique naming assumption is een opgedragen aanname die gemaakt moet worden als je je database representeert als een verzameling van relaties. Immers, in verzamelingenleer zijn twee verzamelingen hetzelfde als ze dezelfde elementen bevatten. 
+
+Als we nu willen representeren dat Rik J. en Rik B. allebei bij Informatie werken, en gemanaged worden door Anita, dan krijgen we twee dezelfde tuples, namelijk \textit{$\langle$Rik, Informatica, Anita$\rangle$}. En aangezien alle elementen in de tuple hetzelfde zijn voor zowel Rik J. als Rik B., gaat het hier om het-\\[2.5pt]
+zelfde element.
+
+\hspace{20pt}Merk op dat al bij de introductie van dit voorbeeld wordt geprobeerd om de namen van de verschillende entiteiten uniek te maken door toevoeging van (een stukje van) de achternaam, maar ook dat zal problemen leveren; bijv. met de grote hoeveelheid Jan Jansens die er in Nederland wonen.
+
+\hspace{20pt}Om werkelijk onderscheid te kunnen maken tussen verschillende individu\"en wordt er in databases daarom vaak gebruik gemaakt van zo geheten `keys', die dusdanig wordt gekozen of ge\"introduceerd dat ze uniek zijn voor alle rijen van de database (en dus ook voor alle gerepresenteerde entiteiten): denk maar aan het Burger Service Nummer (BSN).
+
+\section{Relationele Algebra}
+Met de introductie van het Relationele Database Model maakte Codd dus gebruik van eeuwenoude principes (die wij ook al hebben gezien in hoofdstukken \ref{ch:verzamelingen}, \ref{ch:predicaten} en \ref{sec:pred:semantiek}) om een wiskundige basis te geven voor het data probleem van de jaren '70\footnote{Het `data-probleem' van de jaren zeventig was nog niet van dermate omvang als dat ze nu is, maar derhalve heeft Codd wel bijgedragen aan het handelbaar maken van grote hoeveelheden data... tot ongeveer het jaar 2000, waarna Big Data en NoSQL aantoonden dat het probleem nog immenser is dan gedacht.}. Codd formuleerde echter niet alleen een model voor data opslag, maar voegde daar ook een algebra aan toe om deze te kunnen manipuleren; de \textit{relationele algebra}.
+
+De basis van de relationele algebra zijn een aantal eenvoudige toevoegingen op de bestaande operaties die beschikbaar zijn in de verzamelingenleer (doorsnede, vereniging, complement, \ldots). De complexere operaties uit de relationele algebra (joins en dergelijken) zijn combinaties van deze basis-operaties.
+
+\begin{definition}[Selectie]\mbox{}\\
+De $\mathsf{\textsc{select}}$-operator selecteert een deelverzameling van tuples van een relatie $R$ die voldoen aan een selectiecriterium $\varphi$ en wordt geschreven als $\sigma_\varphi(R)$.
+\end{definition}
+Een relatie $R$ in de bovenstaande definitie verwijst naar een enkele tabel in je database, zoals eerder de \textsc{werknemer}-tabel. Relationele algebra staat je toe om complexe selectiecriteria uit te drukken, gebruik makend van boolean algebra. De selectie-operator is overigens om te schrijven naar een equivalente predikatenlogische formule, bijvoorbeeld:\\[2.5pt]
+$\sigma_{(\text{afdeling = `Informatica'}\;\mathbf{OR}\;\text{manager = `Anita'})}(\textsc{werknemer})\quad\Leftrightarrow$\\
+$\mathtt{ }\qquad\qquad\forall x,y\;(\textsc{werknemer}(x,\text{'Informatica'},y)\vee\textsc{werknemer}(x,y,\text{'Anita'}))$
+
+\noindent Ook selectie met lastigere, numerieke condities kunnen natuurlijk worden omgeschreven, maar kosten wat meer moeite (aannemend dat de relatie \textsc{student} een deelverzameling is over namen, leeftijden en studierichtingen):\\[2.5pt]
+$\sigma_{\text{leeftijd > 25}}(\textsc{student})\quad\Leftrightarrow\quad\forall x,y,z\;(\textsc{student}(x, y, z) \wedge y > 25)$
+
+Selectie is een unaire operatie die, onder meer omdat ze een relatie als argument neemt en een relatie oplevert, \textit{commutatief} is: $$\sigma_{\varphi_1}(\sigma_{\varphi_2}(R)) = \sigma_{\varphi_2}(\sigma_{\varphi_1}(R))$$ Tevens kunnen opeenvolgende selectie operaties worden samengevoegd: $$\sigma_{\varphi_1}(\sigma_{\varphi_2}(R)) = \sigma_{\varphi_1\;\mathbf{AND}\;\varphi_2}(R)$$
+
+\begin{definition}[Projectie]\mbox{}\\
+De $\mathsf{\textsc{project}}$-operator selecteert kolommen van een tabel en verwerpt de andere kolommen, ze wordt geschreven als $\pi_{\langle\mathsf{attribute\ list}\rangle}(R)$, waarbij $\mathsf{attribute\ list}$ de namen van de attributen (kolommen) specificeert die behouden moeten worden.
+\end{definition}
+De projectie operatie vormt in essentie een nieuwe relatie uit de elementen in de deelverzameling die door de relatie $R$ wordt uitgedrukt. Het resultaat van een projectie is wederom een relatie, dat wil zeggen een verzameling van \textit{verschillende} tuples. Ook projectie is een unaire operatie. Bijvoorbeeld, $\pi_{\langle \text{Afdeling},\text{Manager}\rangle}(\textsc{werknemer})$ levert de volgende relatie:\\[2.5pt]
+\begin{tabular}{|l|l|}
+\hline
+Afdeling & Manager\\
+\hline
+Informatica & Anita\\
+Filosofie & Menno\\
+\hline
+\end{tabular}\\[2.5pt]
+Projectie in pure predikaatlogica moet uitgedrukt worden als de introductie van een nieuwe relatie, bijvoorbeeld:
+$$\forall x,y,z\; (\textsc{afd-man}(y,z) \leftrightarrow\textsc{werknemer}(x,y,z))$$
+
+\begin{aside}[Closed-world assumption]\mbox{}
+Een groot verschil tussen databases en logica is dat in databases gegevens van een entiteit afwezig (onbekend) of onvolledig kunnen zijn. In de logica is dat niet mogelijk. Om de \textsc{werknemer}-relatie van entiteiten uit te kunnen drukken, moeten alle attributen van de relatie bekend zijn (om er zodoende een waar of onwaar aan te kunnen hangen).
+
+Om toch formeel over databases te kunnen redeneren, wordt er vaak uitgegaan van een zogeheten `closed world assumption' (CWA, gesloten wereld aanname); een aanname dat alles wat er te weten is (over entiteiten) ook daadwerkelijk beschreven is. Als dit immers het geval is, dan kan er veilig worden beredeneerd dat als er g\'e\'en tuple \textit{$\langle$Huib, Informatica, Anita $\rangle$} in de tabel \textsc{werknemer} is beschreven, dat het predikaat $\textsc{werknemer}(Huib, Inforamtica, Anita)$ dus onwaar is. 
+
+Deze redenering waarbij uit het feit dat niet af te leiden is dat iets bestaat wordt geconcludeerd dat het dan dus onwaar is, wordt ook wel `\textit{negation as failure}' genoemd.
+\end{aside}
+
+De overige basisoperaties van relationele algebra zijn de reeds bekende doorsnede, vereniging, verschil en kruisproduct (cartesisch product) operaties van verzamelingenleer. Hierbij moet voor de eerste drie wel worden opgemerkt dat deze alleen uitgevoerd kunnen worden als beide relaties waarvan de doorsnede/vereniging/verschil wordt berekend allebei dezelfde soort tuples moeten bevatten (d.w.z., de relaties moeten over dezelfde attributen gaan). Een doorsnede van, bijvoorbeeld, $\text{naam}\times\text{leeftijd}$ en $\text{bsn}\times\text{salaris}$, geeft uiteraard een lege verzameling als resultaat. Bij het kruisproduct is deze eis niet van toepassing, sterker nog, eigenlijk kan/mag het kruisproduct alleen worden berekend tussen twee relaties $R$ en $S$ als ze g\'e\'en attributen hetzelfde hebben, maar dat is via hernoeming eenvoudig op te lossen. 
+
+Een voorbeeld van een kruisproduct, neem de volgende relaties $A$ en $B$:\\[2.5pt]
+A: \begin{tabular}{|l|l|}
+\hline
+\textit{Sofi} & \textit{Naam}\\
+\hline
+34535342 & Janssen\\
+56745645 & Pietersen\\
+32442344 & De Vries\\
+\hline
+\end{tabular}
+\hspace{1cm}B: \begin{tabular}{|l|l|}
+\hline
+\textit{Sofi} & \textit{Regio}\\
+\hline
+34535342 & Delft\\
+32442344 & Pijnacker\\
+\hline
+\end{tabular}\\[2.5pt]
+Het kruisproduct van deze relaties $A\times B$ is de volgende relatie\footnote{Om aan de unieke attributen eisen te voldoen, hebben we de attributen van beide relaties hernoemd.}:\\[2.5pt]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textit{Sofi}$^A$ & \textit{Naam}$^A$ & \textit{Sofi}$^B$ & \textit{Regio}$^B$\\
+\hline
+34535342 & Janssen & 34535342 & Delft\\
+34535342 & Janssen & 32442344 & Pijnacker\\
+56745645 & Pietersen & 34535342 & Delft\\
+56745645 & Pietersen & 32442344 & Pijnacker\\
+32442344 & De Vries & 34535342 & Delft\\
+32442344 & De Vries & 32442344 & Pijnacker\\
+\hline
+\end{tabular}\\[2.5pt]
+Deze combinatie lijkt op eerste oog niet heel nuttig, tot je kijkt naar de eerste en laatste rij. Aangezien hier een combinatie is gemaakt van de gegevens van $A$ en $B$ gekoppeld aan hetzelfde sofi-nummer, zou dit de basis kunnen zijn van een zinnige koppeling tussen beide relaties. Het zal je dan ook niet verbazen dat we nu een volgende belangrijke operator hierop introduceren.
+\begin{definition}[Join]\mbox{}\\
+Een combinatie van relaties $R$ en $S$, geschreven als $R\Join_{c}S$ is een koppeling volgens de gespecificeerde \textit{conditie} $c$ tussen de elementen van relatie $R$ en $S$.
+\end{definition}
+Een join in relationele algebra is niets anders dan een selectie uitgevoerd op een kruisproduct; dat wil zeggen, $R\Join_c S$ is equivalent aan $\sigma_c(R\times S)$.
+
+Gegeven ons bovenstaande voorbeeld, kunnen we nu dus eenvoudig de join $R\Join_{Sofi^A=Sofi^B}S$ uitvoeren, door selectie $\sigma_{Sofi^A=Sofi^B}$ uit te voeren op het bovenstaande resultaat van $A\times B$:\\[2.5pt]
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textit{Sofi}$^A$ & \textit{Naam}$^A$ & \textit{Sofi}$^B$ & \textit{Regio}$^B$\\
+\hline
+34535342 & Janssen & 34535342 & Delft\\
+32442344 & De Vries & 32442344 & Pijnacker\\
+\hline
+\end{tabular}\\[2.5pt]
+Relationele algebra onderscheid een aantal soorten verschillende (maar gerelateerde) joins, namelijk:
+\begin{description}
+\item[Theta join] een theta-join is een join, geschreven als $A\Join_\theta B$ met een conditie van de vorm $a \theta b$, waarbij $a$ en $b$ attributen of constanten zijn en $\theta$ een binaire relatie uit $\{ <, \leq, =, \geq, > \}$. Merk op dat $A\Join_\theta B \Leftrightarrow \sigma_\theta(A\times B)$;
+\item[Equijoin] een equijoin is een theta-join waarbij $\theta$ gelijk is aan een gelijkheid ($=$).
+\item[Natural join] een natural join, geschreven als $A\Join B$, is een equijoin waarbij de gelijkheid geldt voor alle gedeelde attributen (dus alle kolommen die door $A$ en $B$ worden gedeeld) en waarin deze kolommen maar 1 keer voorkomen in het resultaat. Voor ons voorbeeld hierboven geldt dat $A\Join B\Leftrightarrow \pi_{\langle Sofi,Naam,Regio\rangle}(\sigma_{A.Sofi=B.Sofi}(A\times B))$.
+\end{description}
+
+Tot slot bevat Relationele Algebra nog andere, uitgebreidere operatoren, zoals Outer Join, Semijoin, Antijoin, en aggregatie methoden (som, gemiddelde, maximum, minimum), maar deze gaan voorbij aan de scope van deze discussie.
+
+\begin{aside}[Niet van echt te onderscheiden...?]\mbox{}\\
+Sommige dataprofessionals leven in het zalige geloof dat op SQL gebaseerde producten echt \textit{relationeel} zijn. Aan de andere kant zijn software vendors niet bepaald behulpzaam geweest in deze keuze, door hun op SQL-gebaseerde producten voortdurend van het etiket `relationeel' te voorzien. Anderen denken dat het onderwerp puur academisch is.
+
+Er bestaan een aantal verschillen tussen het Relationele Model en SQL. Bovendien zijn de SQL-implementaties van verschillende software-leveranciers niet consistent ten opzichte van elkaar (je bent gewaarschuwd!), waardoor een verschillend aantal afwijkingen ten opzichte van het Relationele Model ontstaat. De meest voorkomende verschillen zijn:
+\begin{itemize}
+\item Duplicatie van rijen. Een SQL-tabel kan meer dan \'e\'en keer dezelfde rij bevatten. Het is voor dezelfde tuple niet mogelijk om meer da eens voor te komen in een relatie;
+\item Kolomvolgorde. Een SQL-tabel heeft een vastgestelde kolomvolgorde. Het ordenen van de attributen van een relatie is onbelangrijk;
+\item Kolomloze tabellen. SQL-tabellen moeten tenminste \'e\'en kolom bevatten. Relaties kunnen geen attributen hebben;
+\item NULL-waarde. SQL-tabellen kunnen NULL-waarden bevatten. Het Relationele Model is gebaseerd op binaire logica en kent dus alleen WAAR en NIET WAAR. Daarnaast is het interessant om op te merken dat SQL NULL niet alleen gebruikt om onbekende of ongebruikte waarde aan te geven, maar ook in een overvloed van andere gevallen. Een voorbeeld: de som van een lege verzameling is NULL (in de betekenis van `niets'), het gemiddelde van de lege verzameling is NULL (in de betekenis van `onbepaald') en een left join kan NULL als resultaat geven (wat hier betekent dat er geen matching rij is in de rechter operand).
+\end{itemize}
+\end{aside}

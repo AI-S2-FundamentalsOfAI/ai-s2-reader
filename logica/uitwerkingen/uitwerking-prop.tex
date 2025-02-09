@@ -1,0 +1,745 @@
+\section{Propositielogica}
+
+\begin{answer}[Proposities]\mbox{}\\% 2.1
+Welke van de volgende uitspraken is een propositie en welke niet?
+\begin{enumerate}[label=\textit{\alph*.}]
+\item $7+7 = 13$. \\
+antwoord: propositie
+\item $7+7 = 14$.\\
+antwoord: propositie
+\item Er bestaan groene koeien. \\
+antwoord: propositie
+\item Er bestaat leven op een andere planeet.\\
+antwoord: propositie
+\item Het schilderij \textit{De Nachtwacht} van Rembrandt is mooi.\\
+antwoord: niet een propositie
+\item Koning Willem-Alexander vindt het schilderij \textit{De Nachtwacht} van Rembrandt mooi.\\
+antwoord: propositie
+\item Het schilderij \textit{De Nachtwacht} van Rembrandt is mooier dan het schilderij \textit{De Zonnebloemen} van Van Gogh.\\
+antwoord: niet een propositie
+\item Het schilderij \textit{De Nachtwacht} van Rembrandt is zwaarder dan het schilderij \textit{De Zonnebloemen} van Van Gogh.\\
+antwoord: propositie
+\item Deze zin bestaat uit meer dan twintig letters.\\
+antwoord: propositie
+\end{enumerate}
+
+\end{answer}
+
+\begin{answer}[Vertalen]\mbox{}\\ % 2.2
+Vertaal de volgende zinnen in propositielogica:
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Als Jan droomt dan slaapt hij.\\
+antwoord: d = Jan droomt, s = Jan slaapt, $d \rightarrow s$
+\item Slapen is een noodzakelijke voorwaarde voor dromen.\\
+antwoord: s = slapen, d = dromen, $d \rightarrow s$
+\item Niet drinken is een voldoende voorwaarde om niet dronken te worden.\\
+antwoord: d = drinken, a = dronken, $\neg d \rightarrow \neg a$
+\item Als ik gedronken heb en toch autorijd, dan loop ik kans op een forse boete.\\
+antwoord: d = ik heb gedronken, a = ik rij auto, b = ik heb kans op een forse boete, $(d \land a) \rightarrow b$ 
+\item Als ik gedronken heb en toch autorijd, dan loop ik kans op een forse boete, behalve als het promillage alcohol in mijn bloed onder een bepaalde waarde ligt.
+antwoord:\\
+antwoord: d = ik heb gedronken, a = ik rij auto, b = ik heb kans op een forse boete, p = het promillage van alcohol in mijn bloed ligt onder een bepaalde waarde, $(d \land a) \rightarrow (b \lor p)$
+\item Als ik autorijd en ik ben dronken of onder invloed van XTC dan maak ik de weg onveilig.\\
+antwoord: a = ik rij auto, d = ik ben dronken, x = ik ben onder invloed van XTC, o = ik maak de weg onveilig, $(a \land (d \lor x)) \rightarrow o$
+\end{enumerate}
+\end{answer}
+
+\begin{answer}[Waarheidstabellen]\mbox{}\\ % 2.3
+Construeer de waarheidstabellen van de volgende samengestelde proposities:
+\begin{enumerate}[label=\textit{\alph*.}]
+%a:
+\item $(p\land q)\land((\neg q)\lor r)$ \\
+antwoord: \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $r$ & $(p\land q)$ & $\land$ & $((\neg q)$ & $\lor $ & $r)$ \\
+  0 & 0 & 0 & 0 & 0 & 1 & 1 & 0 \\
+  0 & 0 & 1 & 0 & 0 & 1 & 1 & 1\\
+  0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 1 & 1 & 0 & 0 & 0 & 1 & 1 \\
+  1 & 0 & 0 & 0 & 0 & 1 & 1 & 0 \\
+  1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 \\
+  1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+  1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-8.south east);
+\draw (M1-1-1.north west) -- (M1-9-1.south west) -- (M1-9-8.south east -| M1-1-8.east) -- (M1-1-8.north east);
+\draw[red, thick] (M1-1-5.north west) rectangle (M1-9-5.south east);
+\end{tikzpicture}
+%b:
+\item $p\rightarrow(q\lor r)$\\
+antwoord: \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $r$ & $p$ & $\rightarrow$ & $(q \lor r)$ \\
+  0 & 0 & 0 & 0 & 1 & 0 \\
+  0 & 0 & 1 & 0 & 1 & 1 \\
+  0 & 1 & 0 & 0 & 1 & 1 \\
+  0 & 1 & 1 & 0 & 1 & 1 \\
+  1 & 0 & 0 & 1 & 0 & 0 \\
+  1 & 0 & 1 & 1 & 1 & 1 \\
+  1 & 1 & 0 & 1 & 1 & 1 \\
+  1 & 1 & 1 & 1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-6.south east);
+\draw (M1-1-1.north west) -- (M1-9-1.south west) -- (M1-9-6.south east -| M1-1-6.east) -- (M1-1-6.north east);
+\draw[red, thick] (M1-1-5.north west) rectangle (M1-9-5.south east);
+\end{tikzpicture}
+%c:
+\item $\neg((\neg p)\lor\neg((\neg q)\lor\neg p))$ \\
+antwoord: \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $\neg$ & $((\neg p)$ & $\lor$ & $\neg$ & $((\neg q)$ & $\lor$ & $\neg p))$ \\
+  0 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 1 \\
+  0 & 1 & 0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+  1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 0 \\
+  1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-9.south east);
+\draw (M1-1-1.north west) -- (M1-5-1.south west) -- (M1-5-5.south east -| M1-1-9.east) -- (M1-1-9.north east);
+\draw[red, thick] (M1-1-3.north west) rectangle (M1-5-3.south east);
+\end{tikzpicture}
+%d:
+\item $p\leftrightarrow(q\leftrightarrow r)$ \\
+antwoord: \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $r$ & $p$ & $\leftrightarrow$ & $(q \leftrightarrow r)$ \\
+  0 & 0 & 0 & 0 & 0 & 1 \\
+  0 & 0 & 1 & 0 & 1 & 0 \\
+  0 & 1 & 0 & 0 & 1 & 0 \\
+  0 & 1 & 1 & 0 & 0 & 1 \\
+  1 & 0 & 0 & 1 & 1 & 1 \\
+  1 & 0 & 1 & 1 & 0 & 0 \\
+  1 & 1 & 0 & 1 & 0 & 0 \\
+  1 & 1 & 1 & 1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-6.south east);
+\draw (M1-1-1.north west) -- (M1-9-1.south west) -- (M1-9-6.south east -| M1-1-6.east) -- (M1-1-6.north east);
+\draw[red, thick] (M1-1-5.north west) rectangle (M1-9-5.south east);
+\end{tikzpicture}
+%e:
+\item $p\leftrightarrow(q\leftrightarrow p)$ \\
+antwoord: \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $p$ & $\leftrightarrow$ & $(q \leftrightarrow p)$ \\
+  0 & 0 & 0 & 0 & 1 \\
+  0 & 1 & 0 & 1 & 0 \\
+  1 & 0 & 1 & 0 & 0 \\
+  1 & 1 & 1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-5.south east);
+\draw (M1-1-1.north west) -- (M1-5-1.south west) -- (M1-5-5.south east -| M1-1-5.east) -- (M1-1-5.north east);
+\draw[red, thick] (M1-1-4.north west) rectangle (M1-5-4.south east);
+\end{tikzpicture}
+\end{enumerate}
+\end{answer}
+
+
+\begin{answer}\mbox{}\\ % 2.4
+Bewijs met behulp van waarheidstabellen dat
+\begin{enumerate}[label=\textit{\alph*.}]
+%a:
+\item $((p\rightarrow q)\lor(r\rightarrow s))\rightarrow((p\land r)\rightarrow(q\lor s))$ een tautologie is. \\
+antwoord:
+\begin{adjustwidth}{-2em}{}
+%%adjust width past de margins aan \begin{adjustwidth}{leftmargin}{rightmargin}
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline, scale=0.6, font=\small]
+\matrix (M1) [matrix of nodes, column sep=0.65em]
+{
+  $p$ & $q$ & $r$ & $s$ & $((p\rightarrow q)$ & $\lor$ & $(r\rightarrow s)) $ & $\rightarrow$ & $((p\land r))$ & $\rightarrow$ & $(q\lor s))$  \\
+  0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 0\\
+  0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 0\\
+  0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  0 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  0 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  0 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 1 & 1\\
+  0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 0\\
+  1 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 0 & 1 & 1\\
+  1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0\\
+  1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 1\\
+  1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1\\
+  1 & 1 & 1 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 1\\
+  1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1\\
+};
+\draw (M1-1-1.south west) -- (M1-1-11.south east);
+\draw (M1-1-1.north west) -- (M1-17-1.south west) -- (M1-17-8.south east -| M1-1-11.east) -- (M1-1-11.north east);
+\draw[red, thick] (M1-1-8.north west) rectangle (M1-17-8.south east);
+\end{tikzpicture}
+\end{adjustwidth}
+De propositie is waar voor alle mogelijke waarden van $p$, $q$, $r$ en $s$, dus de propositie is een tautologie.
+% b:
+\item $((p\rightarrow q)\land(q\rightarrow r))\rightarrow(p\rightarrow r)$ een tautologie is. \\
+antwoord: \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $r$ & $((p\rightarrow q)$ & $\land$ & $(q\rightarrow r))$ & $\rightarrow $ & $(p\rightarrow r)$ \\
+  0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 \\
+  0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 \\
+  0 & 1 & 0 & 1 & 0 & 0 & 1 & 1 \\
+  0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+  1 & 0 & 0 & 0 & 0 & 1 & 1 & 0 \\
+  1 & 0 & 1 & 0 & 0 & 1 & 1 & 1 \\
+  1 & 1 & 0 & 1 & 0 & 0 & 1 & 0 \\
+  1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-8.south east);
+\draw (M1-1-1.north west) -- (M1-9-1.south west) -- (M1-9-8.south east -| M1-1-8.east) -- (M1-1-8.north east);
+\draw[red, thick] (M1-1-7.north west) rectangle (M1-9-7.south east);
+\end{tikzpicture}\\
+De propositie is waar voor alle mogelijke waarden van $p$, $q$ en $r$, dus de propositie is een tautologie.
+% c:
+\item $\neg(p\rightarrow\neg q)$ en $p\land q$ gelijkwaardig zijn. \\
+\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $p$ & $q$ & $\neg$ & $(p$ & $\rightarrow$ & $\neg q)$ & $p \land q$ \\
+  0 & 0 & 0 & 0 & 1 & 1 & 0\\
+  0 & 1 & 0 & 0 & 1 & 0 & 0\\
+  1 & 0 & 0 & 1 & 1 & 1 & 0\\
+  1 & 1 & 1 & 1 & 0 & 0 & 1\\
+};
+\draw (M1-1-1.south west) -- (M1-1-7.south east);
+\draw (M1-1-1.north west) -- (M1-5-1.south west) -- (M1-5-7.south east -| M1-1-7.east) -- (M1-1-7.north east);
+\draw[red, thick] (M1-1-3.north west) rectangle (M1-5-3.south east);
+\draw[red, thick] (M1-1-7.north west) rectangle (M1-5-7.south east -| M1-1-7.north east);
+\end{tikzpicture} \\
+$\neg(p\rightarrow\neg q)$ en $p\land q$ hebben in elke rij van de waarheidstabel dezelfde waarde, dus zijn ze gelijkwaardig aan elkaar.
+
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{}\\ % 2.5
+Bewijs door gebruik te maken van één van de gelijkwaardige proposities uit Stelling 2.3.2, dat de onderstaande paren van proposities gelijkwaardig aan elkaar zijn. De eerste is voorgedaan.
+\begin{enumerate}[label=\textit{\alph*.}]
+% a:
+\item $\neg ((d\leftrightarrow e)\vee d)$ en $\neg (d\leftrightarrow e) \wedge \neg d$ \\
+antwoord:
+\begin{align}
+\neg ((d\leftrightarrow e)\vee d) &\equiv \neg (d\leftrightarrow e)\wedge \neg d  \tag{St-2.3.2: 9}
+\end{align}
+%b:
+\item $(e\land h) \leftrightarrow b$ en $((e\land h) \land b) \lor (\neg (e\land h)\land \neg b)$\\
+antwoord:
+\begin{align}
+(e\wedge h) \leftrightarrow b &\equiv ((e\wedge h)\wedge b)\vee (\neg (e\wedge h)\wedge \neg b)  \tag{St-2.3.2: 4}
+\end{align}
+%c:
+\item $(a\lor (b\rightarrow a)) \rightarrow z$ en $(a\rightarrow z)\land ((b\rightarrow a) \rightarrow z)$ \\
+antwoord:
+\begin{align}
+(a\vee (b\rightarrow a)) \rightarrow z &\equiv (a\rightarrow z) \wedge ((b\rightarrow a)\rightarrow z)  \tag{St-2.3.2:13}
+\end{align}
+%d:
+\item $(p\land \neg e)\lor (\neg e \rightarrow q)$ en $(\neg e\rightarrow q)\lor (p\land \neg e)$ \\
+antwoord:
+\begin{align}
+(p\wedge \neg e)\vee (\neg e\rightarrow q)&\equiv (\neg e\rightarrow q)\vee (p \land \neg e)  \tag{St-2.3.2: 2}
+\end{align}
+%e:
+\item $a \leftrightarrow (b\rightarrow a)$ en $a \leftrightarrow (\neg a\rightarrow \neg b)$ \\
+antwoord:
+\begin{align}
+a\leftrightarrow (b\rightarrow a) &\equiv a\leftrightarrow (\neg a \rightarrow \neg b) \tag{St-2.3.2: 7}
+\end{align}
+%f:
+\item $(h \land (f\lor z))\rightarrow q$ en $h\rightarrow ((f\lor z) \rightarrow q)$ \\
+antwoord:
+\begin{align}
+(h\wedge (f\vee z)) \rightarrow q &\equiv h \rightarrow ((f\vee z) \rightarrow q) \tag{St-2.3.2:15}
+\end{align}
+%g:
+\item $\neg (p\leftrightarrow q)\lor \neg z$ en $\neg ((p\leftrightarrow q) \land z)$ \\
+antwoord:
+\begin{align}
+\neg (p\leftrightarrow q)\vee \neg z &\equiv \neg ((p\leftrightarrow q) \wedge z) \tag{St-2.3.2:10}
+\end{align}
+%h:
+\item $q \rightarrow \neg \neg (h \leftrightarrow z) $ en $q \rightarrow (h \leftrightarrow z)$ \\
+antwoord:
+\begin{align}
+q\rightarrow \neg \neg (h\leftrightarrow z) &\equiv q \rightarrow (h \leftrightarrow z) \tag{St-2.3.2: 1}
+\end{align}
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{}\\ % 2.6
+Bewijs door gebruik te maken van twee of meer van de gelijkwaardige proposities uit Stelling 2.3.2, dat de onderstaande paren van proposities gelijkwaardig aan elkaar zijn. De eerste is voorgedaan.
+\begin{enumerate}[label=\textit{\alph*.}]
+% a:
+\item $(\neg b\land a)\lor \neg (a\lor \neg b)$ en $a\leftrightarrow \neg b$\\
+antwoord:
+\begin{align}
+(\neg b\wedge a)\vee \neg (a\vee \neg b) &\equiv (\neg b\wedge a)\vee (\neg a \wedge \neg \neg b)  \tag{St-2.3.2: 9} \\
+&\equiv (a\wedge \neg b)\vee (\neg a \wedge \neg \neg b)  \tag{St-2.3.2: 3} \\
+&\equiv a\leftrightarrow \neg b\tag{St-2.3.2: 4}
+\end{align}
+% b:
+\item $z\land ((q\rightarrow e) \lor (q\rightarrow e))$ en $(q \rightarrow e) \land z$\\
+antwoord:
+\begin{align}
+z\wedge ((q\rightarrow e)\vee (q\rightarrow e)) &\equiv z\wedge (q\rightarrow e)  \tag{St-2.3.2: 1} \\
+&\equiv (q\rightarrow e) \wedge z\tag{St-2.3.2: 3}
+\end{align}
+% c:
+\item $\neg (m\land h)$ en $m \rightarrow \neg h$\\
+antwoord:
+\begin{align}
+\neg (m \wedge h)&\equiv \neg m\vee \neg h \tag{St-2.3.2:10} \\
+&\equiv m \rightarrow \neg h\tag{St-2.3.2: 7}
+\end{align}
+% d:
+\item $(n \lor r)\rightarrow (p \land r)$ en $((n \lor r)\rightarrow p) \land (\neg r \rightarrow \neg (n \lor r))$\\
+antwoord:
+\begin{align}
+(n \vee r)\rightarrow (p\wedge r) &\equiv ((n \vee r)\rightarrow p) \wedge ((n \vee r)\rightarrow r) \tag{St-2.3.2:14} \\
+&\equiv ((n \vee r)\rightarrow p) \wedge (\neg r \rightarrow \neg (n \vee r))\tag{St-2.3.2: 7}
+\end{align}
+% e:
+\item $\neg (\neg a \rightarrow z)$ en $\neg a \land \neg (\neg z\rightarrow z)$\\
+antwoord:
+\begin{align}
+\neg (\neg a\rightarrow z) &\equiv \neg a\wedge \neg z \tag{St-2.3.2: 8} \\
+&\equiv \neg a\wedge (\neg z \wedge \neg z) \tag{St-2.3.2: 1}\\
+&\equiv \neg a\wedge \neg (\neg z\rightarrow z) \tag{St-2.3.2: 8}
+\end{align}
+% f:
+\item $\neg(p\rightarrow q) \lor (\neg (q \rightarrow p) \lor r)$ en $\neg (p\leftrightarrow q) \lor r$\\
+antwoord:
+\begin{align}
+\neg (p \rightarrow q)\vee (\neg (q\rightarrow p)\vee r) &\equiv (\neg (p \rightarrow q)\vee \neg (q\rightarrow p))\vee r \tag{St-2.3.2: 5} \\
+&\equiv \neg ((p\rightarrow q) \land (q\rightarrow p)) \vee r \tag{St-2.3.2:10}\\
+&\equiv \neg (p \leftrightarrow q) \vee r \tag{St-2.3.2: 4}
+\end{align}
+% g:
+\item $(z\lor k)\rightarrow m$ en $(\neg z \lor m) \land (\neg k \lor m)$\\
+antwoord:
+\begin{align}
+(z\vee k)\rightarrow m &\equiv (z\rightarrow m)\wedge (k\rightarrow m) \tag{St-2.3.2:13} \\
+&\equiv (\neg z\vee m)\wedge (k\rightarrow m) \tag{St-2.3.2: 7}\\
+&\equiv (\neg z\vee m)\wedge (\neg k\vee m) \tag{St-2.3.2: 7}
+\end{align}
+% h:
+\item $c \land (h\leftrightarrow d)$ en $\neg (c \rightarrow \neg (d \leftrightarrow h))$  \\
+antwoord:
+\begin{align}
+c \wedge (h\leftrightarrow d) &\equiv c \wedge (d\leftrightarrow h) \tag{St-2.3.2: 4} \\
+&\equiv \neg \neg (c \wedge (d\leftrightarrow h)) \tag{St-2.3.2: 1} \\
+&\equiv \neg (\neg c \vee \neg (d\leftrightarrow h)) \tag{St-2.3.2:10}\\
+&\equiv \neg (c \rightarrow \neg (d\leftrightarrow h)) \tag{St-2.3.2: 7} 
+\end{align}
+
+\end{enumerate}
+\end{answer}
+
+
+\begin{answer}\mbox{}\\ % 2.7
+Bewijs dat regels 13, 14 en 15 van Stelling 2.3.2 inderdaad gelijkwaardige proposities aangeven. \\
+antwoord: \\
+Stelling 13 bevat de proposities: $(p\lor q)\rightarrow r$ en $(p\rightarrow r)\land(q\rightarrow r)$. 
+\begin{align}
+(p\vee q)\rightarrow r &\equiv \neg(p\vee q)\vee r  \tag{St-2.3.2: 7}\\
+&\equiv (\neg p\wedge\neg q)\vee r \tag{St-2.3.2: 9}\\
+&\equiv (\neg p\vee r)\wedge(\neg q\vee r) \tag{St-2.3.2:12}\\
+&\equiv (p\rightarrow r)\wedge(q\rightarrow r) \tag{St-2.3.2: 7}
+\end{align}
+
+\noindent
+Stelling 14 bevat de proposities: $p\rightarrow(q\wedge r)$ en $(p\rightarrow q)\wedge(p\rightarrow r)$.
+\begin{align}
+p\rightarrow(q\wedge r) &\equiv \neg p\vee(q\wedge r) \tag{St-2.3.2:7}\\
+&\equiv (q \land r) \lor \neg p \tag{St-2.3.2:2}\\
+&\equiv (q \lor \neg p) \land (r \lor \neg p) \tag{St-2.3.2:12}\\
+&\equiv (\neg p \lor q)\wedge (\neg p \lor r) \tag{tweemaal St-2.3.2:2}\\
+&\equiv (p\rightarrow q)\wedge (p\rightarrow r) \tag{tweemaal St-2.3.2:7}
+\end{align}
+
+\noindent
+Stelling 15 bevat de proposities: $p\rightarrow (q\rightarrow r)$ en $(p \land q) \to r$.
+\begin{align}
+p\rightarrow (q\rightarrow r) &\equiv \neg p\vee (q\rightarrow r) \tag{St-2.3.2: 7}\\
+&\equiv \neg p\vee(\neg q\vee r) \tag{St-2.3.2: 7}\\
+&\equiv (\neg p\vee\neg q)\vee r \tag{St-2.3.2: 5}\\
+&\equiv \neg(p\wedge q)\vee r \tag{St-2.3.2:10}\\
+&\equiv (p\wedge q)\rightarrow r \tag{St-2.3.2: 7}
+\end{align}
+\end{answer}
+
+\newpage
+\begin{answer}\mbox{}\\ % 2.8
+Bewijs door uitsluitend gelijkwaardige proposities uit Stelling 2.3.2 door elkaar te vervangen, dat
+\begin{enumerate}[label=\textit{\alph*.}]
+% a:
+\item $a\leftrightarrow b$ en $\neg a \leftrightarrow \neg b$ gelijkwaardig zijn.\\
+antwoord:
+\begin{align}
+a\leftrightarrow b &\equiv (a \rightarrow b)\wedge  (b\rightarrow a) \tag{St-2.3.2: 4}\\
+&\equiv (\neg b \rightarrow \neg a)\wedge  (b\rightarrow a) \tag{St-2.3.2: 7}\\
+&\equiv (\neg b \rightarrow \neg a)\wedge  (\neg a \rightarrow \neg b) \tag{St-2.3.2: 7}\\
+&\equiv \neg a\leftrightarrow \neg b \tag{St-2.3.2: 4}
+\end{align}
+% b:
+\item $(\neg a\land\neg b)\rightarrow c$ en $\neg a\rightarrow(b\lor c)$ gelijkwaardig zijn. \\
+antwoord:
+\begin{align}
+(\neg a\wedge \neg b)\rightarrow c &\equiv \neg (\neg a \wedge \neg b) \vee c \tag{St-2.3.2: 7}\\
+&\equiv (a \vee b) \vee c \tag{St-2.3.2: 9}\\
+&\equiv a \vee (b \vee c) \tag{St-2.3.2: 5}\\
+&\equiv \neg \neg a\vee (b\vee c) \tag{St-2.3.2: 1}\\
+&\equiv \neg a\rightarrow (b \vee c) \tag{St-2.3.2: 7}
+\end{align}
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{}\\ % 2.9
+Oom Henk heeft altijd de grootste verhalen. Zijn jonge neefjes en nichtjes zijn meer van ``goed verhaal, lekker kort''. Nu wil oom Henk graag wat propositielogica aan zijn neefjes en nichtjes laten zien, maar ook bij zijn propositielogica heeft hij last van zijn breedsprakigheid. Help oom Henk met hip zijn en versimpel de onderstaande propositie zo veel mogelijk  Er is er al één voorgedaan. 
+\begin{enumerate}[label=\textit{\alph*.}]
+% a:
+\item $\neg ((a\land b) \lor \neg(\neg a \rightarrow b))$\\
+antwoord:
+\begin{align}
+\neg ((a\wedge b)\vee \neg (\neg a\rightarrow b)) &\equiv \neg (a\wedge b) \wedge \neg \neg (\neg a\rightarrow b)  \tag{St-2.3.2: 9} \\
+&\equiv \neg (a\wedge b) \wedge (\neg a\rightarrow b)   \tag{St-2.3.2: 1} \\
+&\equiv (\neg a \vee \neg b) \wedge (\neg a\rightarrow b) \tag{St-2.3.2:10} \\
+&\equiv (\neg a \vee \neg b) \wedge (\neg a\rightarrow \neg \neg b) \tag{St-2.3.2: 1} \\
+&\equiv (\neg a \vee \neg b) \wedge (\neg b \rightarrow a) \tag{St-2.3.2: 7} \\
+&\equiv (a \rightarrow \neg b) \wedge (\neg b \rightarrow a) \tag{St-2.3.2: 7} \\
+&\equiv a \leftrightarrow \neg b \tag{St-2.3.2: 4}
+\end{align}
+% b:
+\item $\neg (p \rightarrow \neg (q \rightarrow q))$\\
+antwoord:
+\begin{align}
+\neg (p \rightarrow \neg (q \rightarrow q)) &\equiv \neg (p \rightarrow \neg (\neg q \vee q))  \tag{St-2.3.2: 7} \\
+&\equiv \neg (p \rightarrow \neg (q \vee \neg q))  \tag{St-2.3.2: 2} \\
+&\equiv \neg (p\rightarrow \neg \top)  \tag{St-2.3.2:16} \\
+&\equiv \neg (\neg p \vee \neg \top) \tag{St-2.3.2: 7} \\
+&\equiv \neg \neg p \wedge \neg \neg \top \tag{St-2.3.2: 9} \\
+&\equiv \neg \neg p \wedge \top \tag{St-2.3.2: 1} \\
+&\equiv p \wedge \top \tag{St-2.3.2: 1} \\
+&\equiv p \tag{St-2.3.2: 1}
+\end{align}
+% c:
+\item $\neg((\neg p\rightarrow q)\rightarrow ((p\rightarrow\neg r)\wedge(r\rightarrow q)))$\\
+antwoord:
+\begin{align}
+\neg((\neg p\rightarrow q)&\rightarrow ((p\rightarrow\neg r)\wedge(r\rightarrow q)))\notag\\
+&\equiv (\neg p\rightarrow q)\wedge\neg ((p\rightarrow\neg r)\wedge(r\rightarrow q))\tag{St-2.3.2: 8}\\
+&\equiv (p\vee q)\wedge\neg((p\rightarrow\neg r)\wedge(r\rightarrow q))\tag{St-2.3.2: 7}\\
+&\equiv (p\vee q)\wedge(\neg(p\rightarrow\neg r)\vee\neg(r\rightarrow q))\tag{St-2.3.2:10}\\
+&\equiv (p\vee q)\wedge((p\wedge r)\vee\neg(r\rightarrow q))\tag{St-2.3.2: 8}\\
+&\equiv (p\vee q)\wedge((p\wedge r)\vee(r\wedge\neg q))\tag{St-2.3.2: 8}\\
+&\equiv (p\vee q)\wedge((p\vee\neg q)\wedge r)\tag{St-2.3.2:11}\\
+&\equiv ((p\vee q)\wedge(p\vee\neg q))\wedge r\tag{St-2.3.2: 6}\\
+&\equiv (p\vee(q\wedge\neg q))\wedge r\tag{St-2.3.2:12}\\
+&\equiv p\wedge r\tag{St-2.3.2: 1}
+\end{align}
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{}\\ % 2.10
+Bepaal voor alle volgende stellingen of het een altijd, soms of nooit een logisch gevolg is (maak zonodig een waarheidstabel om te checken):
+\begin{enumerate}[label=\textit{\alph*.}]
+\item $\varphi\vdash\psi$ als $\varphi$ en $\psi$ beiden een tautologie zijn;
+\item $\varphi\vdash\psi$ als $\varphi$ een tautologie is en $\psi$ een contradictie;
+\item $\varphi\vdash\psi$ als $\varphi$ een tautologie is en $\psi$ een contingentie;
+\item $\varphi\vdash\psi$ als $\varphi$ een contradictie is en $\psi$ een tautologie;
+\item $\varphi\vdash\psi$ als $\varphi$ een contradictie is en $\psi$ een contradictie;
+\item $\varphi\vdash\psi$ als $\varphi$ een contradictie is en $\psi$ een contingentie;
+\item $\varphi\vdash\psi$ als $\varphi$ een contingentie is en $\psi$ een tautologie;
+\item $\varphi\vdash\psi$ als $\varphi$ een contingentie is en $\psi$ een contradictie;
+\item $\varphi\vdash\psi$ als $\varphi$ een contingentie is en $\psi$ een contingentie;
+\end{enumerate}
+
+  \mbox{}\\
+antwoorden\\
+
+\begin{enumerate}[label=\textit{\alph*.}]
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi = \top$ & $\psi = \top$ & $\varphi \vdash \psi$ \\
+    1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+%\draw[green, thick] (M1-2-1.north west) rectangle (M1-2-3.south east);
+\end{tikzpicture}\\
+%\draw (M1-1-1.south west) -- (M1-1-7.south east);
+%\draw (M1-1-1.north west) -- (M1-5-1.south west) -- (M1-5-7.south east -| M1-1-7.east) -- (M1-1-7.north east);
+%\draw[red, thick] (M1-1-3.north west) rectangle (M1-5-3.south east);
+%\draw[red, thick] (M1-1-7.north west) rectangle (M1-5-7.south east -| M1-1-7.north east);
+%\end{tikzpicture} \\
+%$\neg(p\rightarrow\neg q)$ en $p\land q$ hebben in elke rij van de waarheidstabel dezelfde waarde, dus zijn ze gelijkwaardig aan elkaar.
+    Omdat $\varphi$ en $\psi$ beide tautologi\"{e}n zijn, is er maar \'{e}\'{e}n waarheidswaarde voor elk: 1. Dit betekent dat $\varphi$ en $\psi$ overal 1 zijn, en de logische gevolgtrekking \emph{altijd} waar is.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi = \top$ & $\psi = \bot$ & $\varphi \vdash \psi$ \\
+    1 & 0 & 0 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+%\draw[red, thick] (M1-2-1.north west) rectangle (M1-2-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ een tautologie is, en $\psi$ een contradictie, is er maar \'{e}\'{e}n waarheidswaarde voor elk: respectievelijk 1 en 0. Dit betekent dat er een situatie is, namelijk $\varphi$ = 1 en $\psi$ = 0, en dat de logische gevolgtrekking \emph{nooit} waar is.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi = \top$ & $\psi$ & $\varphi \vdash \psi$ \\
+    1 & 0 & 0 \\
+    1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+%\draw[red, thick] (M1-2-1.north west) rectangle (M1-2-3.south east);
+%\draw[green, thick] (M1-3-1.north west) rectangle (M1-3-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ een tautologie is, en $\psi$ een contingentie, is er maar \'{e}\'{e}n waarheidswaarde voor de premisse, maar beide opties mogelijk zijn voor de conclusie. Dit betekent dat er twee situatie is, namelijk $\varphi$ = 1 en $\psi$ = 0 of 1. In een van beide gevallen is de logische gevolgtrekking waar, in de andere niet. De gevolgtrekking is dus \emph{soms} waar.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi = \bot$ & $\psi = \top$ & $\varphi \vdash \psi$ \\
+    0 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ een contradictie is, en $\psi$ een tautologie, is er maar \'{e}\'{e}n waarheidswaarde voor elk: respectievelijk 0 en 1. Dit betekent dat er een situatie is, namelijk $\varphi$ = 0 en $\psi$ = 1, en dat de conclusie overal waar is waar de premisse waar is. De logische gevolgtrekking is \emph{altijd} waar.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi = \bot$ & $\psi = \bot$ & $\varphi \vdash \psi$ \\
+    0 & 0 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ en $\psi$ beide contradicties zijn, is er maar \'{e}\'{e}n waarheidswaarde voor elk: 0. Dit betekent dat $\varphi$ en $\psi$ overal 0 zijn, dat de conclusie waar is overal waar de premisse waar is, en de logische gevolgtrekking \emph{altijd} waar is.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi = \bot$ & $\psi$ & $\varphi \vdash \psi$ \\
+    0 & 0 & 1 \\
+    0 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ een contradictie is, en $\psi$ een contingentie, is er maar \'{e}\'{e}n waarheidswaarde voor de premisse, maar beide opties mogelijk zijn voor de conclusie. Dit betekent dat er twee situatie is, namelijk $\varphi$ = 0 en $\psi$ = 0 of 1. In beide gevallen is de logische gevolgtrekking waar, omdat voor alle scenario's waar de premisse waar is, de conclusie dat ook is. De gevolgtrekking is dus \emph{altijd} waar.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi$ & $\psi = \top$ & $\varphi \vdash \psi$ \\
+    0 & 1 & 1 \\
+    1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ een contingentie is, en $\psi$ een tautologie, zijn er twee situaties mogelijk. Hiervan is er een geval waarvoor de premisse waar is, en in al deze gevallen is de conclusie ook waar. De logische gevolgtrekking is \emph{altijd} waar.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi$ & $\psi = \bot$ & $\varphi \vdash \psi$ \\
+    0 & 0 & 1 \\
+    1 & 0 & 0 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ een contingentie is, en $\psi$ een contradictie, zijn er twee situaties mogelijk. Hiervan is er een geval waarvoor de premisse waar is, en in al deze gevallen is de conclusie niet waar. De logische gevolgtrekking is \emph{nooit} waar.
+
+\item\begin{tikzpicture}[node distance=1mm and 0mm,baseline]
+\matrix (M1) [matrix of nodes, column sep=1em]
+{
+  $\varphi$ & $\psi$ & $\varphi \vdash \psi$ \\
+    0 & 0 & 1 \\
+    0 & 1 & 1 \\
+    1 & 0 & 0 \\
+    1 & 1 & 1 \\
+};
+\draw (M1-1-1.south west) -- (M1-1-3.south east);
+\end{tikzpicture}\\
+    Omdat $\varphi$ en $psi$ beide contingenties zijn, zijn er vier situaties mogelijk. Hiervan zijn er twee gevallen waarvoor de premisse waar zijn, en in slechts een van deze gevallen is de conclusie waar. De logische gevolgtrekking is \emph{soms} waar.
+
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{} % 2.11
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Toon aan dat $\lor$ en $\neg$ functioneel compleet zijn. Geef hiertoe een equationeel bewijs dat $\land$ uit te drukken is in enkel $\lor$ en $\neg$. \\
+antwoord:
+\begin{align}
+  (p\land q) & \equiv \neg (\neg p) \land \neg (\neg q) \tag{tweemaal St-2.3.2: 1}\\
+             & \equiv \neg (\neg p \lor \neg q) \tag{St-2.3.2: 9}
+\end{align}
+\end{enumerate}
+Naast $\land$ en $\neg$, en $\lor$ en $\neg$ zijn er ook nog `vreemdere' combinaties denkbaar die functioneel compleet zijn. Het beste voorbeeld hiervan is $\rightarrow$ en $\bot$.
+\begin{enumerate}[label=\textit{\alph*.}]
+\setcounter{enumi}{1}
+\item Toon aan dat $\rightarrow$ en $\bot$ functioneel compleet zijn door een equationeel bewijs dat $\land$ en $\neg$ uit te drukken zijn in enkel $\rightarrow$ en $\bot$.
+\end{enumerate}
+antwoord:
+\begin{align}
+  (\neg p) & \equiv \neg p \lor \bot \tag{St-2.3.2: 1}\\
+           & \equiv p \to \bot \tag{St-2.3.2: 7}
+\end{align}
+\begin{align}
+  (p\land q) & \equiv \neg (\neg p \lor \neg q) \tag{Opg-2.11: (a)}\\
+             & \equiv \neg (p \to \neg q) \tag{St-2.3.2: 7}\\
+             & \equiv (p \to (q \to \bot)) \to \bot \tag{Opg-2.11: (b)}
+\end{align}
+
+
+
+\end{answer}
+
+\begin{answer}\mbox{} % 2.12
+\begin{enumerate}[label=\textit{\alph*.}]
+%a:
+\item Druk $(p\lor q)\land r$ uit met de enkel de connectieven $\rightarrow$ en $\neg$. \\
+antwoord:
+\begin{align}
+(p\lor q)\land r &\equiv (\neg \neg p \vee q) \wedge r \tag{St-2.3.2: 1}\\
+&\equiv (\neg p\rightarrow q) \wedge r \tag{St-2.3.2: 7}\\
+&\equiv (\neg p\rightarrow q)\wedge \neg \neg r \tag{St-2.3.2: 1}\\
+&\equiv \neg ((\neg p\rightarrow q) \rightarrow \neg r) \tag{St-2.3.2: 8}
+\end{align}
+\item Druk $(p\lor q)\land r$ uit met $\uparrow$ als enige connectief. \\
+antwoord:
+\begin{align}
+(p\vee q)\wedge r &\equiv (p \wedge r) \vee (q \wedge r) \tag{St-2.3.2: 11}\\
+&\equiv \neg \neg ((p\wedge r) \vee (q\wedge r)) \tag{St-2.3.2: 1}\\
+&\equiv \neg (\neg (p\wedge r) \wedge \neg (q\wedge r)) \tag{St-2.3.2: 9}\\
+&\equiv \neg ((p\uparrow r) \wedge \neg (q \wedge r)) \tag{Sheffer stroke}\\
+&\equiv \neg ((p\uparrow r) \wedge (q \uparrow r)) \tag{Sheffer stroke}\\
+&\equiv ((p\uparrow r) \uparrow (q \uparrow r)) \tag{Sheffer stroke}
+\end{align}
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{}\\ % 2.13
+Definieer de Quine Dagger ($\downarrow$) zodanig dat $p\downarrow q$ gelijkwaardig is aan $\neg(p\lor q)$.
+\begin{enumerate}[label=\textit{\alph*.}]
+% a
+\item Laat zien dat elk connectief uit te drukken is in alleen $\downarrow$. \\
+antwoord $\neg$:
+\begin{align}
+\neg p &\equiv \neg (p \vee p) \tag{St-2.3.2: 1}\\
+&\equiv p\downarrow p \tag{Quine Dagger}
+\end{align}
+antwoord $\land$:
+\begin{align}
+p \wedge q &\equiv \neg \neg (p \wedge q) \tag{St-2.3.2: 1}\\
+&\equiv \neg (\neg p \vee \neg q) \tag{St-2.3.2: 10}\\
+&\equiv \neg p \downarrow \neg q \tag{Quine Dagger} \\ 
+&\equiv (p \downarrow p) \downarrow \neg q \tag{zie antwoord $\neg$} \\
+&\equiv (p \downarrow p) \downarrow (q\downarrow q) \tag{zie antwoord $\neg$}
+\end{align}
+antwoord $\lor$:
+\begin{align}
+p \vee q &\equiv \neg \neg (p \vee q) \tag{St-2.3.2: 1}\\
+&\equiv \neg (p\downarrow q) \tag{Quine Dagger}\\
+&\equiv (p\downarrow q)\downarrow (q\downarrow q) \tag{zie antwoord $\neg$}
+\end{align}
+antwoord $\rightarrow$:
+\begin{align}
+p \rightarrow q &\equiv \neg p \vee q \tag{St-2.3.2: 7}\\
+&\equiv \neg \neg (\neg p\vee q) \tag{St-2.3.2: 1}\\
+&\equiv \neg (\neg p\downarrow q) \tag{Quine Dagger}\\
+&\equiv \neg ((p\downarrow p)\downarrow q) \tag{zie antwoord $\neg$}\\
+&\equiv ((p\downarrow p)\downarrow q) \downarrow ((p\downarrow p)\downarrow q) \tag{zie antwoord $\neg$}
+\end{align}
+antwoord $\leftrightarrow$:
+\begin{align}
+p \leftrightarrow q &\equiv (p\rightarrow q) \wedge (q\rightarrow p) \tag{St-2.3.2: 4}\\
+&\equiv (p\rightarrow q) \wedge (\neg q \vee p) \tag{St-2.3.2: 7}\\
+&\equiv (\neg p\vee q) \wedge (\neg q \vee p) \tag{St-2.3.2: 7}\\
+&\equiv \neg \neg ((\neg p\vee q)\wedge (\neg q\vee p) \tag{St-2.3.2: 1} \\
+&\equiv \neg (\neg (\neg p\vee q)\vee \neg (\neg q\vee p)) \tag{St-2.3.2: 10}\\
+&\equiv \neg (\neg p\vee q) \downarrow \neg (\neg q\vee p)\tag{Quine Dagger}\\
+&\equiv (\neg p\downarrow q)\downarrow (\neg q\downarrow p) \tag{Quine Dagger}\\
+&\equiv ((p\downarrow p)\downarrow q)\downarrow (\neg q\downarrow p) \tag{zie antwoord $\neg$}\\
+&\equiv ((p\downarrow p)\downarrow q)\downarrow ((q\downarrow q)\downarrow p) \tag{zie antwoord $\neg$}
+\end{align}
+Voor $\leftrightarrow$ kan men ook tot een antwoord komen met St-2.3.2: 4 en het hergebruiken van de antwoorden van $\rightarrow$ en $\land$. Deze propositie is echter een stuk langer!
+
+\item Druk $(p\lor q)\land r$ uit met $\downarrow$ als enige connectief. \\
+antwoord:
+\begin{align}
+(p\vee q) \wedge r &\equiv \neg \neg (p\vee q) \wedge r \tag{St-2.3.2: 1}\\
+&\equiv \neg (p\downarrow q) \wedge r \tag{Quine Dagger}\\
+&\equiv \neg \neg (\neg (p\downarrow q) \wedge r) \tag{St-2.3.2: 1}\\
+&\equiv \neg (\neg \neg (p\downarrow q) \vee \neg r) \tag{St-2.3.2: 10}\\
+&\equiv \neg ((p\downarrow q) \vee \neg r) \tag{St-2.3.2: 1}\\
+&\equiv (p\downarrow q) \downarrow \neg r) \tag{Quine Dagger}\\
+&\equiv (p\downarrow q) \downarrow (r\downarrow r)) \tag{zie antwoord $\neg$}
+\end{align}
+Men kan ook tot een antwoord komen door de eerdere antwoorden voor $\lor$ en $\land$ te hergebruiken. Deze propositie is echter een stuk langer!
+\end{enumerate}
+\end{answer}
+
+\begin{answer}\mbox{}\\ % 2.14
+Geef een disjunctieve normaalvorm van
+\begin{enumerate}[label=\textit{\alph*.}]
+%a:
+\item $p\rightarrow(q\rightarrow r)$\\
+antwoord:
+\begin{align}
+    p\rightarrow(q\rightarrow r) &\equiv \neg p\vee(q\rightarrow r) \tag{(St-2.3.2: 7)}\\
+    &\equiv \neg p\vee\neg q\vee r \tag{(St-2.3.2: 7)}
+\end{align}
+%b:
+\item $(p\lor q)\land r$\\
+antwoord: 
+\begin{align}
+    (p\vee q)\wedge r &\equiv (p\wedge r)\vee (q\wedge r) \tag{St-2.3.2:11)}
+\end{align}
+%c:
+\item $(p\lor q)\land(r\lor q)$\\
+antwoord:
+\begin{align}
+    (p\vee q)\wedge (r\vee q) &\equiv q\vee(p\wedge r) \tag{St-2.3.2:12)}
+\end{align}
+%d:
+\item $(p\land r)\rightarrow(q\land r)$\\
+antwoord:
+\begin{align}
+    (p\wedge r)\rightarrow(q\wedge r) &\equiv \neg(p\wedge r)\vee(q\wedge r) \tag{St-2.3.2: 7)}\\
+    &\equiv \neg p\vee\neg r\vee(q\wedge r)\tag{St-2.3.2:10}
+\end{align}
+\end{enumerate}
+\end{answer}
+
+\begin{answer}[Pittig!]\mbox{}\\ % 2.15
+Een \textit{conjunctieve normaalvorm} van een propositie opgebouwd uit $p_1,p_2,\ldots,p_r$ is een equivalente propositie van de vorm $X_1\land X_2\land\ldots\land X_s$, waarbij elke $X_i$ van de vorm $(Y_1\lor Y_2\lor\ldots\lor Y_{n_i})$ is, en elke $Y_j$ van de vorm $p_k$ of $\neg p_k$ is voor een zekere $k$.
+\begin{enumerate}[label=\textit{\alph*.}]
+\item Leid een conjunctieve normaalvorm van $\neg(p\rightarrow(q\rightarrow r))$ af uit een disjunctieve normaalvorm van $p\rightarrow(q\rightarrow r)$ (zie vorige opgave, deel \textit{a}).\\
+antwoord: 
+\begin{align}
+    \neg(p\rightarrow(q\rightarrow r)) &\equiv \neg(\neg p\vee\neg q\vee r)\tag{antwoord 2.12a)}\\
+    &\equiv \neg\neg p\wedge \neg\neg q\wedge\neg r\tag{(St-2.3.2: 9)}\\
+    &\equiv p\wedge q\wedge\neg r \tag{(St-2.3.2: 1)}
+\end{align}
+\item Geef een conjunctieve normaalvorm van $p\rightarrow(q\rightarrow r)$.\\
+antwoord:
+\begin{align}
+    p\rightarrow (q\rightarrow r) &\equiv \neg p\vee\neg q\vee r\tag{(antwoord 2.12a)}\\
+    &\equiv (\neg p\vee\neg q\vee r)\wedge\top \tag{St-2.3.2: 1)}
+\end{align}
+\end{enumerate}
+\end{answer}
+
+
