@@ -1,7 +1,10 @@
 name: Build LaTeX document
 permissions:
   contents: write
-on: [push]
+on: 
+  push:
+    tags:
+      - "publish"
 jobs:
   build_latex:
     runs-on: ubuntu-latest

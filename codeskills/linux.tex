@@ -49,101 +49,101 @@ In deze sectie maken we kennis met Bash, de meest gangbare shell voor Linux. Ook
 Als je een nieuwe terminal start\sidenote{of via bijvoorbeeld SSH een verbinding maakt}, heeft je shell standaard een working directory: het punt op het filesysteem waar je je bevindt. Bestanden die je maakt worden in deze map gezet, en bestanden die je zoekt kunnen relatief vanaf deze map benaderd worden. Standaard zul je beginnen in je \emph{home} directory, de map die je als gebruiker zelf beheert en waar je eigen bestanden (en instellingen) te vinden zijn. Het commando \texttt{cd} (change directory) wordt gebruikt om van map te wisselen, en \texttt{pwd} (present working directory) vertelt waar je je nu bevindt. Met \texttt{ls} (list) kun je de inhoud van de huidige map te zien krijgen. Een aantal paden zijn belangrijk om te weten: de bovenste directory, de root directory, wordt met een \texttt{/} (slash) aangeduid. Vanaf hier worden directory-namen door een \texttt{/} gescheiden om een pad uit te drukken. De home directory van de gebruiker \texttt{linus} bevindt zich bijvoorbeeld op \texttt{/home/linus} (de map \texttt{linus}, binnen de map \texttt{home}, binnen de root). \texttt{\textasciitilde} wordt gebruikt als synoniem voor de home directory van de huidige gebruiker. Voor linus is \texttt{cd\ \textasciitilde} dus hetzelfde als \texttt{cd\ /home/linus}. \texttt{.} verwijst naar de huidige map: \texttt{cd\ .} doet niets. Dit kan voor nu een beetje overbodig lijken, maar later zullen we zien hoe de \texttt{.} soms korter is dan de alternatieven. Daarnaast hebben we \texttt{..}, die naar de parent van de huidige directory verwijst. Vanaf Linus's home zal \texttt{cd\ ..} dus naar \texttt{/home} verwijzen. Deze kun je ook middenin een pad gebruiken, de map omhoog wordt dan gerekend vanaf waar in het pad deze wordt gebruikt. \texttt{cd\ /home/linus/Documents/../Music} is bijvoorbeeld hetzelfde als \texttt{cd\ /home/linus/Music}. \texttt{cd} zonder argument gaat terug naar de home directory, en \texttt{cd\ -} gaat terug naar de vorige directory.
 
 \begin{bash}
-\p cd Documents\\
+\userprompt cd Documents\\
 \  \\
-\p[\textasciitilde/Documents] pwd\\
+\userprompt[\textasciitilde/Documents] pwd\\
 /home/linus/Documents\\\\
 \  \\
-\p[\textasciitilde/Documents] cd ..\\
+\userprompt[\textasciitilde/Documents] cd ..\\
 \  \\
-\p cd Folder\\
+\userprompt cd Folder\\
 \  \\
-\p[\textasciitilde/Folder] cd ..\\
+\userprompt[\textasciitilde/Folder] cd ..\\
 AnotherFile  File\\
 \  \\
-\p[\textasciitilde/Folder] cd \asciitilde\\
+\userprompt[\textasciitilde/Folder] cd \asciitilde\\
 \  \\
-\p cd -\\
+\userprompt cd -\\
 /home/linus/Folder
 \  \\
-\p[\textasciitilde/Folder] cd .\\
+\userprompt[\textasciitilde/Folder] cd .\\
 \  \\
-\p[\textasciitilde/Folder] cd /\\
+\userprompt[\textasciitilde/Folder] cd /\\
 \  \\
-\p[/] ls\\
+\userprompt[/] ls\\
 bin/  boot/  dev/  etc/  home/  media/  mnt/  proc/  root/  run/  sys/  tmp/  usr/  var/\\
 \  \\
-\p[/] cd\\
+\userprompt[/] cd\\
 \  \\
-\p pwd\\
+\userprompt pwd\\
 /home/linus\\
 \end{bash}
 
 De volgende commando's manipuleren bestanden. Met \texttt{touch} wordt een bestand aangemaakt (als deze nog niet bestond) of wordt de ``laatst aangepast'' datum naar nu gezet. Het bestand wordt gewijzigd, maar er verandert niets aan. Met \texttt{cp} kun je een bestand kopiëren, en met \texttt{mv} kun je het verplaatsen. \texttt{rm} verwijdert een bestand.
 
 \begin{bash}
-\p ls\\
+\userprompt ls\\
 AnotherFile  File\\
 \\
-\p touch File3\\
+\userprompt touch File3\\
 \\
-\p ls\\
+\userprompt ls\\
 AnotherFile  File  File3\\
 \\
-\p cp File File2\\
+\userprompt cp File File2\\
 \\
-\p ls\\
+\userprompt ls\\
 AnotherFile  File  File2  File3\\
 \\
-\p mv AnotherFile File1\\
+\userprompt mv AnotherFile File1\\
 \\
-\p ls\\
+\userprompt ls\\
 File  File1  File2  File3\\
 \\
-\p rm File3\\
+\userprompt rm File3\\
 \\
-\p ls\\
+\userprompt ls\\
 File  File1  File2\\
 \end{bash}
 
 De meeste commando's voor bestanden werken niet direct op directories. \texttt{mv} mag, maar \texttt{cp} en \texttt{rm} werken niet. Voor het verwijderen van een \emph{lege} map wordt \texttt{rmdir} gebruikt, maar dit mag niet als er een bestand in de map zit. Dit is omdat Linux je wil beschermen geen verkeerde handeling uit te voeren: als je aangeeft dat je een bestand wil verwijderen, maar je geeft een map op, dan is de kans groot dat je de verkeerde naam hebt meegegeven. Als je toch een map (met alle inhoud) wilt kopiëren of verwijderen, kun je \texttt{cp\ -r} en \texttt{rm\ -r} gebruiken. De toevoeging \texttt{-r} staat voor \emph{recursief} (dat betekent in dit geval: met alles wat eronder hangt). Gebruik bijvoorbeeld \texttt{rm\ -r\ Music} als je de map Music met alle inhoud wil verwijderen. \texttt{-r} is het eerste voorbeeld van een flag.
 
 \begin{bash}
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 File  File1  File2\\
 \\
-\p[~/Folder] mkdir Subfolder\\
+\userprompt[~/Folder] mkdir Subfolder\\
 \\
-\p[~/Folder] touch Subfolder/File\\
+\userprompt[~/Folder] touch Subfolder/File\\
 \\
-\p[~/Folder] mkdir EmptyFolder\\
+\userprompt[~/Folder] mkdir EmptyFolder\\
 \\
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 EmptyFolder/  File  File1  File2  Subfolder/\\
 \\
-\p[~/Folder] mkdir EmptyFolder2\\
+\userprompt[~/Folder] mkdir EmptyFolder2\\
 \\
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 EmptyFolder/  EmptyFolder2/  File  File1  File2  Subfolder/\\
 \\
-\p[~/Folder] rmdir EmptyFolder\\
+\userprompt[~/Folder] rmdir EmptyFolder\\
 \\
-\p[~/Folder] rmdir Subfolder\\
+\userprompt[~/Folder] rmdir Subfolder\\
 rmdir: failed to remove 'Subfolder/': Directory not empty\\
 \\
-\p[~/Folder] cp Subfolder Backup\\
+\userprompt[~/Folder] cp Subfolder Backup\\
 cp: -r not specified; omitting directory 'Subfolder'\\
 \\
-\p[~/Folder] cp -r Subfolder Backup\\
+\userprompt[~/Folder] cp -r Subfolder Backup\\
 \\
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 Backup/  EmptyFolder2/  File  File1  File2  Subfolder/\\
 \\
-\p[~/Folder] rm -r Subfolder\\
+\userprompt[~/Folder] rm -r Subfolder\\
 \\
-\p[~/Folder] rm -r EmptyFolder2\\
+\userprompt[~/Folder] rm -r EmptyFolder2\\
 \\
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 Backup/  File  File1  File2\\
 \end{bash}
 
@@ -152,30 +152,30 @@ Backup/  File  File1  File2\\
 De meeste commando's accepteren command line argumenten. Allereerst zijn er verplichte argumenten. Waar \texttt{pwd} bijvoorbeeld geen argumenten nodig heeft, heeft \texttt{touch} enkel zin als meegegeven wordt welk bestand gemaakt of geüpdatet moet worden. \texttt{cp} heeft zelfs twee argumenten nodig: een bron en een doel. Soms kan een commando een optioneel pad meekrijgen: \texttt{ls} werkt in de huidige working directory, \texttt{ls\ /home} leest de inhoud van \texttt{/home}. Al deze argumenten zijn positie-bepaald. Het eerste argument bij \texttt{cp} is altijd de bron, de tweede het doel. Naast deze positiegebonden argumenten hebben we ook flags, die met één of twee streepjes (dashes) kunnen beginnen. Flags komen doorgaans overeen met booleaanse waardes: wel of niet. Als de flag met één dash begint, dan is het doorgaans een enkele letter, en kun je deze combineren. \texttt{-r\ -f} is hetzelfde als \texttt{-rf}; het maakt niet uit of je \texttt{rm\ -r\ -f\ Music} gebruikt of het kortere \texttt{rm\ -rf\ Music}. Ook de volgorde maakt meestal niet uit. Flags met een dubbele dash bestaan uit meerdere letters en zijn niet samen te voegen. Tot slot kunnen deze flags soms een argument erbij nemen. Bij enkele letters volgt het argument meestal na een (optionele) spatie, bij de dubbele dash wordt meestal een \texttt{=} gebruikt om de waarde van de flag te scheiden.
 
 \begin{bash}
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 File  File1  File2  Folder1/  Folder2/ Folder3/\\
 \\
-\p[~/Folder] rm -r Folder1    \# Recursive om directory te deleten\\
+\userprompt[~/Folder] rm -r Folder1    \# Recursive om directory te deleten\\
 \\
-\p[~/Folder] rm -f File2      \# Force remove\\
+\userprompt[~/Folder] rm -f File2      \# Force remove\\
 \\
-\p[~/Folder] rm -r -f Folder2 \# Force recursive remove\\
+\userprompt[~/Folder] rm -r -f Folder2 \# Force recursive remove\\
 \\
-\p[~/Folder] rm -rf Folder3   \# Zelfde als -r -f\\
+\userprompt[~/Folder] rm -rf Folder3   \# Zelfde als -r -f\\
 \\
-\p[~/Folder] rm --force File1 \# Zelfde als -f\\
+\userprompt[~/Folder] rm --force File1 \# Zelfde als -f\\
 \\
-\p[~/Folder] ls\\
+\userprompt[~/Folder] ls\\
 File\\
 \end{bash}
 
 Sommige commando's hebben erg veel opties om de gewenste functionaliteit te selecteren. De meeste commando's hebben een \texttt{-h} en/of \texttt{-\/-help} optie om wat tips te geven over het gebruik. Voor het hele verhaal kun je \texttt{man} gebruiken, oftewel de manual.
 
 \begin{bash}
-\p[~] rm --help\\
+\userprompt[~] rm --help\\
 \# Print een (relatief) korte handleiding\\
 \\
-\p[~] man rm\\
+\userprompt[~] man rm\\
 \# Scroll door de uitgebreide handleiding\\
 \end{bash}
 
@@ -184,13 +184,13 @@ Sommige commando's hebben erg veel opties om de gewenste functionaliteit te sele
 Om een tree te krijgen van de inhoud van een map en alle submappen kun je het commando \texttt{find} gebruiken. Dit geeft echter vrij veel uitvoer, het zou fijn zijn als we hier hapklare brokken van konden maken. Het commando \texttt{less} kan gebruikt worden om een bestand te openen en er doorheen te kunnen scrollen. Kunnen we dit gebruiken om de uitvoer van \texttt{find} te pagineren? In Linux kun je twee commando's aan elkaar koppelen: uitvoer van het ene programma wordt als invoer voor het tweede gebruikt. Hiervoor gebruiken we het \texttt{\textbar{}} symbool: de pipe. Denk aan een pijpleiding die de commando's met elkaar verbindt.
 
 \begin{bash}
-\p[~] find /home/linus\\
+\userprompt[~] find /home/linus\\
 \# Print de hele mappenstructuur; veel output\\
 \\
-\p[~] less file\\
+\userprompt[~] less file\\
 \# Lees een bestand door er doorheen te scrollen\\
 \\
-\p[~] find /home/linus | less\\
+\userprompt[~] find /home/linus | less\\
 \# Combineer de tools: scroll door de uitvoer van find\\
 \end{bash}
 
@@ -207,19 +207,19 @@ Om een tree te krijgen van de inhoud van een map en alle submappen kun je het co
 Net als dat we vanaf de shell twee commando's aan elkaar kunnen pipen, kunnen we ook een file descriptor meegeven om als \texttt{STDIN}, \texttt{STDOUT} of \texttt{STDERR} te gebruiken. Dit kan respectievelijk met \texttt{\textless{}}, \texttt{\textgreater{}} en \texttt{2\textgreater{}}. Je kunt bijvoorbeeld \texttt{find\ /home/linus\ \textgreater{}\ filetree} gebruiken om de uitvoer van \texttt{find\ /home/linus} in het bestand \texttt{filetree} te schrijven. Bij \texttt{find\ /home/linus\ 2\textgreater{}\ errors.log} wordt niet de uitvoer verbonden, maar eventuele foutmeldingen via \texttt{STDERR}. Als het bestand waarnaar je wilt uitvoeren al bestaat, wordt het als je \texttt{\textgreater{}} gebruikt overschreven, maar je kunt, \texttt{\textgreater{}\textgreater{}} en \texttt{2\textgreater{}\textgreater{}} gebruiken om in plaats daarvan achteraan het bestand toe te voegen. Tot slot kun je \texttt{\textless{}\textless{}\ MARKER} of \texttt{\textless{}\textless{}-\ MARKER} (een zogenaamde ``heredoc'') gebruiken om \texttt{STDIN} vanaf de command line mee te geven, tot aan de eerste regel met enkel \texttt{MARKER}. Dit maakt het makkelijk meerdere regels tekst mee te geven. De toegevoegde waarde van de \texttt{-} is dat deze een tab aan het begin van een regel negeert en mogelijk leesbaarder is. Op zichzelf wordt \texttt{\textless{}} niet zo veel gebruikt, omdat de meeste programma's standaard een meegegeven bestandsnaam als \texttt{STDIN} interpreteren (dus \texttt{less\ \textless{}\ file} is hetzelfde als \texttt{less\ file}), maar bij sommige programma's kan dit nodig zijn. Een voorbeeld is \texttt{psql}, een database waarbij je een bestand met instructies mee kan geven met \texttt{psql\ databasename\ \textless{}\ sqlfile}. Als je \texttt{\textless{}} niet gebruikt en vanaf de command line invoert kun je \texttt{Control-d} gebruiken om je invoer te beëindigen, in plaats van de explicete \texttt{MARKER} die je bij \texttt{\textless{}\textless{}} gebruikt. \texttt{wc} staat trouwens voor \emph{word count}, waarbij \texttt{wc\ -l} het aantal regels telt, en \texttt{wc\ -c} het aantal karakters.
 
 \begin{bash}
-\p[~] find /home/linus > filetree 2> errors.log\\
+\userprompt[~] find /home/linus > filetree 2> errors.log\\
 \# Geen output; alles staat in bestanden filetree en errorslog\\
 \\
-\p[~] wc -l filetree >\!> filetree\\
+\userprompt[~] wc -l filetree >\!> filetree\\
 \# Het totaal aantal regels in filetree wordt onderaan filetree toegevoegd\\
 \\
-\p[~] wc -c <\!< EOF\\
+\userprompt[~] wc -c <\!< EOF\\
 > Lorem Ipsum\\
 > Dolor Sit Amet\\
 > EOF\\
 27\\
 \\
-\p[~] psql databasename < sqlfile\\
+\userprompt[~] psql databasename < sqlfile\\
 \# Laadt een database uit een file\\
 \end{bash}
 
@@ -228,7 +228,7 @@ Net als dat we vanaf de shell twee commando's aan elkaar kunnen pipen, kunnen we
 Nu we het bestaan van pipes kennen, zijn hier nog wat commando's die op zichzelf niet altijd even zinvol zijn, maar als deel van een pipeline goed werken. Om uit bestand (of uitvoer) regels te filteren die een bepaalde string bevatten kun je \texttt{grep} gebruiken. \texttt{sort} geeft de invoer gesorteerd terug, en \texttt{cut} snijdt per regel een substring uit. In het onderste voorbeeld wordt \texttt{ls\ -l} gebruikt (een directory listing met uitgebreide info). We gebruiken \texttt{cut\ -c14-} om karakter 14 tot eind te bewaren, waardoor de eigenaar van het bestand vooraan komt te staan. Met \texttt{sort} kunnen we hierop sorteren.
 
 \begin{bash}
-\p[~/Folder] ls -la\\
+\userprompt[~/Folder] ls -la\\
 total 0\\
 drwxr-xr-x 1 linus users   44 Jan 28 10:10 .\\
 drwx------ 1 linus users 6142 Jan 28 10:05 ..\\
@@ -237,10 +237,10 @@ drwx------ 1 linus users 6142 Jan 28 10:05 ..\\
 -rw-r--r-- 1 linus users    0 Jan 28 10:08 File2025\\
 -rw-r--r-- 1 linus users    0 Jan 28 10:08 File3\\
 \\
-\p[~/Folder] ls -la | grep 2025\\
+\userprompt[~/Folder] ls -la | grep 2025\\
 -rw-r--r-- 1 linus users 0 Jan 28 10:08 File2025\\
 \\
-\p[~/Folder] ls -la | cut -c14- | sort\\
+\userprompt[~/Folder] ls -la | cut -c14- | sort\\
 \\
 linus users    0 Jan 28 10:08 File2\\
 linus users    0 Jan 28 10:08 File2025\\
@@ -255,13 +255,13 @@ root  users    0 Jan 28 09:46 File\\
 Meerdere commands gescheiden door pipes vormen samen een pipeline. De commando's worden parallel uitgevoerd. Je kunt ook meerdere commands na elkaar uit laten voeren, dit kan met de puntkomma en wordt een command-list genoemd. Het is zelfs mogelijk meerdere pipelines in een command list te zetten.
 
 \begin{bash}
-\p[~] foo | bar\\
+\userprompt[~] foo | bar\\
 \# De uitvoer van foo gaat naar bar\\
 \\
-\p[~] foo ; bar\\
+\userprompt[~] foo ; bar\\
 \# bar wordt na foo uitgevoerd\\
 \\
-\p[~] foo | bar ; baz | quux\\
+\userprompt[~] foo | bar ; baz | quux\\
 \# Eerst worden foo en bar uitgevoerd, waarbij de uitvoer van foo naar bar gaat\\
 \# Als dit klaar is worden baz en quux gestart, en gaat de uitvoer van baz naar quux\\
 \end{bash}
@@ -269,10 +269,10 @@ Meerdere commands gescheiden door pipes vormen samen een pipeline. De commando's
 Commands in een command list worden na elkaar uitgevoerd, ongeacht of er ergens iets mis gaat. Soms wil je het tweede command enkel uitvoeren als het eerste command geslaagd is, of juist alleen als er een fout is geweest. Zoals we weten heeft ieder command een exit status, \texttt{0} voor succes of iets anders voor een fout. Door \texttt{\&\&} tussen commands te zetten, in plaats van \texttt{;} wordt het tweede commando alleen uitgevoerd als het eerste geslaagd is. De dubbele pipe \texttt{\textbar{}\textbar{}} werkt precies andersom: het tweede command wordt alleen uitgevoerd als de eerste mislukte. We noemen deze operators \emph{en} en \emph{of}. ``Doe a en b'' kan alleen maar als \emph{a} gelukt is, zo niet zal de shell het meteen opgeven. ``Doe a of b'' levert de shell een alternatief, probeer eerst \emph{a}, en als dat niet lukt, doe dan \emph{b}.
 
 \begin{bash}
-\p[~] foo || bar\\
+\userprompt[~] foo || bar\\
 \# bar wordt uitgevoerd als foo faalt\\
 \\
-\p[~] foo && bar\\
+\userprompt[~] foo && bar\\
 \# bar wordt uitgevoerd als foo gelukt is\\
 \end{bash}
 
@@ -281,19 +281,19 @@ Commands in een command list worden na elkaar uitgevoerd, ongeacht of er ergens 
 Als je wilt weten welke processen er op dit moment actief zijn kun je het commando \texttt{ps} gebruiken. Normaal geeft dit alleen een lijst met je eigen processen in terminals, maar met \texttt{ps\ -A} krijg je alle processen te zien. De standaarduitvoer geeft (afhankelijk van je distributie) in ieder geval de PID, terminal en het command. Vaak wordt ook de effectieve tijd die het proces gedraaid heeft meegegeven (effectieve tijd telt alleen de tijd dat het proces daadwerkelijk actief was). Daarnaast heeft \texttt{ps} nog heel veel opties om processen te selecteren en aan te geven welke informatie je wel en niet wil hebben, zie daarvoor de \texttt{man} pagina. \texttt{ps} geeft een eenmalige uitvoer van de processenlijst op dat moment; dit is handig als je dit met andere commands in een pipeline wil combineren. Soms wil je echter een dynamische lijst die zichzelf update, zoals het taakbeheer in Windows. Hier is het commando \texttt{top} voor, of de verbeterde versie \texttt{htop} (meestal niet standaard geïnstalleerd). Tot slot kan je een proces vanaf de command line beëindigen (op voorwaarde dat je zelf de eigenaar van het proces bent). Hiervoor gebruik je \texttt{kill} met de PID van het proces, of \texttt{killall} met de naam van het proces. De laatste heet killall, omdat het goed kan zijn dat je meerdere instanties van dezelfde executable open hebt staan. \texttt{killall\ firefox} sluit bijvoorbeeld alle Firefox vensters, niet een specifieke.
 
 \begin{bash}
-\p[~] ps\\
+\userprompt[~] ps\\
 \# geef de processen binnen de huidige shell\\
 \\
-\p[~] ps -A\\
+\userprompt[~] ps -A\\
 \# geef alle processen\\
 \\
-\p[~] top\\
+\userprompt[~] top\\
 \# interactieve "task manager"\\
 \\
-\p[~] kill\\
+\userprompt[~] kill\\
 \# stop een proces met een gegeven PID\\
 \\
-\p[~] killall\\
+\userprompt[~] killall\\
 \# stop elk proces met een gegeven naam\\
 \end{bash}
 
@@ -314,20 +314,20 @@ Als je wilt weten welke processen er op dit moment actief zijn kun je het comman
 Doorgaans zal een shell bij het uitvoeren van een command een \texttt{fork()} en een \texttt{exec()} uitvoeren, waarna de parent \texttt{wait()} tot het kind klaar is. Met behulp van de enkele ampersand (\texttt{\&}) kunnen we een proces op de achtergrond starten: de shell wacht niet en geeft meteen een nieuw prompt aan de gebruiker. Het nieuwe proces is nog steeds een kind van de shell, en als de shell beëindigd wordt voor het kind klaar is wordt dit ook getermineerd. Met \texttt{Control-z} kun je het huidige foreground proces (het proces waarop de shell aan het wachten is) een \texttt{SIGSTOP} sturen, waarna de shell weer op de gebruiker kan reageren. Met \texttt{fg} krijgt het proces een \texttt{SIGCONT} en hervat het de claim op de shell: het wordt naar de voorgrond gestuurd. Je kunt echter ook \texttt{bg} gebruiken om het proces op de achtergrond door te laten gaan, net alsof het met een \texttt{\&} gestart was. \texttt{jobs} geeft een lijst met actieve achtergrond processen. Als je een shell met actieve achtergrondprocessen probeert te beëindigen krijg je meestal een waarschuwing: als de terminal sluit stoppen de processen ook. Om dit te voorkomen kun je het proces met \texttt{disown} onterven: het is niet langer een kind van de shell waar het gestart is, maar wordt onder het \emph{init} proces gehangen.
 
 \begin{bash}
-\p[~] python3\\
+\userprompt[~] python3\\
 Python 3.13.0b4 (main, Jul 18 2024, 09:41:38) [GCC 13.3.0] on linux \\
 Type "help", "copyright", "credits"\  or "license"\ for more information.\\
 >\!>\!> antwoord = 42\\
 >\!>\!> \\
 [1]+  Stopped                 python3                  \# Python gepauzeerd ("Stopped")\\
 \\
-\p[~] ls Folder                                \# Terug in Bash\\
+\userprompt[~] ls Folder                                \# Terug in Bash\\
 File File2 File2025 File3\\
 \\
-\p[~] jobs\\
+\userprompt[~] jobs\\
 [1]+  Stopped                 python3\\
 \\
-\p[~] fg                                       \# Terug in Python, waar we gebleven waren\\
+\userprompt[~] fg                                       \# Terug in Python, waar we gebleven waren\\
 python3                                                \# Bash vertelt nog welk proces er draait\\
 print(antwoord)                                        \# Geen >\!>\!> (die staat hierboven al)\\
 42\\
@@ -335,21 +335,21 @@ print(antwoord)                                        \# Geen >\!>\!> (die staa
 \end{bash}
 
 \begin{bash}
-\p[~] du -chd1  > filesizes                    \# Bereken grootte van elke subfolder\\
+\userprompt[~] du -chd1  > filesizes                    \# Bereken grootte van elke subfolder\\
 \textasciicircum Z                                                     \# Dit duurt te lang...\\
 \lbrack 1\rbrack +  Stopped                 du -chd1 > filesizes     \# Gepauzeerd\\
 \\
-\p[~] bg                                       \# Proces gaat op achtergrond door\\
+\userprompt[~] bg                                       \# Proces gaat op achtergrond door\\
 \lbrack 1\rbrack + du -chd1 > filesizes \&\\
 \\
-\p[~] jobs                                     \# Running in joblist\\
+\userprompt[~] jobs                                     \# Running in joblist\\
 \lbrack 1\rbrack +  Running                 du -chd1 > filesizes \&   \# Merk op: er is een \& toegevoegd\\
 \\
-\p[~] disown\\
+\userprompt[~] disown\\
 \\
-\p[~] jobs                                     \# Geen uitvoer, job is onterfd\\
+\userprompt[~] jobs                                     \# Geen uitvoer, job is onterfd\\
 \\
-\p[~] du -chd1  > filesizes \&                  \# Met \& -> Start op achtergrond\\
+\userprompt[~] du -chd1  > filesizes \&                  \# Met \& -> Start op achtergrond\\
 \lbrack 1\rbrack \ 20251                                              \# Job 1, PID 20251\\
 \end{bash}
 
@@ -358,27 +358,27 @@ print(antwoord)                                        \# Geen >\!>\!> (die staa
 We hebben inmiddels een aantal symbolen gezien met speciale betekenis in Bash. De hele lijst is de karakter \texttt{\#\ \textquotesingle{}\ "\ \textbackslash{}\ \$\ \textasciigrave{}\ *\ \textasciitilde\ ?\ \textless{}\ \textgreater{}\ (\ )\ !\ \&\ \textbar{}\ ;}, spatie en enter. Wat nou als we deze karakters als karakter willen gebruiken, bijvoorbeeld omdat ze in een filename voorkomen? We kunnen de backslash gebruiken om een karakter te ``escapen'': bash negeert de speciale betekenis. Een bestandsnaam met een spatie kan je bijvoorbeeld met \texttt{bestandsnaam\textbackslash{}\ met\textbackslash{}\ spatie} gebruiken (zonder spatie wordt dit als drie losse bestandsnamen beschouwd). Ook kunnen we quotes gebruiken; binnen enkele quotes wordt elk speciaal karakter genegeerd en als karakter gelezen. Bij dubbele quotes geldt dit alleen voor \texttt{\$\ \textasciigrave{}\ \textbackslash{}\ !\ *} en \texttt{@}. Ons eerste voorbeeld had dus ook bijvoorbeeld als \texttt{\textquotesingle{}bestandsnaam\ met\ spatie\textquotesingle{}} ingevoerd kunnen worden. Variabelen beginnen in Bash met een \texttt{\$}. De variabele \texttt{\$HOME} bevat bijvoorbeeld het pad van de home directory. Dubbele quotes escapen de meeste karakters, maar variabelen worden wel geëvalueerd. Het commando \texttt{echo} kan gebruikt worden om de waarde van een variabele te laten zien. \texttt{echo} geeft de invoer ongewijzigd terug, maar zal wel variabelen evalueren. \texttt{echo\ \$HOME} (of \texttt{echo\ \textasciitilde}) geeft bijvoorbeeld het pad van de home directory als uitvoer.
 
 \begin{bash}
-\p echo  \$HOME             \# Echo de inhoud van een variabele\\
+\userprompt echo  \$HOME             \# Echo de inhoud van een variabele\\
 /home/linus\\
 \\
-\p echo "Hallo Wereld"     \# Echo een string\\
+\userprompt echo "Hallo Wereld"     \# Echo een string\\
 Hallo Wereld\\
 \\
-\p cat                     \# Interactieve echo\\
+\userprompt cat                     \# Interactieve echo\\
 Hallo Wereld!                                \# Dit typt de gebruiker\\
 Hallo Wereld!                                \# Dit stuurt cat terug\\
 \textasciicircum D                                           \# Beeindig met Control-D\\
 \\
-\p cat File2025            \# Lees de inhoud van het bestand\\
+\userprompt cat File2025            \# Lees de inhoud van het bestand\\
 Hallo uit 2025!\\
 \\
-\p echo File2025           \# Nu wordt de filename als string gezien\\
+\userprompt echo File2025           \# Nu wordt de filename als string gezien\\
 File2025\\
 \\
-\p echo File2025 | cat     \# cat geeft resultaat van echo door\\
+\userprompt echo File2025 | cat     \# cat geeft resultaat van echo door\\
 File2025\\
 \\
-\p echo File2025 | echo    \# echo negeert invoer vanuit pipes\\
+\userprompt echo File2025 | echo    \# echo negeert invoer vanuit pipes\\
 \end{bash}
 
 We hebben \texttt{less} gezien om een bestand te lezen. De uitvoer is echter interactief, wat het ongeschikt maakt om de uitvoer met een pipe door te sturen naar een ander programma. Hiervoor kunnen we \texttt{cat} gebruiken: dit leest een meegegeven bestand (of \texttt{STDIN}) en stuurt de inhoud naar \texttt{STDOUT}. Het lijkt hiermee een beetje op \texttt{echo}, maar er zijn belangrijke verschillen. \texttt{echo} zal zijn argument returnen, maar doet niets met \texttt{STDIN}.
@@ -389,37 +389,37 @@ We hebben \texttt{less} gezien om een bestand te lezen. De uitvoer is echter int
 Het kan voorkomen dat je probeert een proces te doden of een bestand of map te lezen, en dat Linux dit niet toe laat. Je hebt te maken met een rechtenprobleem. Meestal is dit op te lossen door tijdelijk root (super-user of in Windows termen ``administrator'') rechten aan te vragen. Hiervoor zijn de commando's \texttt{su} en \texttt{sudo}. De eerste geeft je doorgaans superuser rechten door een nieuwe shell als de root-gebruiker te openen, al kun je met \texttt{su\ -c} een enkel commando als root uitvoeren. \texttt{sudo} laat je standaard een enkel commando uitvoeren, maar dit mag ook een shell zijn met \texttt{sudo\ bash}. Beide kun je ook gebruiken om als een andere gebruiker dan root te werken: \texttt{sudo\ -u\ linus} en \texttt{su\ linus} geven je de rechten van linus. Het belangrijke verschil in de werking is dat \texttt{su} het wachtwoord van de doelgebruiker verwacht: het root-wachtwoord voor gewoon \texttt{su} of linus's wachtwoord voor \texttt{su\ linus}. Bij \texttt{sudo} gebruik je standaard je eigen wachtwoord, en wordt in een bestand gekeken of je het recht hebt om als de gekozen gebruiker te werken. Het \texttt{sudo} commando is erg configureerbaar, je kunt bijvoorbeeld ook alsnog het root-wachtwoord eisen voor root rechten.
 
 \begin{bash}
-\p[~/Folder] ls RootFolder                         \# Deze map is niet leesbaar\\
+\userprompt[~/Folder] ls RootFolder                         \# Deze map is niet leesbaar\\
 ls: cannot open directory 'RootFolder': Permission denied\\
 \\
-\p[~/Folder] cd RootFolder                         \# Maar mag wel geopend worden\\
+\userprompt[~/Folder] cd RootFolder                         \# Maar mag wel geopend worden\\
 \\
-\p[~/Folder/RootFolder] ls\\
+\userprompt[~/Folder/RootFolder] ls\\
 ls: cannot open directory '.': Permission denied           \# De inhoud is nog steeds onleesbaar\\
 \\
-\p[~/Folder/RootFolder] sudo ls                    \# Met sudo als root proberen\\
+\userprompt[~/Folder/RootFolder] sudo ls                    \# Met sudo als root proberen\\
 [sudo] password for linus:                                   \# Eigen wachtwoord\\
 HiddenFile HiddenFolder/                                   \# De mapinhoud\\
 \\
-\p[~/Folder/RootFolder] su -c ls                   \# Met su als root proberen\\
+\userprompt[~/Folder/RootFolder] su -c ls                   \# Met su als root proberen\\
 Password:                                                  \# Wachtwoord van root\\
 HiddenFile HiddenFolder/\\
 \\
-\p[~/Folder/RootFolder] sudo bash                  \# Open een shell als root met sudo\\
+\userprompt[~/Folder/RootFolder] sudo bash                  \# Open een shell als root met sudo\\
 \# Watchwoord niet opnieuw nodig voor aantal minuten\\
 \\
-\r[/home/linus/Folder/RootFolder] ls                \# ls in de root shell\\
+\rootprompt[/home/linus/Folder/RootFolder] ls                \# ls in de root shell\\
 HiddenFile HiddenFolder/\\
 \\
-\r[/home/linus/Folder/RootFolder] exit              \# Terug naar de vorige shell\\
+\rootprompt[/home/linus/Folder/RootFolder] exit              \# Terug naar de vorige shell\\
 \\
-\p[~/Folder/RootFolder] su                         \# Open een shell als root met su\\
+\userprompt[~/Folder/RootFolder] su                         \# Open een shell als root met su\\
 Password:                                                  \# Wachtwoord (root) wel nodig\\
 \\
-\r[/home/linus/Folder/RootFolder] ls                \# ls in de root shell\\
+\rootprompt[/home/linus/Folder/RootFolder] ls                \# ls in de root shell\\
 HiddenFile HiddenFolder/\\
 \\
-\r[/home/linus/Folder/RootFolder] exit              \# Terug naar de vorige shell\\
+\rootprompt[/home/linus/Folder/RootFolder] exit              \# Terug naar de vorige shell\\
 \end{bash}
 
 \subsection{Lifehacks}\label{lifehacks}
@@ -440,7 +440,7 @@ Als we een serie Bash commands in een bestand onder elkaar zetten, hebben we in 
 Hoewel \texttt{./scriptname} al wat beter is dan \texttt{bash\ scriptname}, is het nog steeds opvallend anders dan de meeste andere commands. Dit heeft te maken met de \texttt{\$PATH} variabele. Deze variabele bevat een lijst met mappen, en alleen programma's of scripts in één van deze mappen kunnen zonder pad worden uitgevoerd. Zo niet, dan moet iedere aanroep met \texttt{./}, \texttt{../}, \texttt{/}, of \texttt{\textasciitilde/} beginnen. De huidige map zit niet in het \texttt{\$PATH}, om te voorkomen dat per ongeluk een kwaadaardig script of programma uitgevoerd kan worden. Stel bijvoorbeeld dat je een bestand met de naam \texttt{cd} gedownload hebt, en probeert iets vanuit je Downloads-map te kopiëren; het zou niet handig zijn als het gedownloadde bestand zomaar wordt uitgevoerd, want hier kan alles in staan. De waarde van \texttt{\$PATH} is met \texttt{echo\ \$PATH} te lezen, of met \texttt{env} (die alle environment variabelen print). Als we ons script in een directory zetten die in het \texttt{\$PATH} voorkomt, zal het van overal aan te roepen zijn. Ook kunnen we en map aan ons pad toevoegen. Om bijvoorbeeld de map \texttt{\textasciitilde/bin} toe te voegen, gebruik je \texttt{PATH=\textasciitilde/bin:\$PATH}. De \texttt{:} is een scheidingsteken dat we gebruiken om de toegevoegde map met het oude \texttt{\$PATH} te combineren. We zetten de map vooraan, wat betekent dat dit de eerste map is waar de shell gaat zoeken. We kunnen bijvoorbeeld een eigen versie van \texttt{mv} maken, die ergens een logbestand bijhoudt; als we deze nu in \texttt{\textasciitilde/bin} zetten dan verwijst het commando \texttt{mv} naar \texttt{\textasciitilde/bin/mv} en niet meer naar \texttt{/bin/mv}. Tot slot kunnen we de variabele alleen voor een subprocess aanpassen door \texttt{env\ PATH=\textasciitilde/bin} voor een commando te zetten, bijvoorbeeld \texttt{env\ PATH=\textasciitilde/bin\ bash} om een nieuwe Bash instantie te openen met enkel \texttt{\textasciitilde/bin} in het \texttt{\$PATH}.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 PATH=~/bin:$PATH
 export PATH=~/bin:$PATH
 env PATH=~/bin command
@@ -453,7 +453,7 @@ env PATH=~/bin command
 De wijziging aan \texttt{\$PATH} die we gedaan hebben geldt alleen voor het huidige proces. Een andere shell zal de aanpassing niet overnemen, zelfs niet als we die vanaf de shell met het nieuwe \texttt{\$PATH} aanroepen. Door \texttt{export\ PATH=\textasciitilde/bin:\$PATH} te gebruiken zal de variabele wel doorgegeven worden aan subprocessen. Een onfhankelijk geopende shell weet nog steeds niet van ons nieuwe \texttt{\$PATH} af, hiervoor moeten we de \texttt{export\ PATH=\textasciitilde/bin:\$PATH} in elke nieuwe shell draaien. Hiervoor is het bestand \texttt{\textasciitilde/.bashrc}. De code in dit bestand wordt in iedere nieuwe Bash shell uitgevoerd. Door onze aanpassingen daar neer te zetten, hebben die voor elke (nieuwe) shell effect. Naast \texttt{export}s van variabelen wordt \texttt{.bashrc} ook veel gebruikt voor het \texttt{alias} commando. Hiermee kun je eenvoudig nieuwe commando's aanmaken, zo lang deze gebaseerd zijn op bestaande commando's. We zullen straks zien hoe we ook complexere functies kunnen toevoegen, maar in veel simpele gevallen is een \texttt{alias} voldoende. Je kunt een alias voor een bestaand commando maken, zoals \texttt{sl} voor \texttt{ls} als je dit vaak verkeerd typt. Daarnaast kun je een bestaand commando hiermee standaard opties geven, bijvoorbeeld \texttt{alias\ ls=\textquotesingle{}ls\ -la\textquotesingle{}} om \texttt{ls} altijd met de \texttt{-la}-opties aan te roepen. Naast \texttt{.bashrc} hebben we \texttt{.bash\_profile}. Beide vervullen eenzelfde taak, maar \texttt{.bash\_profile} wordt voor login shells gebruikt (in de praktijk alleen als je in een kernel level virtual terminal), \texttt{.bashrc} voor non-login shells. Dit kun je gebruiken om bijvoorbeeld extra informatie te printen bij een login-shell die je niet in iedere nieuwe terminal nodig hebt. Meestal wordt \texttt{.bash\_profile} ingesteld om ook \texttt{.bashrc} te laden, zodat deze alle algemene informatie (voor alle shells) bevat en \texttt{.bash\_profile} gebruikt kan worden voor specifieke code voor login shells. Hiervoor gebruiken we onderstaand code-voorbeeld. Aan het einde van deze les zou je de code ook moeten kunnen begrijpen.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
@@ -470,7 +470,7 @@ De \texttt{.bash\_profile} en \texttt{.bashrc} worden standaard bij het opstarte
 Nu we weten hoe we een shell script schrijven en kunnen uitvoeren, is het tijd om naar wat code te gaan kijken. We kunnen natuurlijk wat commando's achter elkaar zetten en het gezegend vinden, maar als we echt wat willen programmeren dan moeten we keuzes kunnen maken. We hebben al gezien hoe we \texttt{\&\&} en \texttt{\textbar{}\textbar{}} kunnen gebruiken om de exit status van een proces te gebruiken om te bepalen om wel of niet de volgende instructie uit te voeren (als A dan B) maar complexere keuzes zijn minder eenvoudig (als A dan B anders C). Hiervoor hebben we in Bash een \texttt{if-then-else} constructie. Deze heeft de vorm \texttt{if\ commandoA;\ then\ commandoB;\ else\ commandoC;\ fi}. De puntkomma is in Bash equivalent aan een nieuwe regel, je kunt dit dus ook op meerdere regels doen zonder de puntkomma's nodig te hebben. Het format in het voorbeeld kom je vaak tegen, maar is niet de enige manier. Het inspringen is niet noodzakelijk, maar wel leesbaar. Het eerste commando, \texttt{commandoA} bepaalt welk pad gekozen wordt. Net als bij \texttt{\&\&} en \texttt{\textbar{}\textbar{}} gebeurt dit op basis van de exit-code: \texttt{0} is \texttt{true}, elk ander getal is \texttt{false} (dit is dus precies anders dan in de meeste talen, waaronder Python). \texttt{then} en \texttt{else} geven aan waar de volgende code-blokken beginnen, en \texttt{fi} (\texttt{if} achterstevoren) beëindigd het \texttt{if}-statement.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 # Download een bestand
 if wget http://test.me/audio.mp3; then
   # Speel een audiobestand
@@ -485,7 +485,7 @@ fi
 Vaak willen we testen of een bestand bestaat: bij een CSV bestand willen we bijvoorbeeld een nieuwe rij toevoegen, maar als het nog niet bestaat moeten we het maken met de header row. Hiervoor hebben we het \texttt{test} commando beschikbaar. Met \texttt{test\ -e} testen we of iets bestaat, met \texttt{test\ -f} of het ook nog een bestand is (en geen map) en met \texttt{test\ -d} of het een directory is. Daarnaast zijn er nog vele andere opties om bestanden te testen, hiervoor moet je de \texttt{man}-page raadplegen. Het \texttt{test} commando kan ook gebruikt worden met strings (\texttt{test\ -n\ \$STRING} test of een string niet leeg is, \texttt{test\ \$A\ =\ \$B} test of twee strings gelijk zijn, \ldots) en getallen (\texttt{test\ \$A\ -eq\ \$B} test of de getallen gelijk zijn, \ldots) --- ook hiervoor moet je in de \texttt{man}-page zijn. Tot slot kun je in één aanroep naar \texttt{test} meerdere expressies combineren. \texttt{test\ \textless{}TEST1\textgreater{}\ -a\ \textless{}TEST2\textgreater{}} is de \emph{and} en \texttt{test\ \textless{}TEST1\textgreater{}\ -o\ \textless{}TEST2\textgreater{}} is de \emph{or}. Je kunt een uitroepteken gebruiken voor \emph{not}, en haakjes om testen te combineren. Een alternatief voor \texttt{test} is de blokhaakjes-notatie. Onderwater gebeurt hetzelfde, maar de code kan iets beter leesbaar zijn. \texttt{{[}} is een shorthand voor \texttt{test}, met de extra voorwaarde dat het laatste argument \texttt{{]}} is. Zowel bij \texttt{test} als bij \texttt{{[}..{]}} geldt dat je op moet letten met de spatiëring. Iedere operator is een commando of argument, dus moet door een spatie gescheiden zijn. \texttt{{[}-d\ \textquotesingle{}/tmp\textquotesingle{}{]}} werkt niet, dit moet \texttt{{[}\ -d\ \textquotesingle{}/tmp\textquotesingle{}\ {]}} zijn. Hetzelfde geldt bijvoorbeeld voor het uitroepteken. De haakjes zijn een command op zich, geen onderdeel van de \texttt{if}-syntax. Bij twijfel: zorg dat overal een spatie tussen staat.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 if test -e audio.mp3; then
   # Speel een audiobestand
   mpg123 audio.mp3
@@ -506,7 +506,7 @@ fi
 Meerdere keuzes zijn ook mogelijk: de \texttt{case}-constructie vergelijkt een variabele met meerdere opties. Neem bijvoorbeeld een \texttt{.bashrc}-bestand dat op meerdere systemen gebruikt wordt. Sommige code is algemeen, andere is misschien wat meer systeem-specifiek. We kunnen in dit geval de \texttt{case} constructie gebruiken om op de \texttt{\$HOSTNAME} variabele te splitsen (deze bevat de hostname, die per systeem anders zou moeten zijn). De code hieronder bevat specifieke code voor de Raspberry Pi (genaamd \emph{Pi}), de laptop (genaamd \emph{Voyager}) en de pc (genaamd \emph{Defiant}). De constructie begint met \texttt{case\ \$VARIABELE\ in}, gevolgd door een aantal opties. Iedere optie begint met de te matchen string, gevolgd door een sluit-haakje: \texttt{Pi)}. De regels hierna worden alleen op de Pi uitgevoerd, tot aan de dubbele puntkomma \texttt{;;}. Je kunt \texttt{*)} gebruiken voor de \texttt{else}, en de hele constructie wordt met \texttt{esac} beëindigd (\texttt{case} achterstevoren).
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 case $HOSTNAME in
   Azure)
   # Code voor de server-omgeving
@@ -530,7 +530,7 @@ esac
 Naast keuzes willen we ook kunnen loopen: code een aantal keer uitvoeren, of herhalen tot een bepaald punt bereikt is. Hiervoor kennen we de \texttt{for} en \texttt{while} (en \texttt{until}) loops. De \texttt{for}-loop heeft weer twee varianten. Met de eerste variant wordt over een array gelopen, bijvoorbeeld om elk element te printen. Daarnaast ondersteunt Bash de C-style \texttt{for} loop, waarbij een variabele aangemaakt wordt die iedere keer opgehoogd wordt tot een bepaalde waarde wordt bereikt.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 declare -a ARR=('Christopher' 'David' 'Matt' 'Peter' 'Jodie')
 
 for word in $ARR; do
@@ -547,7 +547,7 @@ done
 In het vorige voorbeeld zagen we een array (ook wel lijst). Een lijst kan worden aangemaakt met \texttt{declare\ -a\ ARRAY}. Lege arrays worden aangemaakt met lege haakjes \texttt{()}. Een waarde binnen de array kan worden aangepast met \texttt{ARRAY{[}INDEX{]}\ =\ Foo}, waarbij we \texttt{INDEX} natuurlijk 0 is voor het eerste element. Om een waarde op te zoeken gebruiken we \texttt{\$\{ARRAY{[}0{]}\}}; de accolades worden gebruikt om aan te geven dat we de eerste waarde van \texttt{ARRAY} willen opzoeken, niet een variabele genaamd \texttt{ARRAY} met nog wat tekst erachteraan: \texttt{echo\ \$ARRAY{[}0{]}} geeft (met de Array van hierboven) \texttt{Christopher{[}0{]}} terug. \texttt{\$ARRAY} evalueert naar het eerste element in de lijst, en \texttt{{[}0{]}} wordt als deel van de argumenten van \texttt{echo} beschouwd. \texttt{\$ARRAY} is dus hetzelfde als \texttt{\$\{ARRAY{[}0{]}\}}, en \texttt{ARRAY=John} vervangt niet de hele array door John, maar alleen het eerste element. Je kunt in Bash ook arrays maken die niet met een integer, maar met een string geïndexeerd zijn (vergelijkbaar met de dict in Python). Dit heet een associative array, en wordt aangemaakt met \texttt{declare\ -A\ ARRAY}. Als je \texttt{\$ARRAY} vraagt voor een associative array krijg je het element met index ``\texttt{0}'' als dit bestaat (anders een lege string). Tot slot kun je arrays uitbreiden met \texttt{+=}, zoals hieronder voorgedaan voor associative arrays.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 declare -A ARRAY=([A]=Jim [B]=John [C]=Rachel [D]=Jean-Luc)
 ARRAY=Jim
 echo ${ARRAY[0]} # Jim
@@ -559,7 +559,7 @@ ARRAY+=([E]=Jean-Luc)
 De accolades die we nodig hadden om elementen uit de array te halen zijn niet specifiek voor arrays: deze mogen overal gebruikt worden wanneer er onduidelijkheid kan zijn of een teken bij de variabele-naam hoort of niet. Meestal kan een spatie gebruikt worden om het einde van de variabelenaam aan te geven, maar deze wordt dan ook geprint; als dit niet wenselijk is bieden de accolades uitkomst.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 FOO="foo"
 echo $FOOd # lege output
 echo $FOO d # foo d
@@ -571,7 +571,7 @@ echo ${FOO}d # food
 Naast de \texttt{for}-loop ondersteunt Bash ook \texttt{while}- en \texttt{until} loops. Het verschil is dat bij \texttt{while} de loop herhaalt zo lang de stopconditie waar is, terwijl \texttt{until} doorgaat zo lang de stopconditie (nog) niet waar is. Net als met het \texttt{if}-statement is de keuze gebaseerd op de return value van het command (of de command list) voor het \texttt{do}-statement. Daarnaast ondersteunen loops \texttt{break} (stop de loop) en \texttt{continue} (begin direct aan de volgende ronde door de loop), al wordt het aangeraden deze alleen te gebruiken wanneer strikt noodzakelijk omdat dit de leesbaarheid van de code niet helpt. Beide commands hebben een optioneel argument voor het werken met genestte loops: \texttt{break\ 2} stopt de binnenste twee loops, en gaat daarbuiten verder. De return-value van de loop zelf is die van het laatste commando dat is uitgevoerd na \texttt{do}, of \texttt{0} als er niets is uitgevoerd.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 while <commands>; do 
   <commands>
 done
@@ -596,7 +596,7 @@ Eerder hebben we kennis gemaakt met de command-list. Om van een command-list wee
 \end{itemize}
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 cd
 echo $PWD # /home/username
 
@@ -612,7 +612,7 @@ echo $PWD # /
 Nu we de control structures kennen rest ons nog één belangrijke constructie om echte code te schrijven: de functie. De syntax hiervoor in Bash is \texttt{\textless{}naam\textgreater{}\ ()\ \textless{}samengesteld\ commando\textgreater{}\ \textless{}io\ redirections\textgreater{}}. Samengesteld commands die we tot nu toe hebben gezien zijn een command-list tussen accolades of haakjes of een \texttt{for}, \texttt{select}, \texttt{if}, \texttt{while} of \texttt{until} constructie. Naast de ``standaard'' syntax kom je ook vaak vormen met het codewoord \texttt{function} tegen, al dan niet met de haakjes. Hieronder staan alle mogelijke combinaties. De haakjes zijn altijd leeg, argumenten worden bij het aanroepen van de functie in variabelen \texttt{\$1}, \texttt{\$2}, etc. Dit werkt hetzelfde als voor scriptbestanden. \texttt{\$0} bevat in dat geval de naam van het script, of als die er niet is de naam van de shell. Na de body van de functie kunnen we nog IO redirections toepassen om de uitvoer bijvoorbeeld naar een bestand te schrijven. Deze redirections worden uitgevoerd als de functie wordt aangeroepen (bij het definiëren van de functie gebeurt niets). Je kunt hier ook functie-argumenten in gebruiken om een filename te maken.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 filetype_count() { find -name "*.$1" | wc -l; }
 filetype_count "jpg" # 31167
 
@@ -633,7 +633,7 @@ filetype_count() { find -name "*.$1" | wc -l; }
 Omdat Linux alles als een file ziet, zullen we vaak met bestandsnamen te maken hebben. We hebben de vorige les kennis gemaakt met globs (\texttt{*} en \texttt{?}), oftewel pathname-expansion. De \texttt{*} matcht iedere string, \texttt{?} een enkel karakter (niet meer, niet minder). In sommige gevallen wil je een karakter matchen met \texttt{?}, maar dit eigenlijk beperken tot een bepaalde set mogelijkheden. Hiervoor kun je de blokhaken gebruiken, met daarbinnen alle opties (of een range). \texttt{file{[}0-9{]}} zal \texttt{file0} matchen, \texttt{file1}, etc. tot \texttt{file9}. Daarnaast kun je accolades en komma's gebruiken om met een set specifieke strings filenames te maken. De output van \texttt{echo\ file\{1,2,3,4,5\}} is \emph{file1 file2 file3 file4 file5}. Ook hier kan je ranges gebruiken: het voorbeeld had ook als \texttt{echo\ file} mogelijkheden. Hiervoor kun je de blokhaken gebruiken, met daarbinnen alle opties (of een range). \texttt{file{[}0-9{]}} zal \texttt{file0} matchen, \texttt{file1}, etc. tot \texttt{file9}. Daarnaast kun je accolades en komma's gebruiken om met een set specifieke strings filenames te maken. De output van \texttt{echo\ file\{1,2,3,4,5\}} is \emph{file1 file2 file3 file4 file5}. Ook hier kan je ranges gebruiken: het voorbeeld had ook als \texttt{echo\ file\{1..5\}} gegeven kunnen worden.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 ls file.*               # matcht file met elke uitgang
 ls file?.zip            # matcht filea.zip, file1.zip, fileP.zip, etc
 ls file[0-9].zip        # matcht alleen file0.zip tot file9.zip
@@ -647,7 +647,7 @@ ls file{1..5}           # ranges ook toegestaan: `{1..5}`
 \newthought{Soms is het handig} de uitvoer van een commando in een variabele te kunnen zetten, of als argument voor een ander commando te gebruiken. In veel gevallen is dit met pipes op te lossen, maar dat is niet altijd het geval. Gelukkig heeft Bash command substitution: een commando verpakt in \texttt{\$(\ ..\ )} of \texttt{\textasciigrave{}..\textasciigrave{}} wordt door Bash uitgevoerd, waarna de uitvoer in de plaats van het commando komt. Beide notities zijn bruikbaar, al moet je met de haakjes-notatie uitkijken dat er geen verwarring ontstaat met haakjes die een andere betekenis hebben. De haakjes-notatie heeft wel als voordeel dat deze zich makkelijker laat nesten: met backticks moeten de binnenste backticks met een \texttt{\textbackslash{}} gequote worden. De spaties bij de haakjes-notatie zijn niet verplicht, en vooral om de constructie \texttt{\$((COMMAND))} te voorkomen teneinde het command in een subshell uit te voeren: de dubbele haakjes zijn namelijk ergens anders voor gereserveerd. In dit geval meot je dus \texttt{\$(\ (COMMAND)\ )} gebruiken. - voer command uit en ga verder alsof de output er stond - zet datum in \texttt{\$DATE} - print de datum (datum naar echo dat input doorgeeft als output, naar nog een echo) - zelfde met backticks (let op de escaping) - dubbele haken (voor subshell binnen \texttt{\$(..)}) moet met extra spaties, anders arithmetic expansion.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 $( COMMANDS )
 `COMMANDS`
 
@@ -672,7 +672,7 @@ BETER=$( (date) ) # de datum
 \newthought{De reden dat we geen} dubbele haakjes kunnen gebruiken bij command substitution is dat deze notatie gebruikt wordt voor arithmetic expansion (oftewel: rekenen). Arithmetic expansion geeft je de mogelijkheid een som op te geven, waarvan het antwoord op de plaats van de som komt te staan. De notatie hiervoor is \texttt{\$((..))}. Naast expansions hebben we ook arithmetic evaluations. Deze gebruiken we voor expressies waar het antwoord geen getal is, maar een \emph{true} of \emph{false}. Deze kunnen we gebruiken in bijvoorbeeld een \texttt{if}-statement of een \texttt{while}- of \texttt{until}-loop. De notatie is \texttt{((..))}. De meeste gebruikelijke rekenkundige operatoren, vergelijkingen en zelfs bitwise OR, AND en shifts zijn ondersteund; de gehele lijst is te vinden in de \texttt{man}-page van Bash.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 echo $((6*7)) # 42
 
 read -p "Geef een getal: " getal
@@ -692,7 +692,7 @@ fi
 Het commando \texttt{read} kan gebruikt worden om te lezen van de command-line (of, met \texttt{-u} uit een file). Standaard wordt een hele regel ingelezen, zodat je met een \texttt{while}-loop een hele file in kan lezen (allen als je een file leest met \texttt{read\ -u}, of door \texttt{STDIN} aan te passen). Het resultaat wordt opgeslagen in variabelen waarvan de naam als argument moet worden meegegeven. \texttt{read\ foo} slaat de hele input op in \texttt{\$foo}. Als er meerdere variabelen mee worden gegeven wordt het eerste woord in de eerste variabele opgeslagen, het tweede woord in de tweede, etc. De laatste variabele krijgt de rest van de input als er teveel woorden ingevoerd zijn. Als je geen variabelenaam meegeeft dan wordt \texttt{\$REPLY} gebruikt. Standaardopties voor \texttt{read} zijn \texttt{-p\ \textless{}PROMPT\textgreater{}} om eerst een prompt te printen, \texttt{-n\ \textless{}NUMMER\textgreater{}} om een gegeven aantal karakters te lezen, \texttt{-a\ \textless{}ARRAY\textgreater{}} om een array te gebruiken in plaats van normale variabelen, \texttt{-t\ \textless{}TIMEOUT\textgreater{}} voor een maximale wachttijd, en \texttt{-s} voor secure input (bash laat niet zien wat/dat er getypt wordt, zoals bij \texttt{sudo} het password-prompt).
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 read var          # lees command line en zet in $var
 read foo bar baz  # lees command line en zet woord 1 in $foo, woord 2 in $bar en rest in $baz
 read -a ARRAY     # lees alles naar een array $ARRAY
@@ -709,7 +709,7 @@ read -s -t 15 -p "Say friend and enter: " password
 Een laatste notatie die je in scripts tegen kan komen is die van process substitution. Hier wordt een pipe tussen twee processen vervangen door tijdelijk bestand, zodat een subshell voorkomen kan worden (en dus variabelen niet ``kwijtraken'' zodra de subshell verdwijnt). De syntax hiervoor is \texttt{\textless{}(COMMAND)}, waarbij de uitvoer van \texttt{COMMAND} in een tijdelijk bestand gezet wordt,dat automatisch verwijderd wordt zodra de inhoud niet meer nodig is. Deze notatie is als alternatief voor pipes te gebruiken, en werkt met tijdelijke bestanden in \texttt{/dev/fd}. Hier wordt een bestand aangemaakt dat automatisch weer verwijderd wordt. In tegenstelling tot met een pipe wordt hier geen subshell aangemaakt, waardoor eventuele variabelen die aangepast worden bewaard blijven (en niet verdwijnen als de pipe wordt gesloten). De notatie voor process-substitution is zeldzaam, en hoeven jullie niet toe te kunen passen. Wel is het van belang dit te herkenne, omdat het soms in scripts voorkomt die jullie moeten kunnen interpreteren.
 
 \begin{listing}
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=Bash]
 uname | cat    # Linux
 cat <(uname)   # Linux
 
@@ -732,7 +732,7 @@ We hebben er inmiddels een hele tour van de Bash-shell opzitten. We hebben comma
 Soms wil je weten hoe lang je script gedraaid heeft, of hoe lang een commando binnen je script duurt. Linux heeft hiervoor het \texttt{time} commando. Deze geeft drie tijden terug: hoe lang het duurde tot het proces daadwerkelijk klaar was, hoeveel tijd het proces aan de beurt is geweest in user mode, en hoe lang de kernel voor het proces bezig is geweest.
 
 \begin{bash}
-\p time ./myScript\\
+\userprompt time ./myScript\\
 \# real    0m4.743s\\
 \# user    0m0.957s\\
 \# sys     0m1.948s\\

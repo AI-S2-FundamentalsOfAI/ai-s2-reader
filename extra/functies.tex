@@ -98,7 +98,6 @@ Zij $f:A\rightarrow B$ een afbeelding. Dan gelden:
 \end{theorem}
 \begin{proof}\mbox{}\\
 
-\begin{minipage}{.9\textwidth}
 Bewijs van (1):\\[1.5pt]
 Kies $x\in f^{-1}(B)$ willekeurig. Dan geldt $x\in A$. Dus $f^{-1}(B)\subseteq A$.\\[1.5pt]
 Kies omgekeerd $x\in A$ willekeurig. Dan $f(x)\in B$, dus $x\in f^{-1}(B)$. Dus $A\subseteq f^{-1}(B)$.\\[1.5pt]
@@ -107,7 +106,6 @@ Bewijs van (2):\\[1.5pt]
 Kies $x\in X$ willekeurig. Dan $f(x)\in f(X)$. dus $x\in\{x\in A\;|\;f(x)\in f(X)\} = f^{-1}(f(X))$. Dus $X\subseteq f^{-1}(f(X))$.\hfill$\fbox{2}$\\[2.5pt]
 Bewijs van (3):\\[1.5pt]
 Kies $z\in f(f^{-1}(Y))$ willekeurig. Dan is er een $x\in f^{-1}(Y)$ met $z=f(x)$. Vanwege $x\in f^{-1}(Y)$ geldt $f(x)\in Y$. Vanwege $z=f(x)$ geldt $z\in Y$. Vanwege $z=f(x)$ geldt $z\in Y$. Hiermee is bewezen $f(f^{-1}(Y))\subseteq Y$.\\ \mbox{}\hfill$\fbox{3}$
-\end{minipage}\\
 \end{proof}
 
 Een zeer vaak gemaakte fout is om te menen dat:
@@ -159,7 +157,6 @@ In stelling \ref{st:afb} hebben we twee inclusies gezien die in het algemeen gee
 Als $f:A\rightarrow B$ een injectieve afbeelding is, en $X$ een deelverzameling van $A$, dan is $f^{-1}(f(X))=X$.
 \end{theorem}
 \begin{proof}\mbox{}\\
-\indent\begin{minipage}{0.9\textwidth}
 In Stelling \ref{st:afb} hebben we al bewezen dat $X\subseteq f^{-1}(f(X))$; we hoeven nu alleen nog te bewijzen dat $f^{-1}(f(X))\subseteq X$.\\[1.5pt]
 Kies daartoe $x\in f^{-1}(f(X))$ willekeurig.\\[1.5pt]
 Volgens de definitie van $f^{-1}$ geldt dan $f(x)\in f(X)$.\\[1.5pt]
@@ -167,13 +164,11 @@ Volgens de definitie van $f(X)$ is er dan een $y\in X$ met $f(x)=f(y)$.\\[1.5pt]
 Omdat $f$ injectief is geldt dan $x=y$.\\[1.5pt]
 Omdat $y\in X$ is hiermee bewezen dat $x\in X$.\\[1.5pt]
 Hiermee is bewezen dan $f^{-1}(f(X))\subseteq X$.
-\end{minipage}\\
 \end{proof}
 \begin{theorem}\label{th:surjectief}
 Als $f:A\rightarrow B$ een surjectieve afbeelding is, en $Y$ een deelverzameling van $B$ is, dan is $f(f^{-1}(Y))=Y$.
 \end{theorem}
 \begin{proof}\mbox{}\\
-\indent\begin{minipage}{0.9\textwidth}
 In Stelling \ref{st:afb} hebben we al bewezen dat $f(f^{-1}(Y))\subseteq Y$; we hoeven nu alleen nog te bewijzen dat $Y\subseteq f(f^{-1}(Y))$.\\[1.5pt]
 Kies daartoe $y\in Y$ willekeurig.\\[1.5pt]
 Omdat ook $y\in B$ en $f$ surjectief is, is er een $x\in A$ met $f(x)=y$.\\[1.5pt]
@@ -181,7 +176,6 @@ Volgens de definitie van $f^{-1}$ geldt dan $x\in f^{-1}(Y)$.\\[1.5pt]
 Daaruit volgt dat $f(x)\in f(f^{-1}(Y))$.\\[1.5pt]
 Omdat $f(x) = y$ geldt nu $y\in f(f^{-1}(Y))$.\\[1.5pt]
 Hiermee is bewezen dat $Y\subseteq f(f^{-1}(Y))$.
-\end{minipage}\\
 \end{proof}
 
 De oplettende lezer bemerkt hier dat voor een bijectieve afbeelding zowel stelling \ref{th:injectief} als stelling \ref{th:surjectief} gelden; immers, een bijectieve afbeelding is tegelijk injectief en surjectief.
@@ -232,7 +226,6 @@ We zeggen dat de identiteit een \textit{neutraal element} is met betrekking tot 
 \end{itemize}\label{st:compositie}
 \end{theorem}
 \begin{proof}\mbox{}\\
-\indent\begin{minipage}{0.9\textwidth}
 \begin{itemize}
     \item Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ injectieve afbeeldingen zijn.\\[1.5pt] 
     Kies willekeurige $x, x'\in A$.\\[1.5pt]
@@ -254,18 +247,15 @@ We zeggen dat de identiteit een \textit{neutraal element} is met betrekking tot 
     Omdat $f$ en $g$ surjectief zijn is volgens bovenstaande ook $g\circ f$ surjectief.\\[1.5pt]
     Hiermee is bewezen dat $g\circ f$ bijectief is.
 \end{itemize}
-\end{minipage}
 \end{proof}
 
 \begin{theorem}\label{st:assoc:comp}
 Laten $f:A\rightarrow B$ en $g:B\rightarrow C$ en $h:C\rightarrow D$ afbeeldingen zijn. Dan zijn $(h\circ g)\circ f: A\rightarrow D$ en $h\circ(g\circ f):A\rightarrow D$ dezelfde afbeeldingen.
 \end{theorem}
 \begin{proof}\mbox{}\\
-\indent\begin{minipage}{0.9\textwidth}
 Beide afbeeldingen hebben inderdaad $A$ als domein en $D$ als bereik.\\[1.5pt]
 Kies $x\in A$ willekeurig. Dan geldt:\\[1.5pt]
 $((h\circ g)\circ f)(x)=(h\circ g)(f(x))=h(g(f(x)))=h((g\circ f)(x))=(h\circ(g\circ f))(x)$.
-\end{minipage}\\
 \end{proof}
 
 Stelling \ref{st:assoc:comp} zegt dat samenstelling \textit{associatief} is, daar waar de samenstelling goed gedefinieerd is.

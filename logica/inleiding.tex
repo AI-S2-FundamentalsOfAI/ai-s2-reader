@@ -1,6 +1,6 @@
 \chapter{Inleiding}
 \begin{chapquote}[30pt]{Douglas Adams, \textit{Hitchiker's Guide to the Galaxy}}
-Now, [a Babel Fish\footnote{The Babel fish is small, yellow and leech-like, and probably the oddest thing in the Universe. It feeds on brainwave energy received not from its own carrier but from those around it. It absorbs all unconscious mental frequencies from this brainwave energy to nourish itself with. It then excretes into the mind of its carrier a telepathic matrix formed by combining the conscious thought frequencies with the nerve signals picked up from the speech centres of the brain which has supplied them. The practical upshot of all this is that if you stick a Babel fish in your ear you can instantly understand anything said to you in any form of language. The speech patterns you actually hear decode the brainwave matrix which has been fed into your mind by your Babel fish.\citep{adams}}%
+Now, [a Babel Fish\footnote{The Babel fish is small, yellow and leech-like, and probably the oddest thing in the Universe. It feeds on brainwave energy received not from its own carrier but from those around it. It absorbs all unconscious mental frequencies from this brainwave energy to nourish itself with. It then excretes into the mind of its carrier a telepathic matrix formed by combining the conscious thought frequencies with the nerve signals picked up from the speech centres of the brain which has supplied them. The practical upshot of all this is that if you stick a Babel fish in your ear you can instantly understand anything said to you in any form of language. The speech patterns you actually hear decode the brainwave matrix which has been fed into your mind by your Babel fish.\cite{adams}}%
 ] is such a bizarrely improbable coincidence that anything so mind-bogglingly useful could have evolved purely by chance that some have chosen to see it as the final proof of the NON-existence of God. The argument goes something like this:\\[2.5pt]
 \enquote{I refuse to prove that I exist,} says God, \enquote{for proof denies faith, and without faith I am nothing.}\\[2.5pt]
 \enquote{But,} says Man, \enquote{the Babel fish is a dead giveaway, isn't it? It could not have evolved by chance. It proves that You exist, and so therefore, by Your own arguments, You don't. QED.}\\[2.5pt]
@@ -26,10 +26,10 @@ Halverwege vorige eeuw was het George Boole die de wiskundige basis legde voor c
     Bertrand Russell {\scriptsize\emph (Image by Wikipedia)}\\[3mm]
   \end{marginfigure}
 
-\hspace{15pt}Door deze ontwikkeling introduceerde hij een nieuwe notatie en taal die de basis vormde van zijn werk en ten grondslag ligt aan de predikaatlogica die wij in deze reader zullen behandelen (zie hoofdstuk \ref{ch:predicaten}). Tot de aanpassingen van Boole en Frege was de logica, als mechanisme tot het onderzoeken en uitdrukken van het menselijk redeneren, niet verandert sinds zijn introductie door Aristoteles (circa 300 BC.).
+Door deze ontwikkeling introduceerde hij een nieuwe notatie en taal die de basis vormde van zijn werk en ten grondslag ligt aan de predikaatlogica die wij in deze reader zullen behandelen (zie hoofdstuk \ref{ch:predicaten}). Tot de aanpassingen van Boole en Frege was de logica, als mechanisme tot het onderzoeken en uitdrukken van het menselijk redeneren, niet verandert sinds zijn introductie door Aristoteles (circa 300 BC.).
 
-\hspace{15pt}Frege's enorme werk werd verwoestend bekritiseerd door Bertrand Russell, die een fundamentele fout had gevonden in de zelf-evidente basis van Frege's werk (zie terzijde \ref{as:russel:paradox}). Echter werkte Russel vervolgens mee aan het repareren van deze kritieke fout, en verspreidde daarmee de idee\"en onder de Engelse wiskundigen (waaronder Boole, en later Turing en Church).
-\footnotetext{Vrij naar `Logicomix -- An Epic Search for Truth', \citet{logicomix}.}
+Frege's enorme werk werd verwoestend bekritiseerd door Bertrand Russell, die een fundamentele fout had gevonden in de zelf-evidente basis van Frege's werk (zie terzijde \ref{as:russel:paradox}). Echter werkte Russel vervolgens mee aan het repareren van deze kritieke fout, en verspreidde daarmee de idee\"en onder de Engelse wiskundigen (waaronder Boole, en later Turing en Church).
+\footnotetext{Vrij naar `Logicomix -- An Epic Search for Truth', \cite{logicomix}.}
 \end{aside}
 
 \section{Metataal}\label{sec:metataal}
@@ -45,12 +45,12 @@ In de logica bestrijden we deze zelf-referentie door een duidelijk onderscheid t
 Dit idee zou niet geheel vreemd voor je moeten zijn. Immers als je bijvoorbeeld Latijn zou bestuderen, zijn uitspraken in het Latijn in de objecttaal, terwijl de discussies die je voert over deze uitspraken in het Nederlands (de metataal). In de wiskunde is het niet anders (bijv., in calculus, verzamelingenleer, grafentheorie, etc.), maar ook in de informatica. In deze laatste is de objecttaal de taal waarin we programmeren, zoals Python, Java, Lisp, Miranda, en de metataal wederom Nederlands, mogelijk uitgebreid met wat toepasselijke wiskundige en informatica specifieke termen.
 
 \begin{example}\mbox{}\\
-Beschouw de volgende uitdrukking:
-\begin{quote}\begin{texttt}times 0 do print * od = do\_nothing
-\end{texttt}\end{quote}
+Beschouw de volgende uitdrukking:\\
+  \texttt{times 0 do print * od = do\_nothing}
 \end{example}
 Dit is, wezenlijk, een uitspraak in de metataal over de equivalentie van twee uitdrukkingen in een of andere programmeertaal. Wellicht had je het zelf ook al bedacht, maar het is bijzonder lastig om exact te bepalen welke symbolen tot de objecttaal en welke tot de metataal behoren. Figuur \ref{fig:metataal} geeft hierover verheldering.
-\begin{figure}[h]
+
+\begin{figure}[ht]
 \begin{center}
 \begin{tikzpicture}
 \node at (-0.1,0) {\tt times 0 do print * od};

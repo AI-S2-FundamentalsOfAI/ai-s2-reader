@@ -28,7 +28,7 @@
     in rec {
       packages = {
         document = pkgs.stdenvNoCC.mkDerivation rec {
-          name = "latex-demo-document";
+          name = "Reader-S2";
           src = self;
           buildInputs = [ pkgs.coreutils tex pkgs.gzip pkgs.perl ];
           phases = ["unpackPhase" "buildPhase" "installPhase"];
@@ -41,7 +41,7 @@
             mkdir -p .cache/texmf-var
             env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
               SOURCE_DATE_EPOCH=${toString self.lastModified} \
-              pdflatex -f -interaction=nonstopmode -lualatex \
+              pdflatex -interaction=nonstopmode -lualatex \
               -pretex="\pdfvariable suppressoptionalinfo 512\relax" \
               -usepretex -synctex=1 ${documentName}.tex || true
             env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \

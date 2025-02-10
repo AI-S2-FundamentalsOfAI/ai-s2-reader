@@ -7,6 +7,7 @@
 \newcommand{\@tufte@class}{book}% the base LaTeX class (defaults to the article/handout style)
 \newcommand{\@tufte@pkgname}{tufte-book}% the name of the package (defaults to tufte-handout)
 
+\usepackage[dvipsnames,svgnames,x11names,table]{xcolor}% load before bidi
 \newcommand{\subtitle}[1]{%
   \gdef\@subtitle{#1}%
 }
@@ -56,13 +57,9 @@
 \usepackage{amsmath,amssymb,amsthm,amsfonts}
 \usepackage[normalem]{ulem}
 \usepackage{calligra}
-\usepackage[style=dutch]{csquotes}
-\usepackage{multicol,pdfpages}
-\usepackage[unicode,hyperfootnotes=false]{hyperref}
-\usepackage{natbib}
+%\usepackage[unicode,hyperfootnotes=false]{hyperref}
+%\usepackage{natbib}
 \usepackage{xurl}
-\usepackage{listings}
-\hypersetup{colorlinks=true, citecolor=RubineRed, urlcolor=RedViolet, linkcolor=RedViolet}
 \usepackage{adjustbox}
 \usepackage{array}
 \usepackage{booktabs}
@@ -401,11 +398,12 @@
     {\RequirePackage[unicode,hyperfootnotes=false,xetex]{hyperref}}
     {\RequirePackage[unicode,hyperfootnotes=false]{hyperref}}
   \hypersetup{%
+    colorlinks=true,
+    citecolor=RubineRed,
+    urlcolor=RedViolet,
+    linkcolor=RedViolet,
     pdfborder = {0 0 0},
     bookmarksdepth = section,
-    citecolor = DarkGreen,
-    linkcolor = DarkBlue,
-    urlcolor = DarkGreen,
   }%
 }
 
@@ -792,46 +790,6 @@
   }%
 }{}
 
-%\ifthenelse{\boolean{@tufte@letterspace}}{%
-  %\ifthenelse{\boolean{pdf}}{%
-    %\ifthenelse{\NOT\boolean{@tufte@letterspace@pkg@prereqs}}{%
-      %% pdfLaTeX version is too old or not using pdfLaTeX
-      %\ifthenelse{\boolean{@tufte@xetex}}{%
-        %% TODO use xetex letterspacing
-        %\@tufte@debug@info@noline{XeTeX detected. Reverting to `soul' package for letterspacing}%
-        %\@tufte@loadsoul%
-      %}{%
-        %% use `soul' package for letterspacing
-        %\@tufte@debug@info@noline{Old version of pdfTeX detected. Reverting to `soul' package for letterspacing}%
-        %\@tufte@loadsoul%
-      %}
-    %}{%
-      %\IfFileExists{letterspace.sty}{%
-        %\@tufte@debug@info@noline{Modern version of pdfTeX detected. Using `letterspace' package}
-        %\RequirePackage{letterspace}
-        %% Set up letterspacing (using microtype package) -- requires pdfTeX v1.40+
-        %\renewcommand{\allcapsspacing}[1]{\textls[200]{##1}}
-        %\renewcommand{\smallcapsspacing}[1]{\textls[50]{##1}}
-        %\renewcommand{\allcaps}[1]{\textls[200]{\MakeTextUppercase{##1}}}
-        %\renewcommand{\smallcaps}[1]{\smallcapsspacing{\MakeTextLowercase{##1}}}
-        %\renewcommand{\textsc}[1]{\smallcapsspacing{\textsmallcaps{##1}}}
-      %}{% microtype failed, check for soul
-        %\@tufte@debug@info@noline{Modern version of pdfTeX detected, but `letterspace' package not installed.  Reverting to  `soul' package for letterspacing}
-        %\@tufte@loadsoul
-      %}%
-    %}%
-  %}{%
-    %\@tufte@debug@info@noline{Plain LaTeX detected. Using `soul' package for letterspacing}
-    %\@tufte@loadsoul
-  %}
-%}{%
-%% we're not to load letterspacing, so do nothing
-%}
-
-
-%%
-% An environment for paragraph-style section
-
 \providecommand\newthought[1]{%
    \tuftebreak
    \noindent\textsc{#1}%
@@ -877,7 +835,9 @@
 
 %%
 % Color
-\RequirePackage[dvipsnames,svgnames]{xcolor}% load before bidi
+%\usepackage[table, x11names]{xcolor} % Required for specifying colors by name
+\definecolor{hublue}{RGB}{0, 149, 200} % HU Blauw
+\definecolor{hured}{RGB}{218, 41, 28}
 
 %%
 % Load the bidi package if instructed to do so.  This package must be loaded
@@ -1852,7 +1812,6 @@
 %%
 % An index environment to mimic Tufte's indexes
 
-\usepackage{multicol}
 \renewenvironment{theindex}{%
   \ifthenelse{\equal{\@tufte@class}{book}}%
     {\chapter{\indexname}}%
@@ -2149,9 +2108,6 @@
 
 % NEW
 
-\usepackage{amsthm}
-\usepackage{amsmath}
-
 \usepackage{chngcntr}
 \counterwithout{footnote}{chapter}
 
@@ -2198,9 +2154,6 @@
 \newenvironment{vocabulary}{\begin{vocabularyT}}{\end{vocabularyT}}	
 \newenvironment{aside}{\begin{asideT}}{\end{asideT}}
 
-\usepackage[table, x11names]{xcolor} % Required for specifying colors by name
-\definecolor{hublue}{RGB}{0, 149, 200} % HU Blauw
-\definecolor{hured}{RGB}{218, 41, 28}
 
 \usepackage{graphicx} % Required for including pictures
 \graphicspath{{pictures/}} % Specifies the directory where pictures are stored
@@ -2215,84 +2168,6 @@
 \tikzset{xyp/.style={canvas is xy plane at z=#1}}
 \tikzset{xzp/.style={canvas is xz plane at y=#1}}
 \tikzset{yzp/.style={canvas is yz plane at x=#1}}
-
-% % Theorem box
-% \newmdenv[skipabove=7pt,
-% skipbelow=7pt,
-% backgroundcolor=hublue!10,
-% linecolor=hublue,
-% innerleftmargin=5pt,
-% innerrightmargin=5pt,
-% innertopmargin=5pt,
-% leftmargin=0cm,
-% rightmargin=0cm,
-% innerbottommargin=5pt]{tBox}
-%
-% % Exercise box	  
-% \newmdenv[skipabove=7pt,
-% skipbelow=7pt,
-% rightline=false,
-% leftline=true,
-% topline=false,
-% bottomline=false,
-% backgroundcolor=hublue!10,
-% linecolor=hublue,
-% innerleftmargin=5pt,
-% innerrightmargin=5pt,
-% innertopmargin=5pt,
-% innerbottommargin=5pt,
-% leftmargin=0cm,
-% rightmargin=0cm,
-% linewidth=4pt]{eBox}	
-%
-% % Definition box
-% \newmdenv[skipabove=7pt,
-% skipbelow=7pt,
-% rightline=false,
-% leftline=true,
-% topline=false,
-% bottomline=false,
-% linecolor=hublue,
-% innerleftmargin=5pt,
-% innerrightmargin=5pt,
-% innertopmargin=0pt,
-% leftmargin=0cm,
-% rightmargin=0cm,
-% linewidth=4pt,
-% innerbottommargin=0pt]{dBox}
-%
-% % Corollary box
-% \newmdenv[skipabove=7pt,
-% skipbelow=7pt,
-% rightline=false,
-% leftline=true,
-% topline=false,
-% bottomline=false,
-% linecolor=hured,
-% backgroundcolor=hublue!10,
-% innerleftmargin=5pt,
-% innerrightmargin=5pt,
-% innertopmargin=5pt,
-% leftmargin=0cm,
-% rightmargin=0cm,
-% linewidth=4pt,
-% innerbottommargin=5pt]{cBox}
-%
-% % Example box
-% \newmdenv[skipabove=7pt,
-% skipbelow=7pt,
-% rightline=false,
-% leftline=true,
-% topline=false,
-% bottomline=false,
-% linecolor=hured,
-% innerleftmargin=5pt,
-% innerrightmargin=5pt,
-% innertopmargin=5pt,
-% leftmargin=0cm,
-% rightmargin=0cm,
-% linewidth=4pt,
-% innerbottommargin=0pt]{exBox}
 
 
 \newenvironment{remark}{\par\vspace{10pt}\small % Vertical white space above the remark and smaller font size
@@ -2339,8 +2214,8 @@
 
 \usepackage{environ}
 
-\newcommand\p[1][\textasciitilde]{{\color{green} linus@server}:{\color{blue}#1}\$\ }
-\newcommand\r[1][\textasciitilde]{{\color{red} server}:{\color{blue}#1}\#\ }
+\newcommand\userprompt[1][\textasciitilde]{{\color{green} linus@server}:{\color{blue}#1}\$\ }
+\newcommand\rootprompt[1][\textasciitilde]{{\color{red} server}:{\color{blue}#1}\#\ }
 
 \NewEnviron{bash}{%
   \mbox{}\\\colorbox{darkgray}{\parbox{\textwidth}{\noindent\ttfamily\color{white}\footnotesize
@@ -2363,8 +2238,8 @@
 \def\fnum@lstlisting{\lstlistingname~\thelstlisting}
 \makeatother
 
-\usepackage{listings}
 
+\usepackage{listings}
 \lstset{basicstyle=\ttfamily\footnotesize,
   showstringspaces=false,
   commentstyle=\color{gray},
@@ -2415,7 +2290,7 @@
   moredelim=[s][\color{gray}\itshape]{@}{\ }	% decorators
 }}
 
-\lstnewenvironment{bash}[1][]
+\lstnewenvironment{Bash}[1][]
 {
   \bashstyle
   \lstset{#1}
@@ -2423,4 +2298,5 @@
 {}
 
 % End of file
+\usepackage[style=dutch]{csquotes}
 \endinput
