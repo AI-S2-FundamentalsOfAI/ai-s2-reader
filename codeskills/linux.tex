@@ -50,31 +50,20 @@ Als je een nieuwe terminal start\sidenote{of via bijvoorbeeld SSH een verbinding
 
 \begin{bash}
 \userprompt cd Documents\\
-\  \\
 \userprompt[\textasciitilde/Documents] pwd\\
-/home/linus/Documents\\\\
-\  \\
+/home/linus/Documents\\
 \userprompt[\textasciitilde/Documents] cd ..\\
-\  \\
 \userprompt cd Folder\\
-\  \\
 \userprompt[\textasciitilde/Folder] cd ..\\
 AnotherFile  File\\
-\  \\
-\userprompt[\textasciitilde/Folder] cd \asciitilde\\
-\  \\
+\userprompt[\textasciitilde/Folder] cd \textasciitilde\\
 \userprompt cd -\\
 /home/linus/Folder
-\  \\
 \userprompt[\textasciitilde/Folder] cd .\\
-\  \\
 \userprompt[\textasciitilde/Folder] cd /\\
-\  \\
 \userprompt[/] ls\\
 bin/  boot/  dev/  etc/  home/  media/  mnt/  proc/  root/  run/  sys/  tmp/  usr/  var/\\
-\  \\
 \userprompt[/] cd\\
-\  \\
 \userprompt pwd\\
 /home/linus\\
 \end{bash}
@@ -84,24 +73,24 @@ De volgende commando's manipuleren bestanden. Met \texttt{touch} wordt een besta
 \begin{bash}
 \userprompt ls\\
 AnotherFile  File\\
-\\
+
 \userprompt touch File3\\
-\\
+
 \userprompt ls\\
 AnotherFile  File  File3\\
-\\
+
 \userprompt cp File File2\\
-\\
+
 \userprompt ls\\
 AnotherFile  File  File2  File3\\
-\\
+
 \userprompt mv AnotherFile File1\\
-\\
+
 \userprompt ls\\
 File  File1  File2  File3\\
-\\
+
 \userprompt rm File3\\
-\\
+
 \userprompt ls\\
 File  File1  File2\\
 \end{bash}
@@ -111,38 +100,38 @@ De meeste commando's voor bestanden werken niet direct op directories. \texttt{m
 \begin{bash}
 \userprompt[~/Folder] ls\\
 File  File1  File2\\
-\\
+
 \userprompt[~/Folder] mkdir Subfolder\\
-\\
+
 \userprompt[~/Folder] touch Subfolder/File\\
-\\
+
 \userprompt[~/Folder] mkdir EmptyFolder\\
-\\
+
 \userprompt[~/Folder] ls\\
 EmptyFolder/  File  File1  File2  Subfolder/\\
-\\
+
 \userprompt[~/Folder] mkdir EmptyFolder2\\
-\\
+
 \userprompt[~/Folder] ls\\
 EmptyFolder/  EmptyFolder2/  File  File1  File2  Subfolder/\\
-\\
+
 \userprompt[~/Folder] rmdir EmptyFolder\\
-\\
+
 \userprompt[~/Folder] rmdir Subfolder\\
 rmdir: failed to remove 'Subfolder/': Directory not empty\\
-\\
+
 \userprompt[~/Folder] cp Subfolder Backup\\
 cp: -r not specified; omitting directory 'Subfolder'\\
-\\
+
 \userprompt[~/Folder] cp -r Subfolder Backup\\
-\\
+
 \userprompt[~/Folder] ls\\
 Backup/  EmptyFolder2/  File  File1  File2  Subfolder/\\
-\\
+
 \userprompt[~/Folder] rm -r Subfolder\\
-\\
+
 \userprompt[~/Folder] rm -r EmptyFolder2\\
-\\
+
 \userprompt[~/Folder] ls\\
 Backup/  File  File1  File2\\
 \end{bash}
@@ -154,17 +143,17 @@ De meeste commando's accepteren command line argumenten. Allereerst zijn er verp
 \begin{bash}
 \userprompt[~/Folder] ls\\
 File  File1  File2  Folder1/  Folder2/ Folder3/\\
-\\
+
 \userprompt[~/Folder] rm -r Folder1    \# Recursive om directory te deleten\\
-\\
+
 \userprompt[~/Folder] rm -f File2      \# Force remove\\
-\\
+
 \userprompt[~/Folder] rm -r -f Folder2 \# Force recursive remove\\
-\\
+
 \userprompt[~/Folder] rm -rf Folder3   \# Zelfde als -r -f\\
-\\
+
 \userprompt[~/Folder] rm --force File1 \# Zelfde als -f\\
-\\
+
 \userprompt[~/Folder] ls\\
 File\\
 \end{bash}
@@ -174,7 +163,7 @@ Sommige commando's hebben erg veel opties om de gewenste functionaliteit te sele
 \begin{bash}
 \userprompt[~] rm --help\\
 \# Print een (relatief) korte handleiding\\
-\\
+
 \userprompt[~] man rm\\
 \# Scroll door de uitgebreide handleiding\\
 \end{bash}
@@ -186,10 +175,10 @@ Om een tree te krijgen van de inhoud van een map en alle submappen kun je het co
 \begin{bash}
 \userprompt[~] find /home/linus\\
 \# Print de hele mappenstructuur; veel output\\
-\\
+
 \userprompt[~] less file\\
 \# Lees een bestand door er doorheen te scrollen\\
-\\
+
 \userprompt[~] find /home/linus | less\\
 \# Combineer de tools: scroll door de uitvoer van find\\
 \end{bash}
@@ -209,16 +198,16 @@ Net als dat we vanaf de shell twee commando's aan elkaar kunnen pipen, kunnen we
 \begin{bash}
 \userprompt[~] find /home/linus > filetree 2> errors.log\\
 \# Geen output; alles staat in bestanden filetree en errorslog\\
-\\
+
 \userprompt[~] wc -l filetree >\!> filetree\\
 \# Het totaal aantal regels in filetree wordt onderaan filetree toegevoegd\\
-\\
+
 \userprompt[~] wc -c <\!< EOF\\
 > Lorem Ipsum\\
 > Dolor Sit Amet\\
 > EOF\\
 27\\
-\\
+
 \userprompt[~] psql databasename < sqlfile\\
 \# Laadt een database uit een file\\
 \end{bash}
@@ -236,12 +225,12 @@ drwx------ 1 linus users 6142 Jan 28 10:05 ..\\
 -rw-r--r-- 1 linus users    0 Jan 28 10:08 File2\\
 -rw-r--r-- 1 linus users    0 Jan 28 10:08 File2025\\
 -rw-r--r-- 1 linus users    0 Jan 28 10:08 File3\\
-\\
+
 \userprompt[~/Folder] ls -la | grep 2025\\
 -rw-r--r-- 1 linus users 0 Jan 28 10:08 File2025\\
-\\
+
 \userprompt[~/Folder] ls -la | cut -c14- | sort\\
-\\
+
 linus users    0 Jan 28 10:08 File2\\
 linus users    0 Jan 28 10:08 File2025\\
 linus users    0 Jan 28 10:08 File3\\
@@ -257,10 +246,10 @@ Meerdere commands gescheiden door pipes vormen samen een pipeline. De commando's
 \begin{bash}
 \userprompt[~] foo | bar\\
 \# De uitvoer van foo gaat naar bar\\
-\\
+
 \userprompt[~] foo ; bar\\
 \# bar wordt na foo uitgevoerd\\
-\\
+
 \userprompt[~] foo | bar ; baz | quux\\
 \# Eerst worden foo en bar uitgevoerd, waarbij de uitvoer van foo naar bar gaat\\
 \# Als dit klaar is worden baz en quux gestart, en gaat de uitvoer van baz naar quux\\
@@ -271,8 +260,8 @@ Commands in een command list worden na elkaar uitgevoerd, ongeacht of er ergens 
 \begin{bash}
 \userprompt[~] foo || bar\\
 \# bar wordt uitgevoerd als foo faalt\\
-\\
-\userprompt[~] foo && bar\\
+
+\userprompt[~] foo \&\& bar\\
 \# bar wordt uitgevoerd als foo gelukt is\\
 \end{bash}
 
@@ -283,16 +272,16 @@ Als je wilt weten welke processen er op dit moment actief zijn kun je het comman
 \begin{bash}
 \userprompt[~] ps\\
 \# geef de processen binnen de huidige shell\\
-\\
+
 \userprompt[~] ps -A\\
 \# geef alle processen\\
-\\
+
 \userprompt[~] top\\
 \# interactieve "task manager"\\
-\\
+
 \userprompt[~] kill\\
 \# stop een proces met een gegeven PID\\
-\\
+
 \userprompt[~] killall\\
 \# stop elk proces met een gegeven naam\\
 \end{bash}
@@ -319,14 +308,14 @@ Python 3.13.0b4 (main, Jul 18 2024, 09:41:38) [GCC 13.3.0] on linux \\
 Type "help", "copyright", "credits"\  or "license"\ for more information.\\
 >\!>\!> antwoord = 42\\
 >\!>\!> \\
-[1]+  Stopped                 python3                  \# Python gepauzeerd ("Stopped")\\
-\\
+\lbrack 1\rbrack +  Stopped                 python3                  \# Python gepauzeerd ("Stopped")\\
+
 \userprompt[~] ls Folder                                \# Terug in Bash\\
 File File2 File2025 File3\\
-\\
+
 \userprompt[~] jobs\\
-[1]+  Stopped                 python3\\
-\\
+\lbrack 1\rbrack +  Stopped                 python3\\
+
 \userprompt[~] fg                                       \# Terug in Python, waar we gebleven waren\\
 python3                                                \# Bash vertelt nog welk proces er draait\\
 print(antwoord)                                        \# Geen >\!>\!> (die staat hierboven al)\\
@@ -338,17 +327,17 @@ print(antwoord)                                        \# Geen >\!>\!> (die staa
 \userprompt[~] du -chd1  > filesizes                    \# Bereken grootte van elke subfolder\\
 \textasciicircum Z                                                     \# Dit duurt te lang...\\
 \lbrack 1\rbrack +  Stopped                 du -chd1 > filesizes     \# Gepauzeerd\\
-\\
+
 \userprompt[~] bg                                       \# Proces gaat op achtergrond door\\
 \lbrack 1\rbrack + du -chd1 > filesizes \&\\
-\\
+
 \userprompt[~] jobs                                     \# Running in joblist\\
 \lbrack 1\rbrack +  Running                 du -chd1 > filesizes \&   \# Merk op: er is een \& toegevoegd\\
-\\
+
 \userprompt[~] disown\\
-\\
+
 \userprompt[~] jobs                                     \# Geen uitvoer, job is onterfd\\
-\\
+
 \userprompt[~] du -chd1  > filesizes \&                  \# Met \& -> Start op achtergrond\\
 \lbrack 1\rbrack \ 20251                                              \# Job 1, PID 20251\\
 \end{bash}
@@ -360,24 +349,24 @@ We hebben inmiddels een aantal symbolen gezien met speciale betekenis in Bash. D
 \begin{bash}
 \userprompt echo  \$HOME             \# Echo de inhoud van een variabele\\
 /home/linus\\
-\\
+
 \userprompt echo "Hallo Wereld"     \# Echo een string\\
 Hallo Wereld\\
-\\
+
 \userprompt cat                     \# Interactieve echo\\
 Hallo Wereld!                                \# Dit typt de gebruiker\\
 Hallo Wereld!                                \# Dit stuurt cat terug\\
 \textasciicircum D                                           \# Beeindig met Control-D\\
-\\
+
 \userprompt cat File2025            \# Lees de inhoud van het bestand\\
 Hallo uit 2025!\\
-\\
+
 \userprompt echo File2025           \# Nu wordt de filename als string gezien\\
 File2025\\
-\\
+
 \userprompt echo File2025 | cat     \# cat geeft resultaat van echo door\\
 File2025\\
-\\
+
 \userprompt echo File2025 | echo    \# echo negeert invoer vanuit pipes\\
 \end{bash}
 
@@ -391,34 +380,34 @@ Het kan voorkomen dat je probeert een proces te doden of een bestand of map te l
 \begin{bash}
 \userprompt[~/Folder] ls RootFolder                         \# Deze map is niet leesbaar\\
 ls: cannot open directory 'RootFolder': Permission denied\\
-\\
+
 \userprompt[~/Folder] cd RootFolder                         \# Maar mag wel geopend worden\\
-\\
+
 \userprompt[~/Folder/RootFolder] ls\\
 ls: cannot open directory '.': Permission denied           \# De inhoud is nog steeds onleesbaar\\
-\\
+
 \userprompt[~/Folder/RootFolder] sudo ls                    \# Met sudo als root proberen\\
-[sudo] password for linus:                                   \# Eigen wachtwoord\\
+\lbrack sudo\rbrack  password for linus:                                   \# Eigen wachtwoord\\
 HiddenFile HiddenFolder/                                   \# De mapinhoud\\
-\\
+
 \userprompt[~/Folder/RootFolder] su -c ls                   \# Met su als root proberen\\
 Password:                                                  \# Wachtwoord van root\\
 HiddenFile HiddenFolder/\\
-\\
+
 \userprompt[~/Folder/RootFolder] sudo bash                  \# Open een shell als root met sudo\\
 \# Watchwoord niet opnieuw nodig voor aantal minuten\\
-\\
+
 \rootprompt[/home/linus/Folder/RootFolder] ls                \# ls in de root shell\\
 HiddenFile HiddenFolder/\\
-\\
+
 \rootprompt[/home/linus/Folder/RootFolder] exit              \# Terug naar de vorige shell\\
-\\
+
 \userprompt[~/Folder/RootFolder] su                         \# Open een shell als root met su\\
 Password:                                                  \# Wachtwoord (root) wel nodig\\
-\\
+
 \rootprompt[/home/linus/Folder/RootFolder] ls                \# ls in de root shell\\
 HiddenFile HiddenFolder/\\
-\\
+
 \rootprompt[/home/linus/Folder/RootFolder] exit              \# Terug naar de vorige shell\\
 \end{bash}
 
@@ -458,7 +447,7 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 \end{lstlisting}
-\caption{.bash_profile}
+\caption{.bash\_profile}
 \end{listing}
 
 \subsection{Subshells}\label{subshells}
@@ -588,11 +577,8 @@ done
 Eerder hebben we kennis gemaakt met de command-list. Om van een command-list weer één object te maken, kunnen we twee vormen gebruiken: gewone haakjes en accolades. Bij accolades moet het sluithaakje op een eigen regel staan (of voorafgegaan worden door een \texttt{;}); voor gewone haakjes is dit niet zo. Het verschil is waar de commands worden uitgevoerd: commands tussen accolades gebeuren binnen de huidige shell, terwijl bij haakjes een subshell geopend wordt: een apart proces. Dit houdt in dat wijzigingen aan de environment (bijvoorbeeld variabelen) de subshell niet overleven.
 
 \begin{itemize}
-\tightlist
-\item
-  \texttt{(\ foo;\ bar\ \&\&\ baz\ )}
-\item
-  \texttt{\{\ foo;\ bar\ \&\&\ baz;\ \}}
+\item \texttt{(\ foo;\ bar\ \&\&\ baz\ )}
+\item \texttt{\{\ foo;\ bar\ \&\&\ baz;\ \}}
 \end{itemize}
 
 \begin{listing}

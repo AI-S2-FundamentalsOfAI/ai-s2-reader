@@ -70,17 +70,11 @@ Caches zijn belangrijk omdat ze de prestaties van algoritmen kunnen verbeteren d
 De software die je als (AI)-programmeur schrijft, zal in de regel niet direct op de hardware draaien, maar binnen de omgeving van een \emph{operating system} (OS). Dit is een stuk software\sidenote{Voorbeelden zijn Linux, MacOS en Windows, maar ook mobiele systemen zoals Android en iOS.} dat tijdens het opstarten van de computer als eerste wordt gestart, en dient als abstractielaag tussen de hardware en de user-software. Het is zo opgezet dat het enerzijds met de specifeke hardware overweg kan, en anderzijds eenzelfde basis biedt voor software (ongeacht wat de onderliggende hardware is). Zonder dit OS zou je als programmeur zelf alle details van de computer-hardware moeten managen, waardoor je telkens weer veel (foutgevoelige) code nodig hebt om simpele taken te kunnen programmeren. Denk hierbij aan het opslaan van data, het afwisselen van meerdere taken, of het weergeven van een interface op het scherm. Complexe software zoals een web-browser of office-suite zijn zonder de abstractie van een OS vrijwel onmogelijk te programmeren, en als het al lukt specifiek voor één systeem gemaakt. Met het OS is er een basis waar complexe software op gemaakt kan worden. Het OS heeft doorgaans de volgende taken:
 
 \begin{itemize}
-\tightlist
-\item
-  Abstractie van de hardware t.b.v. user processes
-\item
-  Aansturen randapparatuur / IO
-\item
-  Processen laden en managen / scheduling
-\item
-  Beheren system resources (e.g.~memory, CPU-tijd)
-\item
-  Leveren van het filesystem
+\item Abstractie van de hardware t.b.v. user processes
+\item Aansturen randapparatuur / IO
+\item Processen laden en managen / scheduling
+\item Beheren system resources (e.g.~memory, CPU-tijd)
+\item Leveren van het filesystem
 \end{itemize}
 
 De meesten code die wij als AI-ers schrijven zal draaien in een hogere taal zoals Python, die onze instructies vertaalt naar iets waar het operating system mee kan werken. Het OS vertaalt dit vervolgens naar de specifieke hardware.
@@ -92,7 +86,7 @@ Hoewel we het inmiddels een paar keer over processen hebben gehad,
 leggen we voor nu de nadruk nog even op een computer met een enkele
 taak. Moderne computers draaien vaak vele taken tegelijk\sidenote{Of heel snel afgewisseld, waardoor het wel tegelijk lijkt.}, maar het Operating System zorgt ervoor dat deze taken van elkaar afgeschermd zijn en dat het vanuit een proces lijkt alsof deze de hele computer ter beschikking heeft en geen rekening met anderen hoeft te houden.
 
-\newthougmt{Het geheugen van een proces} is opgedeeld in een aantal segmenten. De eerste sectie is Text en bevat de instructies van het proces. Dit gedeelte van het geheugen is na het inladen van het proces read-only: als alle code is geladen mag deze in het kader van de veiligheid niet meer veranderd worden. Na de instructies volgen de Data en BSS segmenten. Data bevat alle globale en statische variabelen met een initiele waarde. Deze worden buiten functies gedefinieerd of zijn als static (onveranderbaar) gemarkeerd. BSS (historisch: Block Started by Symbol) bevat de statische variabelen die wel defined, maar niet geïnitialiseerd zijn. Na de BSS volgen de heap en de stack, die in de volgende sectie besproken worden. Beide kunnen hun formaat dynamisch aanpassen. De stack en heap beginnen leeg en groeien naar elkaar toe. Bij het gebruik van een high-level programmeertaal zoals Python heb je als programmeur vaak geen directe invloed op wat waar in het geheugen komt: dit wordt door de Python-interpreter gemanaged.
+\newthought{Het geheugen van een proces} is opgedeeld in een aantal segmenten. De eerste sectie is Text en bevat de instructies van het proces. Dit gedeelte van het geheugen is na het inladen van het proces read-only: als alle code is geladen mag deze in het kader van de veiligheid niet meer veranderd worden. Na de instructies volgen de Data en BSS segmenten. Data bevat alle globale en statische variabelen met een initiele waarde. Deze worden buiten functies gedefinieerd of zijn als static (onveranderbaar) gemarkeerd. BSS (historisch: Block Started by Symbol) bevat de statische variabelen die wel defined, maar niet geïnitialiseerd zijn. Na de BSS volgen de heap en de stack, die in de volgende sectie besproken worden. Beide kunnen hun formaat dynamisch aanpassen. De stack en heap beginnen leeg en groeien naar elkaar toe. Bij het gebruik van een high-level programmeertaal zoals Python heb je als programmeur vaak geen directe invloed op wat waar in het geheugen komt: dit wordt door de Python-interpreter gemanaged.
 
 \begin{figure}[ht]
     \centering
@@ -129,13 +123,9 @@ De stack heeft een maximale grootte. Bij simpele systemen kan dit komen door een
 Waar BSS en Data voor statische data gebruikt wordt, is de heap voor dynamische data: data waarvan tijdens het programmeren en compilen nog niet bekend is hoeveel ruimte ervoor nodig is. De heap wordt tijdens het uitvoeren van de code expliciet toebedeeld (gealloceerd).
 
 \begin{itemize}
-\tightlist
-\item
-  Dynamische alloceerbaar
-\item
-  Expliciet ruimte reserveren
-\item
-  Na gebruik vrijgeven
+\item Dynamische alloceerbaar
+\item Expliciet ruimte reserveren
+\item Na gebruik vrijgeven
 \end{itemize}
 
 Voor gebruik van de heap geeft software aan het operating system aan hoeveel\sidenote{Hoewel de hoeveelheid benodigde ruimte bekend moet zijn voor deze gereserveerd wordt, hoeft dit pas tijdens het uitvoeren van de code zo te zijn. Dit kan dus afhangen van bijvoorbeeld eerdere input. Dit maakt dit geheugen dynamisch gealloceeerd.} geheugenadressen in de adresruimte gekoppeld moeten worden aan daadwerkelijk heap-geheugen, zodat de software deze kan gebruiken. Waar dit geheugen komt te staan wordt door het OS bepaald, maar het zal altijd een aaneengesloten stuk geheugen zijn. Geheugen moet altijd teruggegeven worden om te voorkomen dat er memory leaks onstaan, en het is niet toegestaan geheugen aan te spreken dat niet gealloceerd is (dit leidt tot de error ``segmentation fault''). Het niet teruggeven van gereserveerd geheugen is een van de meest voorkomende fouten bij veel C++ code. de waarde \texttt{12}, het nummer van de system call.
@@ -144,7 +134,7 @@ Voor gebruik van de heap geeft software aan het operating system aan hoeveel\sid
 Hieronder staat een stukje C++ code waarin de verschillende geheugensegmenten gebruikt worden. Jullie kennen op dit moment waarschijnlijk nog niet zoveel C++ dat alles in het codevoorbeeld meteen herkenbaar is; dit voorbeeld is vooral ter illustratie om de verschillende segmenten wat concreter te maken.
 
 \begin{listing}
-\begin{lstlisting}[language=c++]
+\begin{lstlisting}[language=C++]
 #include <vector>
 
 int x;                  // Global variable zonder initiele waarde staat in BSS
@@ -169,7 +159,7 @@ Alles dat in het geheugen van een computer opgeslagen staat, heeft de vorm van b
 \subsection{Komma-getallen}
 Om een kommagetal op te slaan wordt gebruik gemaakt van een mantissa/exponent-notatie. Dit is vergelijkbaar met de wetenschappelijke notatie die we gewend zij voor \enquote{normale} decimale getallen. De Ramanujan-constante kan bijvoorbeeld decimaal worden benaderd als $262537412640768743.99999999999925$, maar dit is vrij onoverzichtelijk omdat de punt ergens halverwege staat en niet direct duidelijk is hoeveel getallen voor en na de punt staan. Vergelijk dit met de notatie $2.6253741264076874399999999999925$; dit is nog steeds een ongrijpbaar getal, maar het is op z'n minst mogelijk wat de orde van grootte is.
 
-Voor Komma-getallen gebruiken we hetzelfde principe, maar dan binair. We verdelen de bits die we beschikbaar hebben om de \emp{mantissa} (het getal zelf, met de komma na het eerste cijfer), de \emph{exponent} (in het getal hierboven de 17), en de \emph{sign} (plus of min) op te slaan. De sign of tekenbit kost 1 bit, de rest wordt in een vaste verhouding verdeeld of exponent en mantissa.
+Voor Komma-getallen gebruiken we hetzelfde principe, maar dan binair. We verdelen de bits die we beschikbaar hebben om de \emph{mantissa} (het getal zelf, met de komma na het eerste cijfer), de \emph{exponent} (in het getal hierboven de 17), en de \emph{sign} (plus of min) op te slaan. De sign of tekenbit kost 1 bit, de rest wordt in een vaste verhouding verdeeld of exponent en mantissa.
 
 Voor 8-bits kunnen we bijvoorbeeld 3 bits voor het exponent gebruikene en 4 voor de mantissa (zie Figuur~\ref{fig:float8}. Gegeven een bitwaarde extraheren we de juiste bits per segment en passen deze toe in de volgende formule:
 

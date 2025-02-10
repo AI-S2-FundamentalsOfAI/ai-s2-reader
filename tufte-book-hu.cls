@@ -2218,9 +2218,9 @@
 \newcommand\rootprompt[1][\textasciitilde]{{\color{red} server}:{\color{blue}#1}\#\ }
 
 \NewEnviron{bash}{%
-  \mbox{}\\\colorbox{darkgray}{\parbox{\textwidth}{\noindent\ttfamily\color{white}\footnotesize
+  \vspace{3mm}\colorbox{darkgray}{\parbox{\textwidth}{\noindent\ttfamily\color{white}\footnotesize
     \BODY% Typeset contents
-  } } \mbox{}\\[3mm]
+  } } \vspace{3mm}
 }%
 
 \makeatletter
@@ -2299,4 +2299,7 @@
 
 % End of file
 \usepackage[style=dutch]{csquotes}
+\usepackage[tableaux]{prooftrees}
+
+\def\todo{\noindent\textbf{Uitwerking:}{\color{hured!20}Uitwerking volgt in een volgende versie van de reader.}}
 \endinput

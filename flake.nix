@@ -41,17 +41,17 @@
             mkdir -p .cache/texmf-var
             env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
               SOURCE_DATE_EPOCH=${toString self.lastModified} \
-              pdflatex -interaction=nonstopmode -lualatex \
+              pdflatex -lualatex \
               -pretex="\pdfvariable suppressoptionalinfo 512\relax" \
-              -usepretex -synctex=1 ${documentName}.tex || true
+              -usepretex -synctex=1 ${documentName}.tex
             env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
               SOURCE_DATE_EPOCH=${toString self.lastModified} \
               bibtex ${documentName} || true
             env TEXMFHOME=.cache TEXMFVAR=.cache/texmf-var \
               SOURCE_DATE_EPOCH=${toString self.lastModified} \
-              pdflatex -interaction=nonstopmode -lualatex \
+              pdflatex -lualatex \
               -pretex="\pdfvariable suppressoptionalinfo 512\relax" \
-              -usepretex -synctex=1 ${documentName}.tex || true
+              -usepretex -synctex=1 ${documentName}.tex
           '';
 
           installPhase = ''

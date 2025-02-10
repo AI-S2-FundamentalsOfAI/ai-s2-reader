@@ -15,10 +15,10 @@ jobs:
         with:
           scheme: full
           run: |
-            pdflatex -interaction=nonstopmode main.tex || true
+            pdflatex -interaction=nonstopmode main.tex
             bibtex main
-            pdflatex -interaction=nonstopmode main.tex || true
-            pdflatex -interaction=nonstopmode main.tex || true
+            pdflatex -interaction=nonstopmode main.tex
+            pdflatex -interaction=nonstopmode main.tex
             mv main.pdf reader-s2.pdf
       - name: Release
         uses: softprops/action-gh-release@v2
