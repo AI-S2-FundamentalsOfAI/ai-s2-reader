@@ -1,3 +1,634 @@
 \chapter{Git}
 
-Dit hoofdstuk wordt in een latere versie van de reader toegevoegd.
+%Dit hoofdstuk wordt in een latere versie van de reader toegevoegd.
+%Wanneer je aan een document werkt - verschillende versies, als een lijst
+Wanneer je aan een belangrijk document werkt, is het van belang dat je goed versiebeheer gebruikt. Bovenal wil je voorkomen dat, door het falen van je hardware of een ander ongeluk, je in een klap al je werk kwijt bent. Om te garanderen dat je nooit helemaal opnieuw hoeft te beginnen, kun je een backup in de cloud maken, door periodiek je laatste versie naar bijvoorbeeld Google Drive of Dropbox te kopi\"eren. Met een synchronisatie-tool kun je dit automatiseren, zodat dit (indien er iets is aangepast) meerdere kerene per minuut gebeurt.
+
+Vanuit het perspectief van de cloud vormt je document nu een reeks aan verschillende versies, waarbij iedere versie steeds \'e\'n voorganger en  \'e\'en opvolger heeft. Uitzondering hierop zijn de eerste en laatste versies; de eerste versie staat vast, de laatste versie als label steeds op een nieuwe versie van toepassing zijn. Je kunt het hiermeer beschouwen als een lijst, zoals we dit in programmeercode gewend zijn, waar steeds aan ge-\texttt{append} wordt.
+
+Als je met meerdere mensen\sidenote{Technisch gezien kan dit ook in je eentje al gebeuren, als je vanaf meerdere computers werkt en synchronisatie onbetrouwbaar is, maar in de praktijk is dit voor bijvoorbeeld Dropbox zeldzamer.} aan eenzelfde document werkt dan is de situatie iets lastiger, en kan de versie-lijst zich in twee of meer werkelijkheden splitsen. Laten we kijken wat er gebeurt als Abdel, B\"u\c sra en Cris tegelijk aan een document werken. In Figuur~\ref{fig:doctree} is een mogelijk scenario te zien, waar Abdel een document opzet en deelt met zijn groepsgenoten, die vanaf een bepaald punt ook mee beginnen te werken.
+
+\begin{figure}[ht]
+\label{fig:doctree}
+\begin{tikzcd}
+              & A_0 \arrow[d]            &               \\
+              & A_1 \arrow[d]            &               \\
+              & A_2 \arrow[d] \arrow[rd] &               \\
+              & A_3 \arrow[d] \arrow[ld] & B_0 \arrow[d] \\
+C_0 \arrow[d] & A_4 \arrow[d]            & B_1 \arrow[d] \\
+C_1           & A_5                      & B_2          
+\end{tikzcd}
+\caption{Versies van een document op e.g. Dropbox}
+\end{figure}
+
+We krijgen nu een boomstructuur, waarbij verschillende versies naast elkaar bestaan. Mogelijk werken B\"u\c sra en Cris in heel andere hoofdstukken dan Abdel, mogelijk zitten ze precies in dezelfde secties te werken. Dropbox ziet ondertussen verchillende versies binnenkomen, en kan niet zonder meer bepalen welke versie \enquote{beter} is, of zien of het mogelijk is de versies samen te voegen\sidenote{De mate van succes waarin een dienst als Dropbox dit soort vragen kan beantwoorden, zal tevens afhankelijk zijn van het bestandsformaat: een tekstfile is bijvoorbeeld makkelijker te interpreteren dan audio of grafische data. Voor een algemene oplossing kunnen we geen aannames over het type data doen, maar zelfs in het (voor de computer) meest simpele geval zal menselijk inzicht doorgaans de doorslag moeten geven.}. Het enige dat Dropbox in dit geval kan is de tijdsdata vergelijken. Op basis hiervan kun je het systeem de meest recente versie laten beschouwen, maar dit zal er toe leiden dat versies overschreven worden door andermans versies waardoor werk verloren kan gaan\sidenote{Zelfs als we ervan uitgaan dat er snelle tweewegs-communicatie is tussen de server en elk van gebruikers, en aanpassingen van Abdel vrijwel direct bij Cris te lezen zijn, en vice versa, zullen we dit probleem nooit echt oplossen. In het beste geval kunnen we, met autosave/-load, de verchillen tussen de versies beperken van bijvoorbeeld hoofdstuk- naar woord- of letterniveau.}. We kunnen de boom proberen plat te slaan tot een lijst, bijvoorbeeld $A_0 \to A_1 \to A_2 \to A_3 \to B_0 \to C_0 \to A_4 \to B_1 \to B_2 \to A_5 \to C_1$, maar al het werk in $A_4-A_5$ en in $B_n$ is nu verborgen in oude versies. 
+
+\newthought{Een andere oplossing is} om vanaf elke splitsing een clash te ontdekken en verschillende versies onder verschillende namen op te slaan, waardoor we in dit voorbeeld met drie bestanden eindigen, waarschijnlijk met een namen als \texttt{Eindverslag (conflict B\"u\c sra Y\i ld\i r\i m 2025-01-18T15:28:03+0100).docx}, waarna het aan de gebruikers is om de aanpassingen samen te voegen. Git volgt een vergelijkbaar idee.\\[15mm]
+
+\begin{aside}[Directed Acyclic Graphs]
+In de sectie hierboven is het probleem van versiebeheer beschreven aan de hand van een boom, waarbij er een enkele \emph{root} is en iedere node 0 of meer kinderen kan hebben. Wanneer we in het bovenstaande voorbeeld de ontstane versies later weer gaan samenvoegen ontstaat een \emph{merge}-versie, die $A_5$, $B_2$ en $C_1$ als parents heeft, wat in een boom niet mogelijk is. De datastructuur die we hier hebben gemaakt, met splits en uiteindelijk merges, wordt een \emph{Directed Acyclic Graph (DAG)} genoemd. Een graph is hierin de fundamentele structuur\sidenote{Tevens een van de meest belangrijke fundamentele structuren binnen de ICT en discrete wiskunde.}, waarbij we (net als in een tree) nodes en edges tussen de nodes hebben, maar er geen beperkingen zijn zoals het hebben van een root. Elke node kan wel of niet met elke andere node verbonden zijn, en we maken ons niet druk over de richting van verbindingen. Denk aan een set van eilanden met bruggen tussen een aantal daarvan. In het geval van een \emph{directed graph} gaat de richting van de verbindingen wel uitmaken, en kan elke brug eenrichtingsverkeer zijn (tweerichtingsverkeer kunnen we zien als twee losse bruggen). In ons geval is de directed graph ook acyclic, wat betekend dat er geen loops mogen zijn. Voor versiebeheer zijn dit twee logische toevoegingen: een versie komt na een eerdere versie \emph{(directed)}, en een eerdere versie kan niet op een latere versie gebaseerd zijn\sidenote{Star Trek en Doctor Who terzijde: het is onmogelijk je eigen opa of oma te zijn.} \emph{(acyclic)}. Een Git-repository is net als het voorbeeld hierboven een DAG, met versies als nodes. Elke versie (met uitzondering van de eerste\sidenote{Net als bij een boom gaan we doorgaans uit van een enkele root-node.}) heeft een parent, en hoewel dit er meer kunnen zijn mag dit niet tot loops leiden. Om dezelfde redenen wordt een DAG doorgaans ook als de onderliggende datastructuur van een blokchain gebruikt.
+\end{aside}
+
+\section{Software-projecten}
+Het hierboven beschreven probleem is ook van toepassing op softwareprojecten. In deze context komen er nog een paar andere zaken bij die voor anderssoortige projecten mogelijk niet het geval zijn. Een softwareproject bestaat doorgaans niet uit een enkel bestand, maar uit een mappenstructuur met daarin verschillende bestanden. De bestanden zelf zijn doorgaans platte tekst (tekst zonder opmaak) en daarmee voor de computer leesbaar\sidenote{Leesbaarheid duidt er hier niet zo zeer op dat de computer bijvoorbeeld Python-code kan uitvoeren, maar dat deze zinvolle verschillen tussen bestanden kan vinden.}. Tussen twee versies van een Python-file kan het verchil zijn dat op regel 47 een regel \texttt{print(lst)} is toegevoegd. Dit verschil kan eenvoudig op een andere versie van het Python bestand worden toegepast, met inachtneming of er regels boven zijn toegevoegd waardoor de toevoeging mogelijk op moet schuiven\sidenote{Dit is voor een plaatje bijvoorbeeld veel lastiger: ergens in het bestand zijn binaire pixelwaardes veranderd, maar of dit betekent dat de bytes daar bijvoorbeeld overschreven zijn of zijn opgehoogd is afhankelijk van extra context.}. 
+
+\newthought{Git probeert rekening te houden} en gebruik te maken van de bovenstaande afwegingen, om de \enquote{meerdere bestandsversies}-aanpak uit de vorige sectie op softwareprojecten toe te passen. In Git leeft alles in een \emph{repository}, een map met daarin de verchillende bestanden die voor het project nodig zijn. De versie-boom die we eerder zagen slaat nu niet op een enkel bestand, maar op alle bestanden binnen de map die aan Git zijn toegevoegd\sidenote{Bestanden in de map die niet zijn toegevoegd worden niet in het versiebeheer meegenomen. Git zal aangeven dat er een nieuw bestand is en de optie geven om dit toe te voegen, maar zal tot dat punt niets met de inhoud van het bestand doen. Bestanden die wel in de Git staan, maar niet moeten worden toegevoegd kunnen met \texttt{.gitignore} worden uitgesloten, zodat Git hier niet over blijft zeuren en deze niet per abuis kunnen worden toegevoegd; meer hierover in Sectie~\ref{sec:gitignore}.}. In eerste instantie is zo'n repository lokaal, dat wil zeggen dat deze alleen bestaat op de computer waar deze is gemaakt. In Sectie~\ref{sec:remotes} gaan we in op remotes, synchronisatie, en diensten zoals GitHub, voor nu beperken we ons nog even tot \'e\'en computer.
+
+\section{Een Git repository maken gebruiken}
+
+\begin{remark}
+Voor voorbeelden in dit hoofdstuk wordt gebruik gemaakt van standaard \texttt{git} commando's om een Git repository aan te maken en te manipuleren. De commando's worden in een command line worden uitgevoerd, voor Mac en Linux is dit de standaard Terminal, voor Windows is dit bij voorkeur Git Bash die met Git wordt meege\"installeerd. De hier getoonde methode is de standaard waar alle Git-integraties (bijvoorbeeld in PyCharm/CLion, VS Code of GitHub Desktop) onder water gebruik van maken. Het is de mening van de auteur dat het belangrijk is om eerst te begrijpen wat er gebeurt en welke stappen hier bij komen kijken, voordat je dit aan een tool uit handen geeft. De instructies vertalen zich vrij eenvoudig naar de verschillende editors, maar dit inzichten uit bijvoorbeeld PyCharm geven andersom niet altijd een even goed beeld van de daadwerkelijke stappen. Daarnaast zul je het \texttt{git} commando ook moeten gebruiken als je te maken hebt met een niet-grafische omgeving, bijvoorbeeld een Azure server. 
+\end{remark}
+
+Om te beginnen hebben we een Git-repository nodig. We gaan er hier vanuit dat we een map \texttt{project} hebben met daarin \texttt{code.py} en \texttt{data.json}. Om de repository aan te maken ga ik de project-map in en voer ik een \texttt{git init} uit. Dit hoeft maar een keer, en werkt niet als de repository al bestaat.
+
+\begin{bash}
+\userprompt cd project\\
+\userprompt[\textasciitilde/project] git init\\
+Initialized empty Git repository in /home/linus/project/.git/
+\end{bash}
+
+Op dit punt hebben we een lege Git repository. Er zijn nog geen commits, dus onze boom/DAG is compleet leeg. Dit betekent niet dat we geen bestanden (meer) hebben of dat deze leeg zijn, enkel dat deze door Git genegeerd worden. Met het commando \texttt{git status} kunnen we dit nagaan:
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git status\\
+On branch main\\
+~ \\
+No commits yet\\
+~ \\
+Untracked files:\\
+\ \ (use "git add <file>..."\ to include in what will be committed)\\
+\ \ \ \ \ \ \ \ code.py\\
+\ \ \ \ \ \ \ \ data.json\\
+~ \\
+nothing added to commit but untracked files present (use "git add"\ to track)
+\end{bash}
+
+De eerste stap is het toevoegen van de bestanden met \texttt{git add}. Laten we dit voor beide bestanden doen. Na afloop checken we de status om te zien wat er is veranderd.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git add code.py data.json\\
+~ \\
+\userprompt[\textasciitilde/project] git status\\
+On branch main\\
+~ \\
+No commits yet\\
+~ \\
+Changes to be committed:\\
+\ \ (use "git rm -\!-cached <file>..."\ to unstage)\\
+\ \ \ \ \ \ \ \ {\color{ttgreen}new file:   code.py}\\
+\ \ \ \ \ \ \ \ {\color{ttgreen}new file:   data.json}\\
+\end{bash}
+
+Op dit punt is onze DAG nog steeds leeg, omdat we nog geen commit hebben gemaakt, en commits zijn de nodes in onze DAG. Wat we wel hebben bereikt, is dat de twee files aan onze \emph{staging area} zijn toegevoegd. We zijn als het ware bezig een commit-node te maken, maar moeten deze nog afronden voordat deze aan de DAG wordt toegevoegd.
+
+Belangrijk om te weten is dat de bestanden die nu zijn toegevoegd de bestanden zijn zoals die waren op het moment dat we de \texttt{git add} uitvoerden. Als ik nu een aanpassing in mijn code doe, die ik niet \texttt{add}, en ik vraag de status opnieuw op, dan zie ik dat dit twee losse versies zijn: als ik nu commit, dan worden mijn laatste aanpassingen niet meegenomen.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git status\\
+On branch main\\
+~ \\
+No commits yet\\
+~ \\
+Changes to be committed:\\
+\ \ (use "git rm -\!-cached <file>..."\ to unstage)\\
+\ \ \ \ \ \ \ \ {\color{ttgreen}new file:   code.py}\\
+\ \ \ \ \ \ \ \ {\color{ttgreen}new file:   data.json}\\
+~ \\
+Changes not staged for commit:\\
+\ \ (use "git add <file>..."\ to update what will be committed)\\
+\ \ (use "git restore <file>..."\ to discard changes in working directory)\\
+\ \ \ \ \ \ \ \ {\color{ttred}modified:   code.py}\\
+\end{bash}
+
+Laten we dit proberen: we committen eerst de twee bestandsversies die we al hadden ge-\texttt{add}. Dit doen we met \texttt{git commit -m "Commit message"}. Na dit commando wordt er definitief een (in dit geval eerste) node aan onze DAG toegevoegd, dus is het belangrijk dat we deze duidelijk markeren. Hier is de commit-message voor bedoeld. In deze message omschrijven we kort wat er in deze versie anders is\sidenote{Omdat dit de eerste commit is, is het nog niet ontzettend zinvol deze te vergelijken met de vorige commit; er is niets veranderd, anders dan dat er nu iets is waar eerst niets was. Traditioneel krijgt deze commit de message \enquote{Initial commit}, maar het altijd toegestaan hier meer beschrijvend in te zijn.}. \textbf{Let op de quotes in het commando!} De command line interpreteert het totale commando per woord, waarbij \texttt{git} het commando is, \texttt{commit} het subcommando, \texttt{-m} een flag die zegt \enquote{het volgende woord is de commit message}\sidenote{Je kan in principe de flag en message weglaten, in dat geval opent Git een editor om deze in te voeren. De editor in kwestie is echter doorgaals Vi, en die is verre van gebruiksvriendelijk als je daar niet bekend mee bent. De vraag \enquote{How to exit Vi} is onbedoeld een meme in de open-source community.}. Zonder quotes zou dit enkel \texttt{Initial} zijn, waarna git het woord \texttt{commit} nog mee krijgt (en daar niets mee kan, het verwacht eventueel een volgende flag). Met de quotes maken we de hele message voor de commandline een enkel argument.
+
+Laten we een commit maken, en daarna nogmaals de status opvragen:
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git commit -m "Initial commit"\\
+\lbrack main (root-commit) ef4b9b3\rbrack\ Initial commit\\
+\ 2 files changed, 0 insertions(+), 0 deletions(-)\\
+\ create mode 100644 code.py\\
+\ create mode 100644 data.json\\
+~ \\
+\userprompt[\textasciitilde/project] git status\\
+On branch main
+~ \\
+no changes added to commit (use "git add" and/or "git commit -a")
+Changes not staged for commit:\\
+\ \ (use "git add <file>..."\ to update what will be committed)\\
+\ \ (use "git restore <file>..."\ to discard changes in working directory)\\
+\ \ \ \ \ \ \ \ {\color{ttred}modified:   code.py}\\
+\end{bash}
+
+We zien dat er een commit is (de boodschap \enquote{No commits yet} is weg), maar we zijn wel \enquote{vergeten} de laatste wijzigingen in onze code mee te committen. Laten we dat nog even doen:
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git commit -m "Docstrings added" \\
+\lbrack main a62e646\rbrack\  Docstrings added\\
+\ 1 file changed, 2 insertions(+)\\
+~ \\
+On branch main\\
+nothing to commit, working tree clean\\
+\end{bash}
+
+In de boodschap zien we dat we gecommit hebben op \texttt{main}, gevolgd door een hexadecimale code. Deze code is de hash van de commit. Elke commit is gelabeled met een unieke hash, die Git gebruikt om onder andere de relaties tussen commits op te slaan. Daarnaast zullen we soms een commit aan het \texttt{git} commando mee willen geven, dat kan ook met deze hash. Git gebruikt zowel een lange als korte hash, waarbij de korte hash de eerste acht karakters van de totale, lange hash is. De lange hash is voor intern gebruik en lang genoeg dat een clash zo onwaarschijnlijk is, dat er waarschijnlijk nog geen twee dezelfde hashes gebruikt zijn in het totale gebruik van Git over de hele wereld. Doorgaans is de korte hash echter meer dan genoeg om een commit uniek mee aan te duiden, dus voor printen en als argument voor commando's is deze voldoende zolang er geen clash is (dan zal een langere hash nodig zijn).
+
+\begin{figure}[ht]
+\label{fig:two-commits}
+\begin{tikzcd}
+\tt ef4b9b3 \arrow[d] & \\
+\tt a62e646 & \arrow[l, dashed] \textsf{HEAD}
+\end{tikzcd}
+\caption{De repository na twee commits}
+\end{figure}
+
+De status van onze repository met twee commits is te zien in Figuur~\ref{fig:two-commits}. De twee commits zijn gelabeled met de bijbehorende hash. Daarnaast wordt de \emph{HEAD} aangegeven, de commit waar nu in gewerkt wordt. Het is in Git mogelijk terug in de tijd te gaan en de code te zien zoals die in een oude commit was, of zelfs vanaf dit punt verder te gaan om bewust een splitsing te maken\sidenote{Dit is zinvol om bijvoorbeeld het implementeren van een nieuwe feature even te pauzeren en eerst een kritieke bug te fixen.}. Dit zullen we in Sectie~\ref{sec:branches} demonstreren, voor nu is het vooral van belang de HEAD te zien als een pointer die het huidige perspectief weergeeft. Als we de situatie in de boom van Figuur~\ref{fig:doctree} beschouwen zouden Abdel, B\"u\c sra en Cris elk een andere HEAD hebben, respectievelijk $A_5$, $B_2$ en $C_1$. Elk zou in principe bij de hele boom kunnen, maar heeft hun focus op een van de vertakkingen.
+
+De historie van een repository kunnen we ook aan Git opvragen met het commando \texttt{git log}. Belangrijk om daarbij te weten is dat zodra onze repository wat complexer wordt, bijvoorbeeld zoals in Figuur~\ref{fig:doctree}, \texttt{git log} standaard alleen het pad van de huidige node (de HEAD) naar de root print. In het voorbeeld zou dat betekenen dat vanaf $C_1$ gezien, \texttt{git log} de commits $C_1, C_0, A_3, A_2, A_1, A_0$ laat zien. In de log is verder de lange hash van de commits te zien.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git log \\
+{\color{ttyellow} commit a62e646c3f1d46e89fb3a9a8f0b08e22787f9771 ({\color{ttcyan} HEAD} -> {\color{ttgreen}  main})}\\
+Author: Brian van der Bijl <peikos@peikos.net>\\
+Date:   Tue Feb 25 16:52:49 2025 +0100\\
+~ \\
+\ \ \ \ Docstrings added\\
+~ \\
+{\color{ttyellow} commit ef4b9b38662ea8bfc6b41a8c8e6aa7fa445dc95a}\\
+Author: Brian van der Bijl <peikos@peikos.net>\\
+Date:   Tue Feb 25 16:43:04 2025 +0100
+~ \\
+\ \ \ \  Initial commit\\
+\end{bash}
+
+%Maar als je met meerdere mensen werkt kan het zijn dat er verschillende versies ontstaan, die niet netjes opeenvolgend zijn - alice past inleiding aan, bob conclusie, splitsing vanaf laatste versie - en hopelijk later ook weer samenvoegen - boom / DAG (aside blockchain?)
+
+%Git is hiervoor bedoeld
+%Paar andere aannames: een document is meestal een enkele file, die niet perse voor de computer leesbaar is zonder speciale software. Programmeerprojecten daarentegen vaak een map met meerdere files, platte tekst
+
+\section{\tt .gitignore} \label{sec:gitignore}
+Voordat we ons met vertakkingen bezig houden is het zinvol nog een kleine uitstap te maken naar het beheer van bestanden in de huidige repository. Het is namelijk niet altijd zinvol alle bestanden in een map in Git te willen hebben, maar tegelijkertijd wel handig om bestanden die niet in Git horen in dezelfde map te hebben. Dit kan gaan om project-settings voor bijvoorbeeld PyCharm (die een onzichtbare \texttt{.idea} map aanmaakt), een bestand met jouw persoonlijke API code (die je niet per ongeluk met de wereld wil delen), of output van je code/sidenote{Later, met gecompileerde talen zoals C++, zal het draaien van je code ook uitvoerbare en binaire bestanden op gaan leveren die niet voor Git geschikt zijn.} (die mogelijk groot is en na iedere run verandert, en die per definitie overcompleet is als deze door de code wordt gemaakt).
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git status\\
+On branch main\\
+~ \\
+Untracked files:\\
+\ \ (use "git add <file>..."\ to include in what will be committed)\\
+\ \ \ \ \ \ \ \ output.csv\\
+\ \ \ \ \ \ \ \ plot1.png\\
+\ \ \ \ \ \ \ \ (...)\\
+\ \ \ \ \ \ \ \ plot99.png\\
+~ \\
+nothing added to commit but untracked files present (use "git add"\ to track)
+\end{bash}
+
+Hoewel deze bestanden vredig in je Git map kunnen bestaan zolang je ze niet toevoegt, kan het snel gebeuren dat deze per ongeluk toch in de Git komen. Veel tools zoals PyCharm en VS Code hebben er een handje van alles toe te willen voegen, en ook op de command line is het eenvoudig om de hele map te stagen\sidenote{\texttt{git add .}}. Als dit met output-data of project-settings gebeurt, zeker in een situatie waar je straks wel in een team samenwerkt, gaat dit leiden tot een hoop extra ruis en, met almaar groeiende waarschijnlijkheid, merge-conflicten\sidenote{Zie Sectie~\ref{sec:branches} en verder.}. Hoewel dat laatste in groepswerk onvermijdelijk is, en uiteindelijk vaak niet zo erg is als het lijkt, is het frustrerend als je dit voor iedere commit opnieuw moet doen voor bestanden die je eigenlijk niet in Git had willen hebben. 
+
+\newthought{Om dit probleem te ondervangen} is het belangrijk om een \texttt{.gitignore} te onderhouden. Daarbij geniet het de voorkeur hier snel mee te beginnen: idealiter voordat bestanden in Git komen die daar niet horen. Ben je te laat, dan moet je eerst het ontstane probleem oplossen en zullen problemen waarschijnlijk terugkomen tot iedereen in je team de correcte versie als uitgangspunt heeft.
+
+Het gebruik van \texttt{.gitignore} is relatief simpel: het gaat om een tekstbestand (genaamd \texttt{.gitignore}), met per regel een patroon van bestanden die je buiten Git wil houden. Dit kan een bestandsnaam of map zijn, of bijvoorbeeld \texttt{*.png} om alle gegenereerde PNG files te weren. Het \texttt{.gitignore}-bestand zelf kan ook aan Git worden toegevoegd, en dat is wel zo handig omdat dit alleen werkt als dit voor iedereen hetzelfde is.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] echo "\mbox{}output.csv"\ >\!> .gitignore \\
+\userprompt[\textasciitilde/project] echo "*.png"\ >\!> .gitignore \\
+\userprompt[\textasciitilde/project] git status\\
+On branch main\\
+nothing to commit, working tree clean\\
+\end{bash}
+
+\section{Branches} \label{sec:branches}
+Zoals je van versiebeheer-software zou mogen verwachten, is het in Git mogelijk oude of alternatieve versies van je code te bekijken. Dit kan met behulp van het commando \texttt{git checkout}. Met dit commando pas je de huidige bestanden in de map aan naar een specifieke commit ergens in je repository. Een manier om dit te gebruiken is met behulp van een commit hash:
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git checkout ef4b9b3\\
+Note: switching to 'ef4b9b3'.\\
+~ \\
+You are in 'detached HEAD' state. You can look around, make experimental\\
+changes and commit them, and you can discard any commits you make in this\\
+state without impacting any branches by switching back to a branch.\\
+~ \\
+If you want to create a new branch to retain commits you create, you may\\
+do so (now or later) by using -c with the switch command. Example:\\
+~ \\
+\ \ git switch -c <new-branch-name>\\
+~ \\
+Or undo this operation with:\\
+~ \\
+\ \ git switch -\\
+~ \\
+Turn off this advice by setting config variable advice.detachedHead to false\\
+~ \\
+HEAD is now at ef4b9b3 Initial commit
+\end{bash}
+
+Na dit commando zijn alle bestanden in de map zoals ze waren in de geselecteerde commit. In de repository zelf is niet echt iets veranderd, anders dan dat de HEAD naar de nieuwe (oude) commit wijst. Beide versies van de code bestaan nog steeds in de vorm van de twee commits die we al hadden.
+
+\begin{figure}[ht]
+\label{fig:checkout}
+\begin{tikzcd}
+\tt ef4b9b3 \arrow[d] & \arrow[l, dashed] \textsf{HEAD} \\
+\tt a62e646 &
+\end{tikzcd}
+\caption{De repository na twee commits en een checkout}
+\end{figure}
+
+Hoewel het af te raden is om als tijdsreiziger in het verleden op vlinders te stappen\cite{bradburry} gaan wij, nu we hier toch zijn, het verleden wel veranderen. Als ik het code bestand aanpas in de huidige situatie, oftewel de eerste commit, en deze aanpassing commit, dan heb ik de oude commit niet veranderd, maar een splitsing gemaakt zoals te zien in in Figuur~\ref{fig:split}. Een belangrijke aanname die we in Git doen, is dat de commits die we hebben onveranderbaar zijn\sidenote{Uitzonderingen zijn, in zekere zin, mogelijk, maar de meeste commando's garanderen deze invariant; een tweetal uitzonderingen wordt in Secties~\ref{sec:amend}~en~\ref{sec:rebase} behandeld.}.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git add code.py\\
+~ \\
+\userprompt[\textasciitilde/project] git commit -m "Alternate reality" \\
+\lbrack detached HEAD 9617f91\rbrack\ Alternate reality
+ 1 file changed, 1 insertion(+)
+\end{bash}
+
+\begin{figure}[ht]
+\label{fig:split}
+\begin{tikzcd}
+& & \tt ef4b9b3 \arrow[d] \arrow[ld] & \\
+\arrow[r, dashed] \textsf{HEAD} & \tt 9617f91 & \tt a62e646 & 
+\end{tikzcd}
+\caption{Een splitsing in onze versie-historie}
+\end{figure}
+
+Alledrie de commits die we nu hebben zijn benaderbaar met behulp van \texttt{git checkout}, en hoeveel we ook heen en weer springen tussen commits zal dit het geval blijven. De situatie, waarin we hashes moeten gaan onthouden om onze weg te vinden, is echter verre van ideaal. Om dit te vereenvoudigen werken we met branches. Een branch is eigenlijk niet meer dan een pointer naar een commit, waarmee we de commit een naam geven. Als we een nieuwe Git repository initialiseren krijgen we met de eerste commit ook meteen de eerste branch, doorgaans \texttt{main}\sidenote{In oudere Git versies was dit nog \texttt{master}, maar dit wordt vanwege de associatie met slavernij als onsmakelijk ervaren. Het is mogelijk de default name voor je systeem in te stellen, naast \texttt{main} komt ook \texttt{trunk} vaak voor.} cadeau. Net als HEAD wijst een branch naar een commit, en verhuist deze mee naar beneden als er (binnen de context van de branch\sidenote{Totdat we in de detached HEAD kwamen, verwees HEAD naar de \texttt{main} branch, daarmee indirect naar de commits. We zien dit terug in Figuur~\ref{fig:branches}, waar \texttt{main} naar de tweede commit wijst, na eerder naar de eerste commit te hebben verwezen.}) gecommit wordt. Op dit moment zitten we niet in een branch (dat is de detached HEAD waar Git ons over waarschuwt) maar dat kan worden verholpen met \texttt{git checkout}, die naast een commit-hash ook een branch naam accepteert. 
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git checkout main\\
+Warning: you are leaving 1 commit behind, not connected to \\
+any of your branches: \\
+ ~ \\
+  9617f91 Alternate reality \\
+ ~ \\
+If you want to keep it by creating a new branch, this may be a good time \\
+to do so with: \\
+ ~ \\
+ git branch <new-branch-name> 9617f91 \\
+ ~ \\
+Switched to branch 'main' \\
+\end{bash}
+
+Ook hier krijgen we weer een waarschuwing van Git. Omdat we onze laatste commit hebben gemaakt in een detached HEAD, heeft deze commit geen branch. Zelfs als er een branch naar de huidige commit verwijst, zullen we vanuit detached HEAD commits maken die ook detached zijn, en daarmee alleen met de hash bereikt kunnen worden. Omdat \texttt{git log} standaard alleen het pad van de huidige branch naar de root laat zien, loopt deze commit het risico te verdwijnen. Dat wil zeggen, de commit blijft onder deze hash bestaan, maar is voor de meeste intents en purposes onzichtbaar, en kan tijdens een \emph{garbage collect} verwijderd worden.
+
+\begin{figure}[ht]
+\label{fig:branches}
+\begin{tikzcd}
+& & \tt ef4b9b3 \arrow[d] \arrow[ld] & \arrow[d, dashed] \textsf{HEAD} \\
+& \tt \color{ttgrey} 9617f91 & \tt a62e646 & \arrow[l, dashed] \texttt{main}  
+\end{tikzcd}
+\caption{De huidige situatie, met branch labels (orphans grijs)}
+\end{figure}
+
+Om de gemaakte commit veilig te stellen zullen we een branch aanmaken. Om dit te bereiken moeten we eerst de commit opnieuw uitchecken, en dan een branch op dat punt aanmaken. Dit laatste kan met \texttt{git branch}. Hierna checken we de nieuwe branch uit om onze detached HEAD op te lossen\sidenote{De branch en checkout van de nieuwe branch komen vaak samen voor, en kunnen met een enkel commando \texttt{git checkout -b feature} gecombineerd worden.}:
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git checkout 9617f91\\
+~ \\
+\# Warning weggelaten \\
+~ \\
+HEAD is now at 9617f91 Alternate reality\\
+\userprompt[\textasciitilde/project] git branch feature\\
+\userprompt[\textasciitilde/project] git checkout feature\\
+Switched to branch 'feature'
+\end{bash}
+
+ Na deze stappen hebben we twee branches, waarvan de feature-branch is uitgecheckt; HEAD verwijst nu naar deze branch, en daarmee indirect naar een commit. Hiermee is de HEAD weer attached. Deze stappen zijn in Figuur~\ref{fig:fix} schematisch weergegeven.
+
+\begin{figure}[ht]
+\label{fig:fix}
+\begin{tikzcd}
+ & \arrow[d, dashed] \sf \color{ttred} HEAD & \tt ef4b9b3 \arrow[d] \arrow[dl] & \color{hublue}\tt (checkout\ 9617f91) \\
+ & \tt \color{ttgrey} 9617f91 & \tt a62e646 & \arrow[l, dashed] \tt main \\
+\\
+\arrow[rd, dashed] \sf \color{ttred} HEAD & \arrow[d, dashed] \tt feature & \tt ef4b9b3 \arrow[d] \arrow[dl] & \color{hublue}\tt (branch\ feature) \\
+ & \tt 9617f91 & \tt a62e646 & \arrow[l, dashed] \tt main \\
+\\
+\arrow[d, dashed] \sf HEAD & & \tt ef4b9b3 \arrow[d] \arrow[dl] & \color{hublue}\tt (checkout\ feature) \\
+\arrow[r, dashed] \tt feature & \tt 9617f91 & \tt a62e646 & \arrow[l, dashed] \tt main
+\end{tikzcd}
+\caption{Nieuwe feature branch van orphan (detached HEAD rood)}
+\end{figure}
+
+Merk op dat, hoewel meerdere branches naar dezelfde commit kunnen verwijzen, er steeds maximaal \'e\'en branch is uitgecheckt. Deze branch zal automatisch meeverhuizen naar nieuwe commits, alle andere branches die naar dezelfde commit verwijzen, blijven waar ze zijn. In Figuur~\ref{fig:new-branch} wordt bijvoorbeeld eerst een nieuwe \texttt{gui} branch gemaakt en uitgecheckt. Vervolgens wordt er een commit gedaan in deze branch. De \texttt{gui} branch verwijst nu naar de nieuwe commit, de \texttt{main} branch is op de vorige commit blijven hangen. Dit is tevens de werkwijze die je normaal gesproken zou hanteren om te splitsen in bijvoorbeeld feature-branches of persoonlijke branches: Vanaf main worden nieuwe branches gemaakt, waarna hierin gecommit wordt. Het eerdere voorbeeld was daarmee vooral instructief, maar zeker geen weergave van de ideale workflow.
+
+\begin{figure}[ht]
+\label{fig:new-branch}
+\begin{tikzcd}
+ & \tt 4b0b5fe  \arrow[d] & \arrow[d, dashed] \sf HEAD  \\
+ & \tt 647e27a & \arrow[l, dashed] \tt main \\
+ \arrow[d, dashed] \sf HEAD  & \tt 4b0b5fe \arrow[d] & \color{hublue}\tt(git\ branch\ -b\ gui)\\
+ \arrow[r, dashed] \tt gui & \tt 647e27a & \arrow[l, dashed] \tt main \\
+ & \tt 4b0b5fe \arrow[d] & \color{hublue}\tt(git\ commit) \\
+ \arrow[d, dashed] \sf HEAD  & \tt 647e27a \arrow[d] & \arrow[l, dashed] \tt main \\
+ \arrow[r, dashed] \tt gui & \tt 5ca2144 & \\
+\end{tikzcd}
+\caption{Enkel de actieve branch verhuist mee naar een nieuwe commit}
+\end{figure}
+
+\section{Merges} \label{sec:merge}
+Uiteindelijk is het de bedoeling dat een software-project iets gaat opleveren, en om daar aan te werken is het gebruikelijk om periodiek een tussenversie op te leveren en te presenteren. Op dit punt zullen de verschillende versies die in verschillende branches zijn ontstaan moeten worden samengevoegd. Dit proces heet het mergen van de verschillende branches. In Git is het doorgaans zo dat een merge het werk uit twee branches combineert, de source en de target. In het geval van meerdere branches die allemaal samen moeten worden gevoegd bestaat de merge uit meerdere rondes, waarbij er een target branch is (vaak \texttt{main} of \texttt{develop}\sidenote{In veel branch strategi\"en is het wenselijk om \texttt{main} \enquote{production ready} te houden, en een \texttt{develop}-branch te gebruiken voor de integratie van feature-branches en het testen van het resultaat.}) waar een voor een de feature branches in worden gemerged.
+
+De meest simpele vorm van een merge is de \emph{fast forward}. In het scenario van Figuur~\ref{fig:new-branch} loopt de \texttt{main}-branch na de commit achter op de \texttt{gui}-branch. In dit geval is dat natuurlijk de bedoeling, maar na een aantal commits op \texttt{gui} kan het zinvol zijn de branch in \texttt{main} te mergen. In dit geval is \texttt{main} de target van de merge, en \texttt{gui} de source. Om deze merge uit te voeren wordt eerst de target branch uitgecheckt, waarna de source branch gemerged wordt. Als \texttt{main} (zoals in de figuur) op het moment van mergen naar een directe voorouder van \texttt{gui} verwijst dan zal het resultaat enkel het verplaatsen van het branch-label zijn, en hoeven er geen nieuwe commits te worden gemaakt.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git checkout main\\
+Switched to branch 'main' \\
+~ \\
+\userprompt[\textasciitilde/project] git merge gui \\
+Updating 647e27a..5ca2144 \\
+Fast-forward \\
+\ code.py | 3 +++ \\
+\ 1 file changed, 3 insertions(+) \\
+\end{bash}
+
+Het wordt iets ingewikkelder als we twee branches willen mergen die uit elkaar gegroeid zijn, zoals in Figuur~\ref{fig:merge}.
+
+\begin{figure}[ht]
+\label{fig:merge}
+\begin{tikzcd}
+\arrow[d, dashed] \sf HEAD & & \tt ef4b9b3 \arrow[d] \arrow[dl] & \\
+\arrow[r, dashed] \tt readme & \tt fdfabc9 & \tt a62e646 & \arrow[l, dashed] \tt main \\
+\end{tikzcd}
+
+{ \color{hublue}\tt (checkout\ main) }
+
+\begin{tikzcd}
+& & \tt ef4b9b3 \arrow[d] \arrow[dl] & \arrow[d, dashed] \sf HEAD  \\
+\arrow[r, dashed] \tt readme & \tt fdfabc9 & \tt a62e646 & \arrow[l, dashed] \tt main \\
+\end{tikzcd}
+
+{ \color{hublue}\tt (merge\ readme) }
+
+\begin{tikzcd}
+& & \tt ef4b9b3 \arrow[d] \arrow[dl] & \\
+\arrow[r, dashed] \tt readme & \tt fdfabc9 \arrow[dr] & \tt a62e646 \arrow[d] & \arrow[d, dashed] \sf HEAD  \\
+& & \tt 4d64e86 & \arrow[l, dashed] \tt main 
+\end{tikzcd}
+\caption{Merge \texttt{readme} in \texttt{main}}
+\end{figure}
+
+Hier zijn twee branches, \texttt{main} en \texttt{readme} uit elkaar gegroeid. Ze delen een voorouder, maar hebben beide wijzigingen die de ander niet heeft. In dit voorbeeld zijn de wijzigingen in verschillende bestanden; dat maakt voor de uiteindelijke DAG van de repository niet uit, maar maakt het proces voor nu nog even iets eenvoudiger. Het complexere geval zullen we daarna bekijken. Omdat het nu gaat om commits die niet in dezelfde files werken, kan Git de twee commits zelf samenvoegen. Het resultaat is een merge-commit, die zowel de source als de target als parent heeft. Het commando is hetzelfde, alleen wordt er nu een commit gemaakt en moeten we dus een commit message toevoegen. Als we dit niet via het commando doen wordt wederom een (waarschijnlijk onvriendelijke) editor geopend, ditmaal met een standaard commit message die we alleen nog hoeven te accepteren\sidenote{Mocht je onverhoopt toch in Vi terecht zijn gekomen, gebruik \texttt{:wq} \keys{\return} om de editor te sluiten en de message te accepteren.}. Either way wordt de merge-commit voor ons gemaakt, wordt de target-branch (de huidige uitgecheckte branch) ge-updated, en blijft de source branch ongewijzigd.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git checkout main\\
+Switched to branch 'main' \\
+~ \\
+\userprompt[\textasciitilde/project] git merge readme -m "Merge branch 'readme' into main" \\
+Merge made by the 'ort' strategy. \\
+\ README.md | 0 \\
+\ 1 file changed, 0 insertions(+), 0 deletions(-) \\
+\ create mode 100644 README.md \\
+\end{bash}
+
+\subsection{Handmatige merges}
+Tot slot is er de situatie waarin beide commits aanpassingen in hetzelfde bestand bevatten. In dit geval moet de merge handmatig worden uitgevoerd. In het voorbeeld hieronder bevatten zowel \texttt{main} als \texttt{feature} aanpassingen in \texttt{code.py} ten opzichte van de laatst gedeelde voorouder.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git checkout main\\
+Switched to branch 'main' \\
+~ \\
+\userprompt[\textasciitilde/project] git merge readme -m "Merge branch 'feature' into main" \\
+Auto-merging code.py \\
+CONFLICT (content): Merge conflict in code.py \\
+Automatic merge failed; fix conflicts and then commit the result. \\
+~ \\
+\userprompt[\textasciitilde/project] git status \\
+On branch main \\
+You have unmerged paths. \\
+\ \ (fix conflicts and run "git commit") \\
+\ \ (use "git merge -\!-abort"\ to abort the merge) \\
+~ \\
+Unmerged paths: \\
+\ \ (use "git add <file>..."\ to mark resolution) \\
+\ \ \ \ \ \ \ \ {\color{ttred} both modified:   code.py } \\
+\end{bash}
+
+Git heeft nu zelf het \texttt{code.py} bestand aangepast, en hier de code uit beide versies ingezet en gemarkeerd waar elke optie vandaan komt\sidenote{Dit is (minus de kleurcodering) hoe het bestand er nu op de harde schijf uitziet; in veel gevallen zal je editor de merge-notatie herkennen en hier een iets meer ergonomische tool voor inzetten.}:
+
+\begin{bash}
+{\color{ttgrey} def oud(): \\
+\ \ \ \ print("Deze code was er al voor de split, en is in beide ongewijzigd.") } \\
+~ \\
+<\!<\!<\!<\!<\!<\!< HEAD \\
+{\color{ttred} def main(): \\
+\ \ \ \ pass } \\
+||||||| ef4b9b3 \\
+{\color{ttgreen} \# TODO} \\
+======= \\
+{\color{ttblue} print("Hello World!") } \\
+>\!>\!>\!>\!>\!>\!> feature \\
+\end{bash}
+
+De witte regels zijn de markeringen; deze mogen niet meer in de code aanwezig zijn voordat de merge kan worden afgerond. De grijze regels zijn code die al bestond voor de split, en in geen van beide is aangepast; hier is dus geen discussie over mogelijk. De code die tot het conflict heeft geleid is rood respectievelijk blauw. De rode code was enkel in de target branch \texttt{main} aanwezig, de blauwe code komt alleen in de source branch \texttt{feature} voor. In beide gevallen vervangt de nieuwe code bestaande code uit de laatste gedeelde voorouder, de commit \texttt{ef4b9b3}, dat is de groene code. In dit geval is het bijvoorbeeld mogelijk beide toevoegingen te behouden door de witte regels te verwijderen. De groene placeholder is ook niet meer nodig, en met toevoeging van wat extra witregls kan een compromis gemaakt worden:
+
+\begin{bash}
+{\color{ttgrey} def oud(): \\
+\ \ \ \ print("Deze code was er al voor de split, en is in beide ongewijzigd.") } \\
+~ \\
+{\color{ttred} def main(): \\
+\ \ \ \ pass } \\
+~ \\
+{\color{ttblue} print("Hello World!") } \\
+\end{bash}
+
+Nu is het mogelijk het samengevoegde bestand toe te voegen en de merge af te ronden. Let op dat het goed mogelijk is dat er in meerdere bestanden een conflict is opgedoken, in dat geval moeten alle conflicten zijn afgehandeld en moeten alle bestanden worden toegevoegd. Op dit punt is het overigens prima mogelijk de code eerst nog te testen en verdere aanpassingen doen die voor de samengevoegde code noodzakelijk is.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git add code.py \\
+~ \\
+\userprompt[\textasciitilde/project] git status \\
+On branch main \\
+All conflicts fixed but you are still merging. \\
+\ \ (use "git commit"\ to conclude merge) \\
+~ \\
+Changes to be committed: \\
+\ \ \ \ \ \ \ \ {\color{ttgreen} modified:   code.py} \\
+~ \\
+\userprompt[\textasciitilde/project] git merge -\!-continue -m "Merge branch 'feature' into main" \\
+\lbrack main bd3202a\rbrack\  Merge branch 'feature' into main \\
+\end{bash}
+
+\section{Remotes} \label{sec:remotes}
+Tot zover hebben we Git in isolatie beschouwd: alles staat in \'e\'en repository op \'e\'en computer. Zelfs in deze opstelling is Git al een krachtige tool om versies van je code of andere bestanden te organiseren, maar we missen nog twee belangrijke aspecten: backups en samenwerken met anderen.
+
+Git is in opzet gedecentraliseerd. Dat wil zeggen dat er geen centraal punt is waar code vandaan komt of naartoe moet, zoals een server in de cloud. Dat wil niet zeggen dat een dergelijke opzet niet mogelijk is, en in veel gevallen wordt Git gebruikt met bijvoorbeeld GitHub, GitLab of een eigen server als centraal punt, maar dit is niet noodzakelijk om Git ten volle te gebruiken en deze sites zijn geen onderdeel van Git\sidenote{Dit is te vergelijken met Python en PyCharm: PyCharm biedt functionaliteiten om effectiever met Python te kunnen werken, maar is geen onderdeel van of noodzakelijk voor Python; andersom is PyCharm zonder Python van beperkte waarde. Hetzelfde geldt voor deze (en andere) sites: ze bouwen voort op Git.}.
+
+De manier waarop Git naar dit probleem kijkt is met het concept van remotes. Vanuit het perspectief van Git staat de repository centraal, met daarin de DAG van commits, maar dat betekent niet dat (een versie van) diezelfde DAG niet ook ergens anders kan staan. Zelfs zonder Git commandos belet niets je ervan een kopie van de map te maken. Met remotes is Git zich bewust van het bestaan van een of meer van dit soort kopi\"en. Omdat de DAG bestaat uit commits die onveranderlijk zijn, kan Git twee uit elkaar gegroeide versies van dezelfde repository met elkaar synchroniseren, door simpelweg de nodes die in een repository ontbreken te kopi\"eren van de andere kopie die deze wel heeft. Doordat iedere kopie wel een eigen HEAD heeft blijft de werkversie ook na synchronisatie hetzelfde, maar nu zijn er meer commits beschikbaar gekomen. 
+
+\subsection{Klonen}
+Een remote in een Git repository koppelt een naam aan het adres van een andere repository met (een versie van dezelfde) DAG. Remotes kunnen worden beheert met het \texttt{git remote} commando, en worden automatisch aangemaakt als je met \texttt{git clone} een kloon van een bestaand repository maakt; in dat laatste geval is de remote \texttt{origin} automatisch een verwijzing naar de bron van de kloon. De remote-relatie is eenzijdig, zoals volgen op social media: als B\"u\c sra de repository van Abdel kloont, dan heeft haar repository een \texttt{origin} remote die naar zijn repository verwijst, maar heeft Abdel geen automatische remote naar die van haar.
+
+\begin{figure}[ht]
+\label{fig:merge}
+\begin{tikzcd}
+\arrow[d, dashed] \sf HEAD & \tt 1404b6b \arrow[d]   \\
+\arrow[r, dashed] \tt main & \tt ca1fa16 \\
+\end{tikzcd}
+
+{ \color{hublue}\tt (fetch) }
+
+\begin{tikzcd}
+\arrow[d, dashed] \sf HEAD & \tt 1404b6b \arrow[d] \arrow[dr] &   \\
+\arrow[r, dashed] \tt main & \tt ca1fa16 &  \tt \color{ttcyan} ea17e7b & \arrow[l, dashed] \tt \color{ttcyan} origin/main  \\
+\end{tikzcd}
+
+{ \color{hublue}\tt (merge\ origin/main) }
+
+\begin{tikzcd}
+& \tt 1404b6b \arrow[d] \arrow[dr] &   \\
+\arrow[d, dashed] \sf HEAD & \tt ca1fa16 \arrow[d] &  \tt \color{ttcyan} ea17e7b \arrow[dl] & \arrow[l, dashed] \tt \color{ttcyan} origin/main  \\
+\arrow[r, dashed] \tt main & \tt 58fc7ef 
+\end{tikzcd}
+\caption{\texttt{fetch} en \texttt{merge} een remote branch (branch Abdel in cyaan)}
+\end{figure}
+
+\newthought{Nu B\"u\c sra een remote} naar Abdel heeft kan zij met hem synchroniseren. Nadat enige tijd is verstreken zullen de twee versies waarschijnlijk een aantal andere commits bevatten. We gaan er hier even vanuit dat zowel Abdel als B\"u\c sra alleen in hun eigen lokale \texttt{main}-branch werken\sidenote{Dit is niet ideaal, maar houdt het plaatje even relatief simpel}. B\"u\c sra kan met `git fetch` alle commits van Abdel binnenhalen. Na dit commando heeft zij de nieuw commits binnen, maar zijn deze nog geen deel van haar eigen branch geworden. Als dit wel zo zou zijn, dan zouden haar bestanden mogelijk spontaan veranderen naar de laatste versie van Abdel's \texttt{main}. In plaats daarvan heeft ze nu twee branches: \texttt{main} en \texttt{origin/main}. De eerste is nog net als deze was voordat de \texttt{fetch} plaatsvond, de laatste geeft de huidige status (op het moment van synchroniseren) van de \texttt{main} branch van Abdel weer. Als B\"u\c sra het werk wil samenvoegen dan kan zij dat met een \texttt{git merge} op \texttt{origin/main} bewerkstelligen\sidenote{De fetch en merge stap komen wederom vaak samen voor, en ook hier is een enkel commando voor beschikbaar: \texttt{git pull origin main}, of enkel \texttt{git pull} als de remote en branch duidelijk zijn. Om te leren wat er precies gebeurt is het zinvol de stappen los te beschouwen, maar in de praktijk wordt pull ook veel gebruikt.}. Afhankelijk van de situatie zijn alle scenario's uit het vorige hoofdstuk voor de merge mogelijk, maar na afloop lopen beide branches weer synchroon.
+
+\begin{bash}
+\userprompt[\textasciitilde/project] git fetch\\
+remote: Enumerating objects: 4, done. \\
+remote: Total 4 (delta 0), reused 0 (delta 0), pack-reused 4 (from 1) \\
+Unpacking objects: 100\% (4/4), 4.40 KiB | 4.40 MiB/s, done. \\
+From abdel.nl:ai/s2/game-project \\
+\ \ \ 1404b6b..ea17e7b\ \ main\ \ \ \ \ \ \ -> origin/main \\
+~ \\
+\userprompt[\textasciitilde/project] git merge origin/main -m "Merge branch 'origin/main' into main" \\
+Merge made by the 'ort' strategy. \\
+\ sprites.ppm | 20740 {\color{ttgreen}+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\\
+\ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\\
+\ +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\\
+\ +++++++++++++} \\
+\ 1 file changed, 20740 insertions(+) \\
+\ create mode 100644 sprites.ppm \\
+\end{bash}
+
+\subsection{GitHub}
+Bovenstaande is een goede manier om communicatie een kant op te regelen, maar hoe werkt dit als Abdel ook in het werk van B\"u\c sra ge\"interesseerd is? Helaas is er geen directe tegenhanger van de fetch om code te verspreiden\sidenote{Dit is vanuit Abdel geredeneerd niet geheel onredelijk; als dit wel kon, zou iedereen hem als remote kunnen toevoegen en ongevraagd code in zijn Git kunnen toevoegen.} en \texttt{git push} (de tegenhanger van \texttt{git pull}) is niet bedoeld voor repositories waar ook door iemand direct in gewerkt wordt\sidenote{Het was eerder al onwenselijk dat B\"u\c sra's \texttt{main} zich automatisch aan zou passen als zij een \texttt{git fetch} uitvoert; als ze zonder tussenkomst van Abdel \emph{zijn} \texttt{main} kan aanpassen en hij daardoor ineens in andere bestanden zit te werken dan is dat zowaar nog minder schappelijk.}. In dit geval zijn er een aantal opties: Abdel kan de repository van B\"u\c sra ook als remote toevoegen (\texttt{git remote add busra protocol://path/to/busra/repo}), maar in een groter team wordt dit snel onwerkbaar en wordt vaak gebruik gemaakt van een gecentraliseerde aanpak. In dat geval is er een centrale server, bijvoorbeeld GitHub, en hebben zowel Abdel, B\"u\c sra als B\"u\c sra deze als \texttt{origin} remote ingesteld\sidenote{Dit kan door vanaf GitHub te clonen, of door de remote handmatig in te stellen.}. Omdat de GitHub versie van de repository niet direct gebruikt wordt, en enkel als centraal punt dient, kan hier veilig naar gepushed en gepulled worden\sidenote{In git terminologie: de repositories op een server zijn \emph{bare}.}.
+
+Voor werken met diensten als GitHub\sidenote{We zullen hier GitHub als voorbeeld aanhouden, maar voor alternatieven zoals GitLab of SourceHut is dit grotendeels hetzelfde.} zijn er een paar mogelijkheden voor de setup; als deze fase is geweest dan zijn de instructies eigenlijk altijd hetzelfde. Op dit punt heeft iedereen heeft een eigen lokale kopie van de repository (if not, dan kan deze met \texttt{git clone} vanaf GitHub gecloned worden en staat de remote meteen goed), en kan deze met \texttt{git fetch} gesynchroniseerd worden. Het is handig om dit met regelmaat te doen, in ieder geval iedere keer aan het begin van een werksessie. Tijdens het werken worden commits aangemaakt, maar deze zijn in eerst instantie enkel lokaal. Op een gegeven moment is het wenselijk de laatste commits te delen, door een \texttt{git push} te doen. Pushen gaat per branch, en mag alleen als jouw branch verder\sidenote{de branch-commit op de server is een directe voorouder van de commit die je probeert te pushen, en er is dus geen merge nodig.} is dan de branch op de server; GitHub neemt nu jouw commits over en fast-forward de branch. Zijn de branches uit elkaar gelopen, dan moet er een merge plaatsvinden; GitHub gaat dit niet voor jou doen, dus in plaats daarvan moet je de laatste commits van GitHub fetchen en mergen (\texttt{git pull}). Je kan de merge nu lokaal afhandelen, zodat de laatste commit op de branch een merge-commit is met jouw werk en de laatste GitHub versie als parents. Dit voldoet aan de hierboven gestelde eisen, en nu mag je wel pushen.
+
+\begin{aside}[Betere \texttt{git log}]
+Een git repository met meerdere branches, remotes en gebruikers kan vrij snel onoverzichtelijk worden met de standaard output van \texttt{git log}. Deze is erg geschikt om snel de laatste paar commit messages te zien en een idee te krijgen wat er na een pull aan code bij is gekomen, maar niet om te zien welke branches er zijn, welke versies gepusht zijn, etc. Een betere optie is dan de uitgebreidere versie \texttt{git log -\!-graph -\!-all} te gebruiken. Deze geeft alle commits die tot een branch-pad behoren\sidenote{Inductieve definitie: alle commits waar een branch naar verwijst behoren tot een branch-pad; alle commits die een parent zijn van een commit die tot een branch-pad behoren, behoren tot een branch-pad.} grafisch weer:
+
+\begin{bash}
+\tiny\userprompt[\textasciitilde/project] git log -\!-graph -\!-all \\
+* {\color{ttyellow}commit b64ea47f6b53605c6bef2ffbe515d5b4e3b7cd90 ({\color{ttgreen}gui})} \\
+{\color{ttred}|}\ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl>   \\
+{\color{ttred}|}\ Date:\ \ \ Wed, 26 Feb 2025 00:41:26 +0100    \\
+{\color{ttred}|} \\
+{\color{ttred}|}\ \ \ \ \ Gui \\
+{\color{ttred}|} \\
+*\ \ \ {\color{ttyellow}commit bd3202aef3d441da0ec7bc84245379988a2e52f0 ({\color{ttcyan}HEAD} -> {\color{ttgreen}main})} \\
+{\color{ttgreen}|}{\color{ttyellow}\reflectbox{/}}\ \ Merge: 4d64e86 9617f91 \\
+{\color{ttgreen}|}\ {\color{ttyellow}|}\ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl>    \\
+{\color{ttgreen}|}\ {\color{ttyellow}|}\ Date:\ \ \ Tue, 25 Feb 2025 23:15:08 +0100    \\
+{\color{ttgreen}|}\ {\color{ttyellow}|} \\
+{\color{ttgreen}|}\ {\color{ttyellow}|}\ \ \ \ \ Merge branch 'feature' into main   \\
+{\color{ttgreen}|}\ {\color{ttyellow}|} \\
+{\color{ttgreen}|}\ *\ {\color{ttyellow}commit 9617f91c3771cc3bee2db68b2ce2e6d03b4b4e70 ({\color{ttgreen}feature})} \\
+{\color{ttgreen}|}\ {\color{ttyellow}|}\ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl> \\
+{\color{ttgreen}|}\ {\color{ttyellow}|}\ Date:\ \ \ Tue, 25 Feb 2025 18:17:59 +0100    \\
+{\color{ttgreen}|}\ {\color{ttyellow}|} \\
+{\color{ttgreen}|}\ {\color{ttyellow}|}\ \ \ \ \ Alternate reality    \\
+{\color{ttgreen}|}\ {\color{ttyellow}|} \\
+*\ {\color{ttyellow}|}\ \ \ {\color{ttyellow}commit 4d64e8615eaa44fd3e1a3c0b70cf4299024eb429}   \\
+{\color{ttblue}|}{\color{ttpurple}\reflectbox{/}}\ {\color{ttyellow}\reflectbox{/}}\ \ Merge: a62e646 fdfabc9 \\
+{\color{ttblue}|}\ {\color{ttpurple}|}\ {\color{ttyellow}|}\ Date:\ \ \ Tue, 25 Feb 2025 22:13:05 +0100 \\
+{\color{ttblue}|}\ {\color{ttpurple}|}\ {\color{ttyellow}|}\ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl> \\
+{\color{ttblue}|}\ {\color{ttpurple}|}\ {\color{ttyellow}|} \\
+{\color{ttblue}|}\ {\color{ttpurple}|}\ {\color{ttyellow}|}\ \ \ \ \ Merge branch 'readme' into main    \\
+{\color{ttblue}|}\ {\color{ttpurple}|}\ {\color{ttyellow}|} \\
+{\color{ttblue}|}\ *\ {\color{ttyellow}|}\ {\color{ttyellow}commit fdfabc933ae7a627a9accce3425584878d6d8a17 ({\color{ttgreen}readme})} \\
+{\color{ttblue}|}\ {\color{ttyellow}|}{\color{ttyellow}/}\ \ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl>  \\
+{\color{ttblue}|}\ {\color{ttyellow}|}\ \ \ Date:\ \ \ Tue, 25 Feb 2025 22:12:46 +0100    \\
+{\color{ttblue}|}\ {\color{ttyellow}|} \ \ \\
+{\color{ttblue}|}\ {\color{ttyellow}|}\ \ \ \ \ \ \ Readme   \\
+{\color{ttblue}|}\ {\color{ttyellow}|} \ \ \\
+*\ {\color{ttyellow}/}\ {\color{ttyellow}commit a62e646c3f1d46e89fb3a9a8f0b08e22787f9771}   \\
+{\color{ttyellow}|}{\color{ttyellow}/}\ \ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl>\\
+{\color{ttyellow}|}\ \ \ Date:\ \ \ Tue, 25 Feb 2025 16:52:49 +0100 \\
+{\color{ttyellow}|} \\
+{\color{ttyellow}|}\ \ \ \ \ \ \ Docstrings added    \\
+{\color{ttyellow}|} \\
+*\ {\color{ttyellow}commit ef4b9b38662ea8bfc6b41a8c8e6aa7fa445dc95a}   \\
+\ \ Author:\ Brian van der Bijl <brian.vanderbijl@hu.nl>  \\
+\ \ Date:\ \ \ Tue, 25 Feb 2025 16:43:04 +0100   
+~\\
+\ \ \ \ \ \ Initial commit \\
+\end{bash}
+\end{aside}
+
+\newthought{Als je in een groep werkt} en allemaal direct op de \texttt{main} branch werkt, dan levert dit vrijwel iedere push een conflict op. Enkel wanneer twee pushes achter elkaar van dezelfde persoon zijn is de merge niet nodig. Om dit te voorkomen is het handig om te zorgen dat iedereen op een eigen branch werkt. Dit kan door per persoon een branch aan te maken (Sectie~\ref{sec:branches}), of met feature branches te werken; dat laatste geniet doorgaans de voorkeur omdat je nu ook parallel aan meerdere dingen kan werken\sidenote{Je kan bijvoorbeeld het werken aan een nieuwe grote feature even pauzeren om een kleiner, urgent probleem op te lossen.}. Branches worden doorgaans lokaal aangemaakt, waarna een nieuwe branch met \texttt{git push origin feature\_interactive\_plot} naar GitHub gestuurd kan worden. Zolang jij de enige bent die in deze branch werkt, hoef je niet te mergen voordat je kan pushen, en kun je de merge uitstellen dat er een zinvolle hoeveelheid werk is om te integreren. Doordat de branch wel op GitHub staat is je code veilig en kunnen je groepsgenoten (lokaal of via de GitHub web-interface) wel de status van jouw werk zien. Op gezette tijden (meestal aan het einde van een sprint) kun je als groep bij elkaar gaan zitten en de nieuwe branches is \texttt{main} mergen, waarna je weer een branch uit kan checken om daar in de volgende sprint mee aan de slag te gaan.
+
+\paragraph{Merge Requests} Het is good practice om branches met nieuwe features niet zomaar te mergen zonder deze door een ander te laten controlleren / testen. Hiertoe kun je op GitHub een \texttt{merge request} aanmaken, waar je de mogelijkheid hebt om toelichting te geven op de inhoud van je branch. Daarnaast kan je een teamgenoot op de request assignen, wat neerkomt op een verzoek om jouw branch te checken en afhankelijk van het oordeel feedback te geven of te mergen.
+
+\subsection{GitHub Setup}
+Om op deze gecentraliseerde manier met GitHub te werken, is het wel nodig dat er een gedeelde repository is. Deze kan via de GitHub web-interface worden aangemaakt, waarbij je twee opties hebt: 
+\paragraph{Lokale initialisatie} Je kan een bestaande repository naar GitHub pushen. Je vraagt dan GitHub om de repository niet te initialiseren, en voegt de GitHub remote-url aan een lokale repository toe. Het maakt hierbij niet uit of de repository al lange tijd bestaat en honderd commits heeft, of pas op een later moment nieuw wordt aangemaakt. Zodra een repository tenminste \'e\'en commit heeft kan deze naar een lege GitHub repo gepushed worden.
+
+\paragraph{Initialisatie op GitHub}
+Je kan GitHub de nieuwe repository laten maken, met een lege \texttt{README.md} en een enkele commit, die iedereen vervolgens kan clonen. Als je al een lokale repository hebt dan is dit niet handig, want dan kun je deze niet pushen (zowel jouw repo als die op GitHub heeft een HEAD, die niet aan elkaar gerelateerd zijn). Een variant hierop is GitHub Classroom: in dit geval heeft de docent een repository klaargezet met mogelijk starter code en/of een uitgebreidere README. Door de link te accepteren krijg je op GitHub een eigen \emph{fork} van de repo van de docent, die je vervolgens kan clonen.
+
+\begin{aside}[Forks]
+Forks vallen een beetje buiten de scope van dit hoofdstuk; een fork is bedoeld om een clone van een GitHub repository te maken op GitHub. Dit wordt gebruikt bij open-source projecten\sidenote{Software waarvan de code open op internet staat, dikwijls op een site als GitHub.}, waar iedereen bij de code kan maar alleen vertrouwde ontwikkelaars push-rechten hebben. Wanneer je de software gebruikt en een fout ondekt kun je deze oplossen door zelf de programmacode aan te passen, of je kan bijvoorbeeld een feature toevoegen. De nieuwe commits die je oplevert kun je echter niet zomaar pushen, want als dat zomaar kon, zou iemand ook malafide code kunnen injecteren in het project. In plaats daarvan maak je een fork van de repository, en doe je een \emph{Pull Request} naar de beheerder van het project, oftewel een merge request van jouw fork naar het origineel. Omdat je code ook op GitHub staat kan zij jouw code bekijken, testen, en eventueel in haar project mergen. Omdat de fork in de basis dezelfde commits heeft als het origineel is het mergen hier niet anders dan binnen een enkele repository met branches.
+\end{aside}
+
+\subsection{Verbinden mnet GitHub via SSH} \label{sec:ssh}
+Om gebruik te maken van GitHub, of \"uberhaupt met meerdere mensen in een Git-repository te werken, is een uitgangspunt dat de verschillende systemen met elkaar communiceren. Voor communicatie met GitHub wordt standaard HTTPS\sidenote{HyperText Transfer Protocol Secure} gebruikt, hetzelfde protocol dat je gebruikt als je in een browser (via een beveiligde verbinding) een website bezoekt. Dat is makkelijk voor het anoniem downloaden (clonen) van een repository, maar iets ingewikkelder als je wil pushen en daarvoor geauthoriseerd moet zijn. Hoewel hier in bijvoorbeeld PyCharm en VS Code verschillende oplossingen voor bestaan, is dit vaak niet de meest betrouwbare communicatiemethode.
+
+Een alternatief, dat door alle gebruikelijke Git hosting-sites ondersteund wordt, is om de verbinding via SSH te laen verlopen. Dit vergt eenmalig\sidenote{Om precies te zijn, een keer voor ieder systeem waarvandaan je met GitHub wilt communiceren.} wat setup, maar werkt daarna vrijwel hetzelfde: alleen de URL die je gebruikt om te clonen wordt iets anders. Op GitHub kun je, als je de clone-link opvraagt, kiezen uit HTTPS en SSH, en hoef je alleen de juiste link te kopi\"eren.
+
+Qua setup ziet het proces er in grote lijnen als volgt uit: we gaan de computer vragen om een unieke sleutel te genereren, waarvan we een publieke vingerafdruk met GitHub zullen delen. Bij een push of pull wordt deze key gebruikt om jouw computer te authoriseren, waardoor GitHub weet wie jij bent en of je rechten hebt voor de repository in kwestie.
+
+Voor het aanmaken gebruiken we de command-line tool \texttt{ssh-keygen}. Deze kun je op Mac en Linux gewoon in je terminal draaien; voor Windows doen we dat in een \enquote{Git Bash} scherm. \texttt{ssh-keygen} vraag om een pad om de file op te slaan (druk enter voor de default), en geeft daarna de mogelijkheid om een password aan de key toe te voegen. Deze mag leeg zijn, dus je kunt gewoon twee keer op enter drukken.
+
+\begin{bash}
+\userprompt ssh-keygen \\
+Generating public/private ed25519 key pair. \\
+Enter file in which to save the key (/home/linus/.ssh/id\_ed25519): \keys{\return}\\
+Created directory '/home/linus/.ssh'. \\
+Enter passphrase (empty for no passphrase): \keys{\return}\\
+Enter same passphrase again: \keys{\return}\\
+Your identification has been saved in /home/linus/.ssh/id\_ed25519 \\
+Your public key has been saved in /home/linus/.ssh/id\_ed25519.pub \\
+The key fingerprint is: \\
+SHA256:wJG6hrrtTKglO2sN+UXYhTACeqe+asEkwwXFxwy1Ths linus@server \\
+The key's randomart image is: \\
+  +-\phantom{}-\lbrack ED25519 256\rbrack -\phantom{}-+ \\
+|oo+=*.o.\ \ \ \ \ \ \ \ \ | \\
+|.\ .o.*oo\ \ \ \ \ \ \ \ \ | \\
+|o\ o\ =E+\ \ \ \ \ \ \ \ \ \ | \\
+|o+\ ++oo.\ \ \ \ \ \ \ \ \ | \\
+|+.o..+\ \ S\ \ \ \ \ \ \ \ | \\
+|\ B.\ o.\ \ \ \ \ \ \ \ \ \ \ | \\
+|o.O..\ \ \ \ \ \ \ \ \ \ \ \ | \\
+|+X\ +\ \ \ \ \ \ \ \ \ \ \ \ \ | \\
+|O*=\ \ \ \ \ \ \ \ \ \ \ \ \ \ | \\
+  +-\phantom{}-\phantom{}-\phantom{}-\lbrack SHA256\rbrack -\phantom{}-\phantom{}-\phantom{}-\phantom{}-+\\
+\userprompt cat .ssh/id\_ed25519.pub \\
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIxvc3aH1tuMa0P8SvIm/dVR/4AHl3WPdLMcAUysK8BK linus@server
+\end{bash}
+
+Na afloop is er een tweetal bestanden gemaakt; in het voorbeeld hieronder is dat \texttt{id\_ed25519}\ +\ \texttt{id\_ed25519.pub}, maar afhankelijk van je installatie kan dat ook bijvoorbeeld \texttt{id\_rsa}\ +\ \texttt{id\_rsa.pub} zijn.  Either way wil je het niet-pub bestand veilig op je laptop houden, en de pub-variant in GitHub zetten. Gebruik \texttt{cat .ssh/id\_ed25519.pub} om de key te printen, en copy de geprinte regel naar je clipboard. Ga vervolgens naar GitHub $\to$ \emph{(profielfoto) $\to$ Settings $\to$ SSH and GPG Keys $\to$ New SSH Key}. Nu kun je de gegenereerde key naar het \enquote{key} veld kopi\"eren, dan vult de titel zich vanzelf in. Nadat je de key hebt opgeslagen en met je password hebt moeten bevestigen, kun je vanaf deze laptop via SSH met GitHub communiceren.
+
+Om een bestaande repository van HTTPS naar SSH te \enquote{converteren} hoef je enkel het commando \texttt{git remote set-url origin \lbrack SSH\_URL\rbrack} in de map van je repository uit te voeren.
+
+\section{Geavanceerde onderwerpen}
+Met dit hoofdstuk hebben we een goed beeld gekregen van hoe Git in de basis werkt, waarom dingen zijn zoals ze zijn, en hoe we die kennis kunnen gebruiken om Git in een project in te zetten. Hoewel Git geen eenvoudig systeem is om mee te beginnen, is een hoop mogelijk zodra je de fundamenten begrijpt: splitsen van repositories met behoud van geschiedenis, samenvoegen van twee ongerelateerde repositories, submodules om meerdere repositories te combineren zonder ze samen te voegen, of subtrees om in meerdere branches tegelijk te werken. Daarnaast zijn er diverse tools bovenop Git gebouwd: om specifieke tekortkomingen aan te pakken, of om de solide basis van Git te gebruiken in het oplossen van ongerelateerde problemen. Deze laatste sectie bevat een aantal mitsen en maren, en verwijzingen naar meer geavanceerde onderwerpen. 
+
+\subsection{Amend} \label{sec:amend}
+Commits in Git zijn onveranderbaar. Toch zijn er manieren om commits te \enquote{veranderen}: Met \texttt{git commit -\!-amend} kun je de bijvoorbeeld de laatste commit aanpassen (handig als je direct na committen ziet dat je een bestand vergeten bent). Maar wordt de commit dan echt veranderd? Eigenlijk niet: er komt een nieuwe commit, met een andere hash, die de plaats van de oude inneemt. De oude bestaan nog wel, maar als orphan; zonder verwijzingen wordt deze met garbage collection opgeruimd. Als je snel een amend op een commit uitvoert op je lokale systeem is dit niet zo'n probleem, maar als je al gepushed hebt wel: je push zal worden geweigerd omdat jouw branch en de remote versie niet overeen komen --- de hash is immers veranderd\sidenote{De hash wordt gegenereerd op basis van onder andere de inhoud en parent(s) van een commit; verandert hier iets aan, dan levert dit automatisch een nieuw hash op.}, en jouw \texttt{main} verwijst naar een andere commit dan de oude die je eerder gepusht hebt. De oude commit die wel op GitHub staat, komt ook niet voor als voorouder van de nieuwe commit, dus mergen wordt ook lastiger. \textbf{In het algemeen: pas geen commits aan die je al gepusht hebt, anders kun je het resultaat waarschijnlijk niet zomaar pushen\sidenote{Zelfs al zou het lukken om een dergelijke commit te pushen (de benodigde opties bestaan, maar zullen hier niet genoemd worden), dan verplaats je heb probleem naar een groepsgenoot die mogelijk de oude versie al heeft binnengehaald, terwijl er nu een incompatibiele versie op GitHub staat.}!}
+
+\subsection{Rebasing} \label{sec:rebase}
+Een andere manier om bestaande commits aan te passen, is met de zogenaamde rebase\sidenote{\url{https://git-scm.com/book/en/v2/Git-Branching-Rebasing}}. Hierbij wordt een branch achter een andere geplakt. Normaal gesproken zou je hier mergen, maar in dit geval pas je alle commits in de branch aan alsof ze van een ander begin punt gemaakt zijn. Dit geeft een nieuwe serie commits. In sommige gevallen is dit overzichtelijker dan een hele serie merges in de Git historie, maar ook hier geldt: rebase alleen een branch als je de originele versie niet met anderen deelt!
+
+\subsection{Data-crisis}
+Tot slot kan het zijn dat je per ongeluk een password, key, of AVG data gecommit hebt. In dit geval is de permanentie van commits zeker onhandig. Voor dit soort gevallen is het mogelijk deze informatie weer te verwijderen, maar dit is een paardenmiddel: de hele repository moet, vanaf het punt dat de informatie verscheen, herschreven worden, waarna iedereen de oude repository kan weggooien en in de nieuwe verder kan gaan. Mocht dit een issue zijn dan kan een docent je hierbij helpen, maar beschouw dit als een laatste redmiddel. Beter is het om dit soort informatie met bijvoorbeeld \texttt{.env} bestanden en \texttt{.gitignore} buiten je repo te houden.
+
+\subsection{Large Files}
+Het is af te raden om binnen Git met grote en/of binaire bestanden te werken. Soms is dit echter onoverkomelijk en wil je bijvoorbeeld data-files in je Git opnemen. Voor dit soort gevallen bestaat er Git LFS (Large File Storage)\sidenote{\scriptsize\url{https://git-lfs.com/}}, een uitbreiding op Git. Dit wordt echter niet door alle mogelijke centrale remotes ondersteund, en als dat wel zo is moet je hier mogelijk voor betalen. Als je hier intensief gebruik van wil maken is het beter je repository zelf ergens te hosten.
+
+Een alternatief voor LFS is Git Annex\sidenote{\scriptsize\url{https://git-annex.branchable.com/}}; dit is minder gericht op het hosten van een paar grote files in een Git project, en meer een heel systeem bovenop Git om mappen met grote hoeveelheden data te beheren. Ook dit werkt niet out of the box met GitHub\sidenote{In het algemeen zitten gratis diensten niet op grote hoeveelheden data storage te wachten.} maar kan met behulp van special remotes met diverse niet-Git-gebaseerde diensten interfacen voor bestandsopslag.

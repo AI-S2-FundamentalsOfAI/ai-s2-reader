@@ -1,0 +1,53 @@
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{\scriptsize$Ax$}\UnaryInfC{$P \Rightarrow P$}
+\RightLabel{\scriptsize$RW$}\UnaryInfC{$P \Rightarrow R, P$}
+\RightLabel{\scriptsize$RE$}\UnaryInfC{$P \Rightarrow P, R$}
+\RightLabel{\scriptsize$LW$}\UnaryInfC{$P, Q \Rightarrow P, R$}
+
+\AxiomC{}
+\RightLabel{\scriptsize$Ax$}\UnaryInfC{$Q \Rightarrow Q$}
+\RightLabel{\scriptsize$RW$}\UnaryInfC{$Q \Rightarrow R, Q$}
+\RightLabel{\scriptsize$RE$}\UnaryInfC{$Q \Rightarrow Q, R$}
+\RightLabel{\scriptsize$LW$}\UnaryInfC{$Q, P \Rightarrow Q, R$}
+\RightLabel{\scriptsize$LE$}\UnaryInfC{$P, Q \Rightarrow Q, R$}
+
+\RightLabel{\scriptsize$R\land$}\BinaryInfC{$P, Q \Rightarrow P \land Q, R$}
+
+\AxiomC{}
+\RightLabel{\scriptsize$Ax$}\UnaryInfC{$R \Rightarrow R$}
+\RightLabel{\scriptsize$LW$}\UnaryInfC{$R, P \Rightarrow R$}
+\RightLabel{\scriptsize$LE$}\UnaryInfC{$P, R \Rightarrow R$}
+\RightLabel{\scriptsize$LW$}\UnaryInfC{$P, R, Q \Rightarrow R$}
+\RightLabel{\scriptsize$LE$}\UnaryInfC{$P, Q, R \Rightarrow R$}
+
+\RightLabel{\scriptsize$L\to$}\BinaryInfC{$P, Q, (P \land Q) \to R \Rightarrow R$}
+\RightLabel{\scriptsize$LE$}\UnaryInfC{$P, (P \land Q) \to R, Q \Rightarrow R$}
+\RightLabel{\scriptsize$LE$}\UnaryInfC{$(P \land Q) \to R, P, Q \Rightarrow R$}
+\RightLabel{\scriptsize$R\to$}\UnaryInfC{$(P \land Q) \to R, P \Rightarrow (Q \to R)$}
+\RightLabel{\scriptsize$R\to$}\UnaryInfC{$(P \land Q) \to R \Rightarrow P \to (Q \to R)$}
+\end{prooftree}
+
+\begin{prooftree}
+\AxiomC{}
+\RightLabel{\scriptsize$Ax$}\UnaryInfC{$P \Rightarrow P$}
+\RightLabel{\scriptsize$RW$}\UnaryInfC{$P \Rightarrow \neg Q, P$}
+\RightLabel{\scriptsize$RE$}\UnaryInfC{$P \Rightarrow P, \neg Q$}
+\RightLabel{\scriptsize$R\neg$}\UnaryInfC{$\Rightarrow \neg P, P, \neg Q$}
+\RightLabel{\scriptsize$RE$}\UnaryInfC{$\Rightarrow P, \neg P, \neg Q$}
+
+\AxiomC{}
+\RightLabel{\scriptsize$Ax$}\UnaryInfC{$Q \Rightarrow Q$}
+\RightLabel{\scriptsize$R\neg$}\UnaryInfC{$\Rightarrow \neg Q, Q$}
+\RightLabel{\scriptsize$RE$}\UnaryInfC{$\Rightarrow Q, \neg Q$}
+\RightLabel{\scriptsize$RW$}\UnaryInfC{$\Rightarrow \neg P,  Q, \neg Q$}
+\RightLabel{\scriptsize$RE$}\UnaryInfC{$\Rightarrow Q, \neg P, \neg Q$}
+
+\RightLabel{\scriptsize$L\land$}\BinaryInfC{$\Rightarrow P \land Q, \neg P, \neg Q$}
+\RightLabel{\scriptsize$R\lor$}\UnaryInfC{$\Rightarrow P \land Q, \neg P \lor \neg Q$}
+\RightLabel{\scriptsize$L\neg$}\UnaryInfC{$\neg (P \land Q) \Rightarrow \neg P \lor \neg Q$}
+\RightLabel{\scriptsize$R\to$}\UnaryInfC{$\Rightarrow \neg (P \land Q) \to \neg P \lor \neg Q$}
+\end{prooftree}
+
+
+

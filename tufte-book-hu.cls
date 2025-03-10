@@ -2,6 +2,7 @@
 
 \ProvidesClass{tufte-book-hu}[2025/02/01 v0.1.0 HU reader based on Tufte-book class]
 
+\usepackage[T1]{fontenc}
 %%
 % Declare we're tufte-book
 \newcommand{\@tufte@class}{book}% the base LaTeX class (defaults to the article/handout style)
@@ -838,6 +839,15 @@
 %\usepackage[table, x11names]{xcolor} % Required for specifying colors by name
 \definecolor{hublue}{RGB}{0, 149, 200} % HU Blauw
 \definecolor{hured}{RGB}{218, 41, 28}
+
+\definecolor{ttred}{RGB}{255, 131, 131}
+\definecolor{ttblue}{RGB}{54, 126, 211}
+\definecolor{ttgreen}{RGB}{22, 226, 127}
+\definecolor{ttpurple}{RGB}{161, 154, 211}
+\definecolor{ttcyan}{RGB}{141, 224, 223}
+\definecolor{ttyellow}{RGB}{255, 245, 116}
+\definecolor{ttgrey}{RGB}{160, 160, 160}
+\definecolor{ttbg}{RGB}{75, 75, 75}
 
 %%
 % Load the bidi package if instructed to do so.  This package must be loaded
@@ -2162,6 +2172,7 @@
 %\usepackage[framemethod=default]{mdframed} % Required for creating the theorem, definition, exercise and corollary boxes
 
 \usepackage{tikz} % Required for drawing custom shapes
+\usepackage{tikz-cd} % Required for drawing custom shapes
 \usetikzlibrary{arrows, shapes, positioning, arrows.meta,decorations.pathreplacing,matrix,positioning,3d,patterns,scopes}
 \tikzstyle{blArrow}=[line width=1mm,draw=black!80,-triangle 45,postaction={draw, line width=3mm, shorten >=4mm, -}]
 
@@ -2214,11 +2225,11 @@
 
 \usepackage{environ}
 
-\newcommand\userprompt[1][\textasciitilde]{{\color{green} linus@server}:{\color{blue}#1}\$\ }
-\newcommand\rootprompt[1][\textasciitilde]{{\color{red} server}:{\color{blue}#1}\#\ }
+\newcommand\userprompt[1][\textasciitilde]{{\color{ttgreen} linus@server}:{\color{ttblue}#1}\$\ }
+\newcommand\rootprompt[1][\textasciitilde]{{\color{ttred} server}:{\color{ttblue}#1}\#\ }
 
 \NewEnviron{bash}{%
-  \vspace{3mm}\colorbox{darkgray}{\parbox{\textwidth}{\noindent\ttfamily\color{white}\footnotesize
+  \vspace{3mm}\noindent\colorbox{ttbg}{\parbox{\textwidth}{\noindent\ttfamily\color{white}\scriptsize
     \BODY% Typeset contents
   } } \vspace{3mm}
 }%
@@ -2297,9 +2308,109 @@
 }
 {}
 
+\newcommand{\lk}{\textsf{LK}}
+
+\usepackage{bussproofs,cmll}
+\newcommand{\inference}[3]{
+\AxiomC{$#2$}
+\RightLabel{\scriptsize $#1$}
+\UnaryInfC{$#3$}
+\DisplayProof
+}
+
+\newcommand{\fork}[4]{
+\AxiomC{$#2$}
+\AxiomC{$#3$}
+\RightLabel{\scriptsize $#1$}
+\BinaryInfC{$#4$}
+\DisplayProof
+}
+
+\newcommand{\trifork}[5]{
+\AxiomC{$#2$}
+\AxiomC{$#3$}
+\AxiomC{$#4$}
+\RightLabel{\scriptsize $#1$}
+\TrinaryInfC{$#5$}
+\DisplayProof
+}
+
+\newenvironment{wprooftree}
+  {\begin{center}\proofSkipAmount \leavevmode}%
+  {\resizebox{\textwidth}{!}{\DisplayProof}\proofSkipAmount \end{center} }
+
+\newenvironment{scprooftree}[1]%
+  {\gdef\scalefactor{#1}\begin{center}\proofSkipAmount \leavevmode}%
+  {\scalebox{\scalefactor}{\DisplayProof}\proofSkipAmount \end{center} }
+
+\newcommand{\lksorry}[2][]{\RightLabel{\scriptsize #1}\AxiomC{$\vdots$}\UnaryInfC{#2}}
+\newcommand{\lkax}[1]{\AxiomC{}\RightLabel{\scriptsize$Ax$}\UnaryInfC{#1}}
+\newcommand{\lklconj}[1]{\RightLabel{\scriptsize$L\land$}\UnaryInfC{#1}}
+\newcommand{\lkrconj}[1]{\RightLabel{\scriptsize$R\land$}\BinaryInfC{#1}}
+\newcommand{\lkldisj}[1]{\RightLabel{\scriptsize$L\lor$}\BinaryInfC{#1}}
+\newcommand{\lkrdisj}[1]{\RightLabel{\scriptsize$R\lor$}\UnaryInfC{#1}}
+\newcommand{\lklimpl}[1]{\RightLabel{\scriptsize$L\to$}\BinaryInfC{#1}}
+\newcommand{\lkrimpl}[1]{\RightLabel{\scriptsize$R\to$}\UnaryInfC{#1}}
+\newcommand{\lklneg}[1]{\RightLabel{\scriptsize$L\neg$}\UnaryInfC{#1}}
+\newcommand{\lkrneg}[1]{\RightLabel{\scriptsize$R\neg$}\UnaryInfC{#1}}
+\newcommand{\lklcontr}[1]{\RightLabel{\scriptsize$LC$}\UnaryInfC{#1}}
+\newcommand{\lkrcontr}[1]{\RightLabel{\scriptsize$RC$}\UnaryInfC{#1}}
+\newcommand{\lklweak}[1]{\RightLabel{\scriptsize$LW$}\UnaryInfC{#1}}
+\newcommand{\lkrweak}[1]{\RightLabel{\scriptsize$RW$}\UnaryInfC{#1}}
+\newcommand{\lklexch}[1]{\RightLabel{\scriptsize$LE$}\UnaryInfC{#1}}
+\newcommand{\lkrexch}[1]{\RightLabel{\scriptsize$RE$}\UnaryInfC{#1}}
+\newcommand{\lkcut}[1]{\RightLabel{\scriptsize$Cut$}\BinaryInfC{#1}}
+
+\newcommand{\ndsorry}[2][]{\RightLabel{\scriptsize #1}\AxiomC{$\vdots$}\UnaryInfC{#2}}
+\newcommand{\ndax}[1]{\AxiomC{}\RightLabel{\scriptsize$Ax$}\UnaryInfC{#1}}
+\newcommand{\ndconji}[1]{\RightLabel{\scriptsize$\land I$}\BinaryInfC{#1}}
+\newcommand{\ndconje}[1]{\RightLabel{\scriptsize$\land E$}\UnaryInfC{#1}}
+\newcommand{\nddisjia}[1]{\RightLabel{\scriptsize$\lor I_1$}\UnaryInfC{#1}}
+\newcommand{\nddisjib}[1]{\RightLabel{\scriptsize$\lor I_2$}\UnaryInfC{#1}}
+\newcommand{\nddisje}[1]{\RightLabel{\scriptsize$\lor E$}\TrinaryInfC{#1}}
+\newcommand{\ndimpli}[1]{\RightLabel{\scriptsize$\to I$}\UnaryInfC{#1}}
+\newcommand{\ndimple}[1]{\RightLabel{\scriptsize$\to E$}\BinaryInfC{#1}}
+\newcommand{\ndnegi}[1]{\RightLabel{\scriptsize$\neg I$}\UnaryInfC{#1}}
+\newcommand{\ndnege}[1]{\RightLabel{\scriptsize$\neg E$}\UnaryInfC{#1}}
+\newcommand{\ndboti}[1]{\RightLabel{\scriptsize$\bot I$}\BinaryInfC{#1}}
+\newcommand{\ndbote}[1]{\RightLabel{\scriptsize$\bot E$}\UnaryInfC{#1}}
+\newcommand{\ndcontr}[1]{\RightLabel{\scriptsize$C$}\UnaryInfC{#1}}
+\newcommand{\ndweak}[1]{\RightLabel{\scriptsize$W$}\UnaryInfC{#1}}
+\newcommand{\ndexch}[1]{\RightLabel{\scriptsize$E$}\UnaryInfC{#1}}
+\newcommand{\ndcut}[1]{\RightLabel{\scriptsize$Cut$}\BinaryInfC{#1}}
+
+\newcommand{\ndprodi}[1]{\RightLabel{\scriptsize$\times I$}\BinaryInfC{#1}}
+\newcommand{\ndprode}[1]{\RightLabel{\scriptsize$\times E$}\UnaryInfC{#1}}
+\newcommand{\ndsumia}[1]{\RightLabel{\scriptsize$+ I_1$}\UnaryInfC{#1}}
+\newcommand{\ndsumib}[1]{\RightLabel{\scriptsize$+ I_2$}\UnaryInfC{#1}}
+\newcommand{\ndsume}[1]{\RightLabel{\scriptsize$+ E$}\TrinaryInfC{#1}}
+
+\newcommand{\ndaxi}[1]{\AxiomC{}\RightLabel{\scriptsize$\lbrack Ax \rbrack$}\UnaryInfC{#1}}
+\newcommand{\ndaxl}[1]{\AxiomC{}\RightLabel{\scriptsize$\langle Ax \rangle$}\UnaryInfC{#1}}
+\newcommand{\ndoci}[1]{\RightLabel{\scriptsize$\oc$}\UnaryInfC{#1}}
+\newcommand{\ndoce}[1]{\RightLabel{\scriptsize$\oc$}\BinaryInfC{#1}}
+\newcommand{\ndtensi}[1]{\RightLabel{\scriptsize$\otimes I$}\BinaryInfC{#1}}
+\newcommand{\ndtense}[1]{\RightLabel{\scriptsize$\otimes E$}\UnaryInfC{#1}}
+\newcommand{\ndxoria}[1]{\RightLabel{\scriptsize$\oplus I_1$}\UnaryInfC{#1}}
+\newcommand{\ndxorib}[1]{\RightLabel{\scriptsize$\oplus I_2$}\UnaryInfC{#1}}
+\newcommand{\ndxore}[1]{\RightLabel{\scriptsize$\oplus E$}\TrinaryInfC{#1}}
+\newcommand{\ndwithi}[1]{\RightLabel{\scriptsize$\with I$}\BinaryInfC{#1}}
+\newcommand{\ndwithea}[1]{\RightLabel{\scriptsize$\with E_1$}\UnaryInfC{#1}}
+\newcommand{\ndwitheb}[1]{\RightLabel{\scriptsize$\with E_2$}\UnaryInfC{#1}}
+\newcommand{\ndlimpli}[1]{\RightLabel{\scriptsize$\multimap I$}\UnaryInfC{#1}}
+\newcommand{\ndlimple}[1]{\RightLabel{\scriptsize$\multimap E$}\BinaryInfC{#1}}
+
+\newcommand{\ndglimpli}[1]{\RightLabel{\scriptsize$\textbackslash I$}\UnaryInfC{#1}}
+\newcommand{\ndglimple}[1]{\RightLabel{\scriptsize$\textbackslash E$}\BinaryInfC{#1}}
+\newcommand{\ndgrimpli}[1]{\RightLabel{\scriptsize$/ I$}\UnaryInfC{#1}}
+\newcommand{\ndgrimple}[1]{\RightLabel{\scriptsize$/ E$}\BinaryInfC{#1}}
+\newcommand{\ndgword}[2]{\AxiomC{\textsf{#1}}\UnaryInfC{#2}}
 % End of file
 \usepackage[style=dutch]{csquotes}
 \usepackage[tableaux]{prooftrees}
+\usepackage{fitch}
 
-\def\todo{\noindent\textbf{Uitwerking:}{\color{hured!20}Uitwerking volgt in een volgende versie van de reader.}}
+\def\todo{\noindent\textbf{Uitwerking:}{\color{hured!80!black}Uitwerking volgt in een volgende versie van de reader.}}
+\def\TODO{{\color{hured!80!black}TODO}}
+\usepackage{menukeys}
 \endinput
